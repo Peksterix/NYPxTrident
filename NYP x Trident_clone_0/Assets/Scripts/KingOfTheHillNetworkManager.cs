@@ -17,7 +17,6 @@ public class KingOfTheHillNetworkManager : NetworkManager
     public float PlatformLowestX;
     public float PlatformHighestX;
         
-    private ParticleSystem waterspout;
     private float timeElapsed;
 
     public override void OnStartServer()
@@ -28,6 +27,9 @@ public class KingOfTheHillNetworkManager : NetworkManager
             RegisterStartPosition(PlayerSpawnPoints.transform.GetChild(i));
         }
 
+        SpawnMoveablePlatforms();
+        SpawnMoveablePlatforms();
+        SpawnMoveablePlatforms();
         SpawnMoveablePlatforms();
     }
 
@@ -51,15 +53,16 @@ public class KingOfTheHillNetworkManager : NetworkManager
         return Random.Range(PlatformLowestX, PlatformHighestX);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        timeElapsed -= Time.deltaTime * 2;
-            
-        if(timeElapsed <= 0f)
-        {
-            SpawnMoveablePlatforms();
-            timeElapsed = 5f;
-        }
-    }
+    //public override void LateUpdate()
+    //{
+    //    timeElapsed -= Time.deltaTime * 2;
+
+    //    if (timeElapsed <= 0f)
+    //    {
+    //        SpawnMoveablePlatforms();
+    //        timeElapsed = 5f;
+    //    }
+    //}
+
+
 }

@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class MoveablePlatformController : MonoBehaviour
+public class MoveablePlatformController : NetworkBehaviour
 {
     private ParticleSystem Waterspout;
     private float speed;
     public float PlatformLowestY;
     public float PlatformHighestY;
-    private GameObject platform;
+    [SyncVar]
+    private Transform platform;
 
     // Start is called before the first frame update
     void Start()
     {
         speed = 2f;
-        platform = transform.GetChild(0).gameObject;
+        platform = transform.GetChild(0).gameObject.transform;
         Waterspout = transform.GetComponentInChildren<ParticleSystem>();
         Waterspout.Play();
     }
@@ -29,8 +30,8 @@ public class MoveablePlatformController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (platform.transform.position.y < GetRandomTargetPlatformHeight())
-            platform.transform.position += new Vector3(0f, speed * Time.deltaTime, 0f);
+        if (platform.position.y < GetRandomTargetPlatformHeight())
+            platform.position += new Vector3(0f, speed * Time.deltaTime, 0f);
     }
 
     public float GetRandomTargetPlatformHeight()
