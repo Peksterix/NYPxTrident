@@ -9,7 +9,6 @@ public class MoveablePlatformController : NetworkBehaviour
     private float speed;
     public float PlatformLowestY;
     public float PlatformHighestY;
-    [SyncVar]
     private Transform platform;
 
     // Start is called before the first frame update
@@ -25,7 +24,6 @@ public class MoveablePlatformController : NetworkBehaviour
     void Update()
     {
 
-        
     }
 
     private void FixedUpdate()

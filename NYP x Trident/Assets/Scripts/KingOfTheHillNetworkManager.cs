@@ -27,10 +27,6 @@ public class KingOfTheHillNetworkManager : NetworkManager
             RegisterStartPosition(PlayerSpawnPoints.transform.GetChild(i));
         }
 
-        SpawnMoveablePlatforms();
-        SpawnMoveablePlatforms();
-        SpawnMoveablePlatforms();
-        SpawnMoveablePlatforms();
     }
 
     void SpawnMoveablePlatforms()
@@ -41,7 +37,8 @@ public class KingOfTheHillNetworkManager : NetworkManager
         {
             if (platform.name == "Moveable Platform")
             {
-                GameObject plat = Instantiate(platform, new Vector3(randomTargetWidth, 3.547268f, 0f), platform.transform.rotation, platformParent.transform);
+                GameObject plat = Instantiate(platform, new Vector3(randomTargetWidth, platform.transform.position.y, platform.transform.position.z), 
+                                              platform.transform.rotation, platformParent.transform);
                 NetworkServer.Spawn(plat);
             }
         }
@@ -53,16 +50,14 @@ public class KingOfTheHillNetworkManager : NetworkManager
         return Random.Range(PlatformLowestX, PlatformHighestX);
     }
 
-    //public override void LateUpdate()
-    //{
-    //    timeElapsed -= Time.deltaTime * 2;
+    public override void LateUpdate()
+    {
+        //timeElapsed -= Time.deltaTime * 2;
 
-    //    if (timeElapsed <= 0f)
-    //    {
-    //        SpawnMoveablePlatforms();
-    //        timeElapsed = 5f;
-    //    }
-    //}
-
-
+        //if (timeElapsed <= 0f)
+        //{
+        //    SpawnMoveablePlatforms();
+        //    timeElapsed = 5f;
+        //}
+    }
 }

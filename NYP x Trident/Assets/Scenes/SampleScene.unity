@@ -328,8 +328,8 @@ MonoBehaviour:
   PlayerSpawnPoints: {fileID: 43620504}
   moveablePlatform: {fileID: 3363814084831299241, guid: 2b4a9e7e10de8d04cb60d8a809ed0833, type: 3}
   platformParent: {fileID: 1241373302}
-  PlatformLowestX: 0
-  PlatformHighestX: 17
+  PlatformLowestX: -9
+  PlatformHighestX: 9
 --- !u!4 &472519409
 Transform:
   m_ObjectHideFlags: 0
