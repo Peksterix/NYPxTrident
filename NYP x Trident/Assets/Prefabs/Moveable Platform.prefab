@@ -157,8 +157,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  PlatformLowestY: 0.8
-  PlatformHighestY: 2
+  PlatformLowestY: 1.6
+  PlatformHighestY: 2.76
 --- !u!1 &3363814085606456941
 GameObject:
   m_ObjectHideFlags: 0

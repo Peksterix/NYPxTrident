@@ -10,12 +10,15 @@ public class MoveablePlatformController : NetworkBehaviour
     public float PlatformLowestY;
     public float PlatformHighestY;
     private Transform platform;
+    private float platformRandY;
 
     // Start is called before the first frame update
     void Start()
     {
         speed = 2f;
         platform = transform.GetChild(0).gameObject.transform;
+        platformRandY = GetRandomTargetPlatformHeight();
+
         Waterspout = transform.GetComponentInChildren<ParticleSystem>();
         Waterspout.Play();
     }
@@ -28,7 +31,7 @@ public class MoveablePlatformController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (platform.position.y < GetRandomTargetPlatformHeight())
+        if (platform.position.y < platformRandY)
             platform.position += new Vector3(0f, speed * Time.deltaTime, 0f);
     }
 
