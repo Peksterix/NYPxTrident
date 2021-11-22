@@ -3,6 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+public class Platform
+{
+    public enum PlatformType
+    {
+        Main,
+        Normal,
+        Special
+    }
+
+    public GameObject platform;
+    public float platformLifetime;
+    public float specialPlatformLifetime;
+
+}
+
 public class MoveablePlatformManager : NetworkBehaviour
 {
     public GameObject platformParent;
@@ -44,11 +59,8 @@ public class MoveablePlatformManager : NetworkBehaviour
                 SpawnMoveablePlatforms();
             timeElapsed = 5f;
         }
-
-        //Debug.Log(timeElapsed);
     }
 
-    [Server]
     void SpawnMoveablePlatforms()
     {
         float randomTargetWidth = GetRandomTargetPlatformWidth();
