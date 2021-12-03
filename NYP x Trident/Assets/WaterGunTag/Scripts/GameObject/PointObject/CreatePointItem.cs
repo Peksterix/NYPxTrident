@@ -19,7 +19,7 @@ public class CreatePointItem : MonoBehaviour
     //生成までの時間（最速）
     [SerializeField] private float m_createTime_Fast = 5;
     //生成される確率
-    [SerializeField] private float m_createProbability = 10000.0f;
+    [SerializeField] private float m_createProbability = 2000.0f;
     //レアものが生成される物の確率
     [SerializeField] private float m_createRare = 100.0f;
 

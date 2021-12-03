@@ -21,11 +21,26 @@ public class WGTPlayerController : GameObjectBase
 
     //撃っているときの移動速度
     [SerializeField] float m_shotMoveSpeed = 0.7f;
+    //マウスカーソルオブジェクト
+    [SerializeField] private GameObject m_mouseCursor;
+
+    //操作不能状態にする
+    public bool m_isInoperable;
 
     // Start is called before the first frame update
     void Start()
     {
         SetSpeed(m_playerSpeed);
+
+        m_isInoperable = false;
+
+        m_time = GameObject.Find("Time");
+
+
+        m_mouseCursor = GameObject.Find("MouseCursor");
+
+        GameObject playerManager = GameObject.Find("PlayerManager");
+        playerManager.GetComponent<PlayerManager>().GetPlayerList().Add(this);
     }
 
     // Update is called once per frame
@@ -35,6 +50,10 @@ public class WGTPlayerController : GameObjectBase
             this.GetComponent<PlayerActions>().GetIsStunting())
         {
             this.GetComponent<Rigidbody>().velocity = Vector2.zero;
+            return;
+        }
+        if (m_isInoperable)
+        {
             return;
         }
         KeyInput();
@@ -65,47 +84,77 @@ public class WGTPlayerController : GameObjectBase
     {
         //速度 Velocity
         Vector3 vel = Vector3.zero;
-        //上キーが押されたら
-        if(Input.GetKey(KeyCode.UpArrow))
+
+        //KeyInput=========================================
+        ////上キーが押されたら
+        //if(Input.GetKey(KeyCode.UpArrow))
+        //{
+
+        //    //上に進む
+        //    vel += Vector3.forward;
+
+        //}
+
+        ////下キーが押されたら
+        //if (Input.GetKey(KeyCode.DownArrow))
+        //{
+
+        //    //下に進む
+        //    vel += Vector3.back;
+
+        //}
+
+        ////左キーが押されたら
+        //if (Input.GetKey(KeyCode.LeftArrow))
+        //{
+
+        //    //左に進む
+        //    vel += Vector3.left;
+        //}
+
+        ////右キーが押されたら
+        //if (Input.GetKey(KeyCode.RightArrow))
+        //{
+
+        //    //右に進む
+        //    vel += Vector3.right;
+        //}
+
+
+        //Mouse==========================================
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit raycastHit;
+        Physics.Raycast(ray, out raycastHit);
+
+        vel = raycastHit.point;
+        vel.y = 0.0f;
+
+        m_mouseCursor.transform.position = vel;
+
+        vel = m_mouseCursor.transform.position - transform.position;
+
+        vel.y = 0.0f;
+
+        if (vel.magnitude <= 0.1f)
         {
-            
-            //上に進む
-            vel += Vector3.forward;
-              
+            this.GetComponent<Rigidbody>().velocity = (vel.normalized * GetSpeed() * 0.0f);
+            return;
         }
 
-        //下キーが押されたら
-        if (Input.GetKey(KeyCode.DownArrow))
+        else if (vel.magnitude >= 1.0f)
         {
-         
-            //下に進む
-            vel += Vector3.back;
-          
+            //速度を反映させる Reflect the velocity
+            this.GetComponent<Rigidbody>().velocity = (vel.normalized * GetSpeed());
+        }
+        else
+        {
+            //速度を反映させる Reflect the velocity
+            this.GetComponent<Rigidbody>().velocity = (vel.normalized * GetSpeed() * vel.magnitude);
         }
 
-        //左キーが押されたら
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-           
-            //左に進む
-            vel += Vector3.left;
-        }
-
-        //右キーが押されたら
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-         
-            //右に進む
-            vel += Vector3.right;
-        }
-
-
-
-        //速度を反映させる Reflect the velocity
-        this.GetComponent<Rigidbody>().velocity = (vel.normalized * GetSpeed());
 
         //撃っている間は移動速度を落とす
-        if(this.GetComponentInChildren<WaterGun>().GetIsShotWaterGun())
+        if (this.GetComponentInChildren<WaterGun>().GetIsShotWaterGun())
         {
             this.GetComponent<Rigidbody>().velocity *= m_shotMoveSpeed;
         }else
@@ -127,11 +176,13 @@ public class WGTPlayerController : GameObjectBase
             this.transform.rotation = Quaternion.FromToRotation(Vector3.forward, diff.normalized); 
         }
 
-        
-        
-     
 
-        
+        //カメラを追従させる
+        Camera.main.transform.position = transform.position + new Vector3(0, Camera.main.transform.position.y, -3.6f);
+
+
+
+
     }
 
     //-------------------------------------
@@ -142,6 +193,7 @@ public class WGTPlayerController : GameObjectBase
     //-------------------------------------
     private void AttackKeyInput()
     {
+
         //水鉄砲発射
         this.GetComponentInChildren<WaterGun>().ShotWater();
     }

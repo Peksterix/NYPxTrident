@@ -16,11 +16,18 @@ public class PlayerManager : MonoBehaviour
     //プレイヤーのリストの追いかける人の番号
     private int m_chasePlayer;
 
+    //プレイヤーの数を保存する
+    private int m_isOnPlayer = 0;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        if (m_playerList.Count == 0)
+        {
+            return;
+        }
+
         //プレイヤーの初期化
         for (int i = 0; i < m_playerList.Count; i++)
         {
@@ -46,6 +53,19 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (m_playerList.Count == 0)
+        {
+            return;
+        }
+        else
+        {
+            if (m_isOnPlayer != m_playerList.Count)
+            {
+                m_isOnPlayer = m_playerList.Count;
+                Start();
+            }
+
+        }
         //追いかける人が変わったら、保存する番号を変更する
         int count = 0;
         for (int i=0;i<m_playerList.Count;i++)
