@@ -61,7 +61,7 @@ public class PauseUI : MonoBehaviour
             case PauseUIState.Start:
                 //îwåiÇÃê∂ê¨
                 GameObject backScreen = Instantiate(m_createUIObject[0]);
-                 backScreen.transform.SetParent(m_canvas.transform);
+                 backScreen.transform.SetParent(m_canvas.transform,false);
 
                 m_createdUIObject.Add(backScreen);
                 m_pauseUIState = PauseUIState.Update;

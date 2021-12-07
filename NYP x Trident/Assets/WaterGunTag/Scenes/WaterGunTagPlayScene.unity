@@ -1103,7 +1103,7 @@ MonoBehaviour:
   m_canvas: {fileID: 1883324358}
   m_time: {fileID: 930262561}
   m_createUIObject:
-  - {fileID: 4870353057887778536, guid: fd2d8e277e45d7446acec0c8d14c89cf, type: 3}
+  - {fileID: 4868381787758034690, guid: 2d5ce37c451dea345b58599175704970, type: 3}
 --- !u!4 &952805089
 Transform:
   m_ObjectHideFlags: 0
