@@ -69,17 +69,11 @@ public class PlayerManager : MonoBehaviour
         //’Ç‚¢‚©‚¯‚él‚ª•Ï‚í‚Á‚½‚çA•Û‘¶‚·‚é”Ô†‚ğ•ÏX‚·‚é
         int count = 0;
         for (int i=0;i<m_playerList.Count;i++)
-        {
-
-           
+        {         
             if (m_playerList[i].GetComponent<PlayerActions>().GetIsChase())
             {
-
                 if (i!=m_chasePlayer)
                 {
-
-                   
-
                     m_playerList[m_chasePlayer].GetComponent<PlayerActions>().ChangeRunningAway();
 
                     m_chasePlayer = count;

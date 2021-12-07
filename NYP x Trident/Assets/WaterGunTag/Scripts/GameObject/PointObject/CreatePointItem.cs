@@ -21,7 +21,7 @@ public class CreatePointItem : MonoBehaviour
     //生成される確率
     [SerializeField] private float m_createProbability = 2000.0f;
     //レアものが生成される物の確率
-    [SerializeField] private float m_createRare = 100.0f;
+    [SerializeField] private float m_createRare = 10.0f;
 
     //制限時間
     private GameObject m_time;
@@ -76,7 +76,7 @@ public class CreatePointItem : MonoBehaviour
             }
             else //通常アイテム生成
             {
-                m_createObj = Instantiate(m_pointItem[Random.Range(0, m_rarePointItem.Count)].gameObject, this.transform.position, Quaternion.identity);
+                m_createObj = Instantiate(m_pointItem[Random.Range(0, m_pointItem.Count)].gameObject, this.transform.position, Quaternion.identity);
                 m_createObj.transform.parent = this.transform;
             }
                

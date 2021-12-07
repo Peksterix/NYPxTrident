@@ -17,15 +17,22 @@ public class WGTPlayerController : GameObjectBase
     [SerializeField] float m_chaseSpeed = 1.1f;
 
     //制限時間
-    [SerializeField] public GameObject m_time;
+    public GameObject m_time;
 
     //撃っているときの移動速度
     [SerializeField] float m_shotMoveSpeed = 0.7f;
+
     //マウスカーソルオブジェクト
-    [SerializeField] private GameObject m_mouseCursor;
+    private GameObject m_mouseCursor;
+
+    //ポーズUI
+    private GameObject m_pauseUI;
 
     //操作不能状態にする
     public bool m_isInoperable;
+
+    //ミニマップ用のカメラ
+    private GameObject m_miniMapCamera;
 
     // Start is called before the first frame update
     void Start()
@@ -36,11 +43,18 @@ public class WGTPlayerController : GameObjectBase
 
         m_time = GameObject.Find("Time");
 
+        m_miniMapCamera = GameObject.Find("MiniMapCamera");
+
 
         m_mouseCursor = GameObject.Find("MouseCursor");
 
+        m_pauseUI = GameObject.Find("PauseUI");
+        m_pauseUI.GetComponent<PauseUI>().SetPlayer(this.gameObject);
+
         GameObject playerManager = GameObject.Find("PlayerManager");
         playerManager.GetComponent<PlayerManager>().GetPlayerList().Add(this);
+
+      
     }
 
     // Update is called once per frame
@@ -72,6 +86,9 @@ public class WGTPlayerController : GameObjectBase
 
         //攻撃　Attack
         AttackKeyInput();
+
+        //ポーズ
+        PasueKeyInput();
     }
 
     //-------------------------------------
@@ -178,10 +195,10 @@ public class WGTPlayerController : GameObjectBase
 
 
         //カメラを追従させる
-        Camera.main.transform.position = transform.position + new Vector3(0, Camera.main.transform.position.y, -3.6f);
+        Camera.main.transform.position = new Vector3(transform.position.x,0, transform.position.z) + new Vector3(0, Camera.main.transform.position.y, -3.6f);
 
-
-
+        //ミニマップをスクロールさせる
+        m_miniMapCamera.GetComponent<Camera>().transform.position = new Vector3(transform.position.x, 0, transform.position.z) + new Vector3(0, m_miniMapCamera.transform.position.y,0);
 
     }
 
@@ -197,4 +214,35 @@ public class WGTPlayerController : GameObjectBase
         //水鉄砲発射
         this.GetComponentInChildren<WaterGun>().ShotWater();
     }
+
+    //-------------------------------------
+    //キー入力によるポーズ画面の表示
+    //
+    //引数     :なし　None
+    //戻り値   :なし　None
+    //-------------------------------------
+    private void PasueKeyInput()
+    {
+        m_pauseUI.GetComponent<PauseUI>().InputKeyPause();
+    }
+
+    //-------------------------------------
+    //他のプレイヤーの視認判定(実装するか考え)
+    //
+    //引数     :なし　None
+    //戻り値   :なし　None
+    //-------------------------------------
+    private void IsSeeOtherPlayer()
+    {
+
+    }
+
+    //-------------------------------------
+    //他のプレイヤーのいる方向を教える
+    //
+    //引数     :なし　None
+    //戻り値   :なし　None
+    //-------------------------------------
+
+
 }
