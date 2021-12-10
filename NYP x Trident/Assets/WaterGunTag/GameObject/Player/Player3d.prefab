@@ -248,7 +248,6 @@ MonoBehaviour:
   m_chaseSpeed: 1.1
   m_time: {fileID: 0}
   m_shotMoveSpeed: 0.7
-  m_mouseCursor: {fileID: 0}
   m_isInoperable: 0
 --- !u!54 &3327144092093454913
 Rigidbody:
@@ -323,7 +322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3583342782663948437, guid: 1a9a5e8d8273c714dbb3a199b824f5d4, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a9a5e8d8273c714dbb3a199b824f5d4, type: 3}
