@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PointUI : MonoBehaviour
 {
     //ポイントを表示するプレイヤー
-    [SerializeField] GameObject m_player;
+    private GameObject m_player;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,5 +18,10 @@ public class PointUI : MonoBehaviour
     {
         Text pointText = this.GetComponent<Text>();
         pointText.text = m_player.GetComponent<PlayerActions>().m_point.ToString();
+    }
+
+    public void SetPlayer(GameObject player)
+    {
+        m_player = player;
     }
 }

@@ -106,4 +106,14 @@ public class WaterGun : MonoBehaviour
     {
         return m_ps;
     }
+
+    public int GetMaxWaterGaugeNum()
+    {
+        return m_maxWaterGaugeNum;
+    }
+
+    public int GetWaterGaugeNum()
+    {
+        return m_waterGaugeNum;
+    }
 }

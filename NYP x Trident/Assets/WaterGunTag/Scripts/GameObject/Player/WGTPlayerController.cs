@@ -54,7 +54,12 @@ public class WGTPlayerController : GameObjectBase
         GameObject playerManager = GameObject.Find("PlayerManager");
         playerManager.GetComponent<PlayerManager>().GetPlayerList().Add(this);
 
-      
+        GameObject waterGaugeUI = GameObject.Find("WaterGauge");
+        waterGaugeUI.GetComponent<WaterGauge>().SetPlayerWaterGun(this.transform.Find("WaterGun3D").gameObject);
+
+        GameObject pointUI = GameObject.Find("Point");
+        pointUI.GetComponent<PointUI>().SetPlayer(this.gameObject);
+
     }
 
     // Update is called once per frame

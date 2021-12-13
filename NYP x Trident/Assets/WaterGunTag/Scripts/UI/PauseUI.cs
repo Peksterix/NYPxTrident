@@ -64,6 +64,11 @@ public class PauseUI : MonoBehaviour
                  backScreen.transform.SetParent(m_canvas.transform,false);
 
                 m_createdUIObject.Add(backScreen);
+                //全体マップの生成
+                GameObject bigMap = Instantiate(m_createUIObject[1]);
+                bigMap.transform.SetParent(m_canvas.transform, false);
+
+                m_createdUIObject.Add(bigMap);
                 m_pauseUIState = PauseUIState.Update;
                 break;
             case PauseUIState.Update:
@@ -75,7 +80,7 @@ public class PauseUI : MonoBehaviour
             case PauseUIState.End:
                 for (int i = 0; i < m_createdUIObject.Count; i++)
                 {
-                    Destroy(m_createdUIObject[0]);
+                    Destroy(m_createdUIObject[i]);
                    
                 }
                 m_createdUIObject.Clear();
