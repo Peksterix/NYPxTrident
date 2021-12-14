@@ -1,3 +1,9 @@
+//==============================================
+//Day           :12/06
+//Creator       :HashizumeAtsuki
+//Description   :…‚Ìƒ`ƒƒ[ƒWê
+//              
+//==============================================
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

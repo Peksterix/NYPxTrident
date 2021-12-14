@@ -35,7 +35,7 @@ public class PlayerManager : MonoBehaviour
 
         }
         //’Ç‚¢‚©‚¯‚él‚ÌŒˆ’è
-        m_playerList[Random.Range(0, m_playerList.Count)].GetComponent<PlayerActions>().ChangeChase();
+        //m_playerList[Random.Range(0, m_playerList.Count)].GetComponent<PlayerActions>().ChangeChase();
 
         //’Ç‚¢‚©‚¯‚él‚Ì”Ô†‚Ì•Û‘¶
         int count = 0;

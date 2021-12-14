@@ -32,6 +32,9 @@ public class CreatePointItem : MonoBehaviour
     //生成までの時間計測
     private float m_createTime = 0.0f;
 
+    //ゲームマネージャー
+    private GameObject m_wgtGameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,13 +42,14 @@ public class CreatePointItem : MonoBehaviour
         Random.InitState(System.DateTime.Now.Millisecond);
         m_createTime = m_createTime_Fast;
         m_time = GameObject.Find("Time");
+        m_wgtGameManager = GameObject.Find("WGTGameManager");
     }
 
     // Update is called once per frame
     void Update()
     {
         //制限時間が終わっていたら何もしない
-        if (m_time.GetComponent<GameTime>().GetIsFinish())
+        if (m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame())
         {
             return;
         }

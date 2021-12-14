@@ -34,6 +34,9 @@ public class WGTPlayerController : GameObjectBase
     //ミニマップ用のカメラ
     private GameObject m_miniMapCamera;
 
+    //ゲームマネージャー
+    private GameObject m_wgtGameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,13 +63,22 @@ public class WGTPlayerController : GameObjectBase
         GameObject pointUI = GameObject.Find("Point");
         pointUI.GetComponent<PointUI>().SetPlayer(this.gameObject);
 
+        m_wgtGameManager = GameObject.Find("WGTGameManager");
+
+        //カメラを追従させる
+        Camera.main.transform.position = new Vector3(transform.position.x, 0, transform.position.z) + new Vector3(0, Camera.main.transform.position.y, -3.6f);
+
+        //ミニマップをスクロールさせる
+        m_miniMapCamera.GetComponent<Camera>().transform.position = new Vector3(transform.position.x, 0, transform.position.z) + new Vector3(0, m_miniMapCamera.transform.position.y, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (m_time.GetComponent<GameTime>().GetIsFinish()||
-            this.GetComponent<PlayerActions>().GetIsStunting())
+        if (m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame() ||
+            this.GetComponent<PlayerActions>().GetIsStunting()
+                  
+                )
         {
             this.GetComponent<Rigidbody>().velocity = Vector2.zero;
             return;
