@@ -17,6 +17,12 @@ public class WaterGun : MonoBehaviour
     //…“S–C‚ğŒ‚‚Á‚Ä‚¢‚é‚©‚Ìƒtƒ‰ƒO
     private bool m_isShotWaterGun;
 
+    //…‚ÌÅ‘å•Û—L—Ê
+    [SerializeField] private int m_maxWaterGaugeNum = 2000;
+
+    //…‚Ì•Û—L—Ê
+    [SerializeField] private int m_waterGaugeNum;
+
 
     void Start()
     {
@@ -26,6 +32,7 @@ public class WaterGun : MonoBehaviour
 
         GetPs().Stop();
         m_isShotWaterGun = false;
+        m_waterGaugeNum = m_maxWaterGaugeNum;
 
     }
 
@@ -50,20 +57,46 @@ public class WaterGun : MonoBehaviour
     //-------------------------------------
     public virtual void ShotWater()
     {
-        
-        if (Input.GetKeyDown(KeyCode.Return))
+        //…‚ª‚È‚¯‚ê‚Î…‚ğ‘Å‚Ä‚È‚¢‚æ‚¤‚É‚·‚é
+        if (m_waterGaugeNum <= 0)
+        {
+            GetPs().Stop();
+            m_isShotWaterGun = false;
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0))
         {
             GetPs().Play();
             m_isShotWaterGun = true;
         }
-        if (Input.GetKeyUp(KeyCode.Return))
+        if (Input.GetMouseButtonUp(0))
         {
             GetPs().Stop();
             m_isShotWaterGun = false;
         }
+
+        //…“S–C‚ğŒ‚‚Á‚Ä‚¢‚éŠÔ‚Í…‚ªŒ¸‚é
+        if (m_isShotWaterGun)
+        {
+            m_waterGaugeNum--;
+        }
     }
 
-   public bool GetIsShotWaterGun()
+    //…‚Ì‰ñ•œ
+    public void ChargeWaterGauge(int waterchargenum)
+    {
+        if (m_waterGaugeNum < m_maxWaterGaugeNum)
+        {
+            m_waterGaugeNum += waterchargenum;
+        }
+        if (m_waterGaugeNum > m_maxWaterGaugeNum)
+        {
+            m_waterGaugeNum = m_maxWaterGaugeNum;
+        }
+    }
+
+    public bool GetIsShotWaterGun()
     {
         return m_isShotWaterGun;
     }
@@ -72,5 +105,15 @@ public class WaterGun : MonoBehaviour
     public ParticleSystem GetPs()
     {
         return m_ps;
+    }
+
+    public int GetMaxWaterGaugeNum()
+    {
+        return m_maxWaterGaugeNum;
+    }
+
+    public int GetWaterGaugeNum()
+    {
+        return m_waterGaugeNum;
     }
 }

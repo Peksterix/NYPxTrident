@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/KingOfTheHill/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/WaterGunTag/Scenes/WaterGunTagTitleScene.unity
+    guid: 4715e539856a5364680f1845132e2877
+  - enabled: 1
+    path: Assets/WaterGunTag/Scenes/WaterGunTagPlayScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

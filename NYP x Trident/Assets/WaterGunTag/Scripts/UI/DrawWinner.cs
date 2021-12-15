@@ -94,8 +94,8 @@ public class DrawWinner : MonoBehaviour
                 QuickSort(playerPoints, 0, playerPoints.Length - 1);
 
                 //勝者表示のテキスト表示
-                m_winnerName = "Winner\n";
-                m_winnerName += playerPoints[playerPoints.Length - 1].name+" Point:"+playerPoints[playerPoints.Length - 1].point;
+                m_winnerName = "WINNER\n";
+                m_winnerName += playerPoints[playerPoints.Length - 1].name+" POINT:"+playerPoints[playerPoints.Length - 1].point;
                 
                 for (int i = playerPoints.Length - 1; i >0; i--)
                 {
@@ -103,7 +103,7 @@ public class DrawWinner : MonoBehaviour
                     //1位が2人以上いたら勝者を増やす
                     if (playerPoints[i].point == playerPoints[i-1].point)
                     {
-                        m_winnerName += "\n" + playerPoints[i - 1].name + " Point:" + playerPoints[i - 1].point; 
+                        m_winnerName += "\n" + playerPoints[i - 1].name + " POINT:" + playerPoints[i - 1].point; 
                     }
                     else
                     {
@@ -116,7 +116,7 @@ public class DrawWinner : MonoBehaviour
                 //引き分け
                 if (playerPoints[0].point == playerPoints[playerPoints.Length - 1].point)
                 {
-                    m_winnerName = "Draw";
+                    m_winnerName = "DRAW";
                 }
             }
             //カウント開始
@@ -126,7 +126,7 @@ public class DrawWinner : MonoBehaviour
             if (m_finishTimer <= m_drawWinnerTime)
             {
                 Text timeText = this.GetComponent<Text>();
-                timeText.text = "Finish";
+                timeText.text = "FINISH";
               
                 timeText.fontSize = m_finishFontSize;
             }
