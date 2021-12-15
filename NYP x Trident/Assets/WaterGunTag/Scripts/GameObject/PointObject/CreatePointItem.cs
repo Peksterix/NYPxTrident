@@ -19,9 +19,9 @@ public class CreatePointItem : MonoBehaviour
     //生成までの時間（最速）
     [SerializeField] private float m_createTime_Fast = 5;
     //生成される確率
-    [SerializeField] private float m_createProbability = 10000.0f;
+    [SerializeField] private float m_createProbability = 2000.0f;
     //レアものが生成される物の確率
-    [SerializeField] private float m_createRare = 100.0f;
+    [SerializeField] private float m_createRare = 10.0f;
 
     //制限時間
     private GameObject m_time;
@@ -32,6 +32,9 @@ public class CreatePointItem : MonoBehaviour
     //生成までの時間計測
     private float m_createTime = 0.0f;
 
+    //ゲームマネージャー
+    private GameObject m_wgtGameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,13 +42,14 @@ public class CreatePointItem : MonoBehaviour
         Random.InitState(System.DateTime.Now.Millisecond);
         m_createTime = m_createTime_Fast;
         m_time = GameObject.Find("Time");
+        m_wgtGameManager = GameObject.Find("WGTGameManager");
     }
 
     // Update is called once per frame
     void Update()
     {
         //制限時間が終わっていたら何もしない
-        if (m_time.GetComponent<GameTime>().GetIsFinish())
+        if (m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame())
         {
             return;
         }
@@ -76,7 +80,7 @@ public class CreatePointItem : MonoBehaviour
             }
             else //通常アイテム生成
             {
-                m_createObj = Instantiate(m_pointItem[Random.Range(0, m_rarePointItem.Count)].gameObject, this.transform.position, Quaternion.identity);
+                m_createObj = Instantiate(m_pointItem[Random.Range(0, m_pointItem.Count)].gameObject, this.transform.position, Quaternion.identity);
                 m_createObj.transform.parent = this.transform;
             }
                
