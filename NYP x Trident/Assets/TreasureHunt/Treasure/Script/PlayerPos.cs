@@ -1,50 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 
-public class PlayerPos : MonoBehaviour
+public class PlayerPos : NetworkBehaviour
 {
-    [SerializeField] GameObject player;   //プレイヤー情報格納用
-    [SerializeField] new GameObject camera;   //カメラ情報格納用
-    PlayerCon playerScript;
-    
+    const float ROT = 3.0f;
+    const int THREE = 3;
+    const int COUNT = 30;
+
+    int count;
 
     //回転中かどうか
     [SerializeField] public bool coroutineBool = false;
+    bool rightFlag;
+    bool leftFlag;
     //どちらを向いているか
     [SerializeField] public int direction;//(0=前,1=右,2=後ろ,3=左,)
-
-    Vector3 targetPosition;
-    Vector3 targetPositionY;
 
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = player.transform.position;
-        playerScript = player.GetComponent<PlayerCon>();
         direction = 0;
-
-        targetPosition = camera.transform.position;
-        targetPositionY = camera.transform.position;
+        count = 0;
+        leftFlag = false;
+        rightFlag = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        //プレイヤーのポジションに同期
-        transform.position = player.transform.position;
-        targetPosition = camera.transform.position;
-        camera.transform.position = new Vector3(targetPosition.x, targetPositionY.y, targetPosition.z);
-        playerScript.SetPlayerRot(direction);
-      
         if (Input.GetKeyDown(KeyCode.Q))
         {
             //回転中ではない場合は実行 
             if (!coroutineBool)
             {
                 coroutineBool = true;
-                StartCoroutine("RightMove");
+                leftFlag = true;
             }
         }
 
@@ -54,41 +46,50 @@ public class PlayerPos : MonoBehaviour
             if (!coroutineBool)
             {
                 coroutineBool = true;
-                StartCoroutine("LeftMove");
+                rightFlag = true;
             }
         }
-       
-        if (playerScript.hallFlag == true)
-        {
-            camera.transform.position = new Vector3(targetPosition.x, targetPositionY.y-1, targetPosition.z);
-        }
-
     }
 
-    IEnumerator RightMove()
+    void FixedUpdate()
     {
-        for (int turn = 0; turn < 90; turn+=2)
+        if (!isLocalPlayer) return;
+
+        if(coroutineBool)
         {
-            transform.Rotate(0, 2, 0);
-            yield return new WaitForSeconds(0.01f);
+            if(leftFlag)
+                CmdRotationLeft();
+            else if(rightFlag)
+                CmdRotationRight();
+            count++;
+            if (count >= COUNT)
+            {
+                coroutineBool = false;
+                count = 0;
+                if(leftFlag)
+                {
+                    leftFlag = false;
+                    direction--;
+                    if (direction < 0) direction = THREE;
+                }
+                if (rightFlag)
+                {
+                    rightFlag = false;
+                    direction++;
+                    if (direction > THREE) direction = 0;
+                }
+            }
         }
-        coroutineBool = false;
-        playerScript.SetPlayerDir();
-        direction++;
-        if (direction > 3) direction = 0;
     }
 
-    //左にゆっくり回転して90°でストップ
-    IEnumerator LeftMove()
+    [Command(requiresAuthority = false)]
+    void CmdRotationRight()
     {
-        for (int turn = 0; turn < 90; turn+=2)
-        {
-            transform.Rotate(0, -2, 0);
-            yield return new WaitForSeconds(0.01f);
-        }
-        coroutineBool = false;
-        playerScript.SetPlayerDir();
-        direction--;
-        if (direction < 0) direction = 3;
+        transform.Rotate(new Vector3(0, ROT, 0));
+    }
+    [Command(requiresAuthority = false)]
+    void CmdRotationLeft()
+    {
+        transform.Rotate(new Vector3(0, -ROT, 0));
     }
 }

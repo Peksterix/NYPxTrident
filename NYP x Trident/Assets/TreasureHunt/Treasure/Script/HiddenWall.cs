@@ -2,66 +2,55 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class HiddenWall : MonoBehaviour
+public class HiddenWall : NetworkBehaviour
 {
-    [SerializeField] GameObject parentObj;   //親情報格納用
-    [SerializeField] GameObject player;   //プレイヤー情報格納用
+
+    public int count;
+
+    GameObject player; //プレイヤー情報格納用
     private Vector3 RotateAxis = Vector3.up;
     private float SpeedFactor = -1.5f;
-    public Image image;
-
-    bool rotFlag;
     //回転中かどうか
-    [SerializeField] public bool coroutineBool;
-    Vector3 wallPos;
+    public bool rotFlag;
 
     // Start is called before the first frame update
     void Start()
     {
         rotFlag = false;
-        coroutineBool = false;
-        wallPos = parentObj.transform.position;
+        count = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-
-        parentObj.transform.position = wallPos;
         //回転中ではない場合は実行 
-        if (rotFlag == true&& !coroutineBool)
+        if (rotFlag)
         {
-           
-            coroutineBool = true;
-            StartCoroutine("RotWall");
-            
+            CmdMove();
+            count++;
+            if (count >= 30)
+            {
+                rotFlag = false;
+                count = 0;
+            }
         }
     }
 
-    //壁の回転
-    IEnumerator RotWall()
+    [Command(requiresAuthority = false)]
+    void CmdMove()
     {
-        for (int turn = 0; turn < 180; turn += 2)
-        {
-            parentObj.transform.Rotate(0, -2, 0);
-            // 指定オブジェクトを中心に回転する
-            player.transform.RotateAround(
-                parentObj.transform.position,
-                RotateAxis,
-                360.0f / (1.0f / SpeedFactor) * Time.deltaTime
-                );
-            yield return new WaitForSeconds(0.01f);
-        }
-        coroutineBool = false;
-        rotFlag = false;
+        transform.Rotate(new Vector3 (0, -6.0f, 0));
+        // 指定オブジェクトを中心に回転する
+        //player.transform.RotateAround(transform.position,RotateAxis,360.0f / (1.0f / SpeedFactor) * Time.deltaTime);
+        
     }
 
     private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.tag=="Player")
         {
-            image.enabled = true;
+            player = other.gameObject;
 
             if (Input.GetKey(KeyCode.Space))
             {
@@ -71,11 +60,5 @@ public class HiddenWall : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            image.enabled = false;
-        }
-    }
+   
 }
