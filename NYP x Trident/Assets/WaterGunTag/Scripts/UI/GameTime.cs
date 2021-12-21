@@ -89,12 +89,13 @@ public class GameTime : MonoBehaviour
             }
             m_larpT += Time.deltaTime * 10.0f;
         }
-        if (m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame())
+       
+        if (!m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame())
         {
-            return;
+            UpdeteTime();
         }
-        UpdeteTime();
         UpdateText();
+
     }
 
     //-------------------------------------

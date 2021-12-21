@@ -18,10 +18,11 @@ public class DrawWinner : MonoBehaviour
         public string name;
     };
 
-    //背景
-    [SerializeField] public GameObject m_backGround;
-    //PushSpace
-    [SerializeField] public GameObject m_pushSpace;
+    //作り出すUIオブジェクト
+    [SerializeField] private List<GameObject> m_createUIObject = new List<GameObject>();
+
+    //作ったUIオブジェクト
+    private List<GameObject> m_createdUIObject = new List<GameObject>();
 
     //プレイヤーマネージャー
     [SerializeField] private GameObject m_playerManager;
@@ -57,8 +58,7 @@ public class DrawWinner : MonoBehaviour
     {
         m_isReturnTitle = false;
         m_isFinishGame = false;
-        m_backGround.GetComponent<Image>().enabled = false;
-        m_pushSpace.GetComponent<Text>().enabled = false;
+     
     }
 
     // Update is called once per frame
@@ -71,8 +71,10 @@ public class DrawWinner : MonoBehaviour
             if (!m_isFinishGame)
             {
                 m_isFinishGame = true;
-                //背景を描画する
-                m_backGround.GetComponent<Image>().enabled = true;
+
+                //フィニッシュ表示
+
+               
                 //プレイヤーのリストを取得する
                 List<GameObjectBase> playerList = m_playerManager.GetComponent<PlayerManager>().GetPlayerList();
                 PlayerPoint[] playerPoints = new PlayerPoint[playerList.Count];
@@ -143,7 +145,7 @@ public class DrawWinner : MonoBehaviour
             if(m_finishTimer>=m_returnTitleTime+m_drawWinnerTime)
             {
                 m_isReturnTitle = true;
-                m_pushSpace.GetComponent<Text>().enabled = true;
+             
             }
 
 
