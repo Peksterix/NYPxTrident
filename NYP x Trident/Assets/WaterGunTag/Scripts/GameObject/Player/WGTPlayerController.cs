@@ -35,7 +35,10 @@ public class WGTPlayerController : GameObjectBase
     private GameObject m_miniMapCamera;
 
     //ゲームマネージャー
-    private GameObject m_wgtGameManager;
+    public GameObject m_wgtGameManager;
+
+    //プレイヤーの番号
+    public int m_playerNum;
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +65,9 @@ public class WGTPlayerController : GameObjectBase
 
         GameObject pointUI = GameObject.Find("Point");
         pointUI.GetComponent<PointUI>().SetPlayer(this.gameObject);
+
+        GameObject playerNum = GameObject.Find("PlayerNumUI");
+        playerNum.GetComponent<PlayerNumUI>().SetPlayer(this.gameObject);
 
         m_wgtGameManager = GameObject.Find("WGTGameManager");
 
