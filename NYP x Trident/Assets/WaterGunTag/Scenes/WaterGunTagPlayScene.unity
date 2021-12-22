@@ -2223,7 +2223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee45199e4766d34e800a1e9aa9aace3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxTime: 200
+  m_maxTime: 60
   m_startSize: 1
   m_finishSize: 0.1
 --- !u!114 &930262564
@@ -4248,7 +4248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2729221655570830126, guid: 4e9bcc624a11cb84c98a55665588432d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 2729221655570830126, guid: 4e9bcc624a11cb84c98a55665588432d, type: 3}
       propertyPath: m_LocalPosition.y
