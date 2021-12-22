@@ -41,7 +41,7 @@ public class WGTResult : MonoBehaviour
     [SerializeField] private float m_drawWinnerTime = 2.0f;
 
     //スペースキーでタイトルに戻れるようになる時間
-    [SerializeField] private float m_returnTitleTime = 10.0f;
+    [SerializeField] private float m_returnTitleTime = 2.0f;
 
     //勝者の名前
     private string m_winnerName;
@@ -62,6 +62,9 @@ public class WGTResult : MonoBehaviour
     private const int PLAYER_RESULT_INTERVAL = 200;
 
     PlayerPoint[] playerPoints;
+
+    //プレイヤーの結果リスト
+    private List<GameObject> m_playerResultList = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -135,12 +138,29 @@ public class WGTResult : MonoBehaviour
 
                     playerResult.GetComponent<PlayerResult>().PlayerResultSetDate(playerPoints[i].rank, playerPoints[i].playerNum, playerPoints[i].point);
                     m_createdUIObject.Add(playerResult);
+
+                    m_playerResultList.Add(playerResult);
                 }
             }
 
 
 
         }
+
+        int finishCount = 0;
+
+        for (int i=0;i<m_playerResultList.Count;i++)
+        {
+           
+            if(m_playerResultList[i].GetComponentInChildren<ResultPointGauge>().GetIsRankFlag())
+            {
+                finishCount++;
+            }
+           
+        }
+
+      
+       
 
         //タイトルに戻れるようにする
         if (m_finishTimer >= m_returnTitleTime + m_drawWinnerTime)
@@ -158,8 +178,13 @@ public class WGTResult : MonoBehaviour
 
         }
 
-        //カウント開始
-        m_finishTimer += Time.deltaTime;
+
+        if (finishCount == m_playerResultList.Count|| m_finishTimer <= m_drawWinnerTime)
+        {
+            //カウント開始
+            m_finishTimer += Time.deltaTime;
+        }
+       
 
 
     }

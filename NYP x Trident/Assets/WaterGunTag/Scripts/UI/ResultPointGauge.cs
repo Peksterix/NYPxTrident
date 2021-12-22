@@ -30,11 +30,15 @@ public class ResultPointGauge : MonoBehaviour
     //数字を整数にする
     private int m_intUpGauge;
 
+    //順位表示が終わったかの判定フラグ
+    private bool m_isRankFlag;
+
     // Start is called before the first frame update
     void Start()
     {
         m_upGauge = 0.0f;
         m_intUpGauge = 0;
+        m_isRankFlag = false;
     }
 
     // Update is called once per frame
@@ -55,6 +59,8 @@ public class ResultPointGauge : MonoBehaviour
             m_rank.SetActive(true);
             m_rank.SetActive(true);
             m_rank.GetComponent<RectTransform>().localPosition = new Vector3(0, y + 200, 0);
+
+            m_isRankFlag = true;
         }
 
         m_intUpGauge = (int)m_upGauge;
@@ -72,5 +78,9 @@ public class ResultPointGauge : MonoBehaviour
         m_point = point;
     }
 
+    public bool GetIsRankFlag()
+    {
+        return m_isRankFlag;
+    }
 
 }

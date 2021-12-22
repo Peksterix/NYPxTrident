@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class WaterGunTagPlayScene : MonoBehaviour
 {
-    [SerializeField] private GameObject m_drawWinner;
+    //WGTResult
+    [SerializeField] private GameObject m_wgtResult;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +16,7 @@ public class WaterGunTagPlayScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && m_drawWinner.GetComponent<DrawWinner>().GetIsReturnTitle())
+        if (Input.GetKeyDown(KeyCode.Space) && m_wgtResult.GetComponent<WGTResult>().GetIsReturnTitle())
         {
             ChangePlayScene();
         }
