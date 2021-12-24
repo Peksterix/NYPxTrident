@@ -8,10 +8,17 @@ public class PlayerCon : NetworkBehaviour
 {
 	const float GRAVITY = 19.6f;
 	public float speed = 10.0f;
-
+	public bool cameraFlag = false;
+	public bool naviFlag = false;
 
 	//プレイヤー情報格納用
 	PlayerPos playerPosScript;
+	/// <summary>
+	/// //カメラ関係
+	public GameObject camera;
+	public GameObject cameraPos;
+	/// </summary>
+
 
 	//移動量保存変数
 	Vector3 motion;
@@ -21,14 +28,16 @@ public class PlayerCon : NetworkBehaviour
 
 	void Start()
 	{
-		
+		transform.Find("CameraPos").gameObject.SetActive(isLocalPlayer);
+		transform.Find("Camera").gameObject.SetActive(isLocalPlayer);
+
 		door = GameObject.FindGameObjectWithTag("Door");
 		wall = GameObject.FindGameObjectWithTag("Wall");
 		SetUpServer();
 
 		//スクリプトのPlayerPosの登録
-		playerPosScript =GetComponent<PlayerPos>();
-		
+		playerPosScript = GetComponent<PlayerPos>();
+
 	}
 
 	void Update()
@@ -62,6 +71,7 @@ public class PlayerCon : NetworkBehaviour
 			}
 			motion = new Vector3(x * speed * Time.deltaTime, -GRAVITY, z * speed * Time.deltaTime);
 			CmdMove(motion);
+
 		}
 	}
 
@@ -72,10 +82,15 @@ public class PlayerCon : NetworkBehaviour
 		transform.GetComponent<CharacterController>().Move(motion);
 	}
 
+	void SetCameraFlag(bool flag)
+	{
+		cameraFlag = flag;
+	}
+
 	[ServerCallback]
 	void SetUpServer()
 	{
-		if(door!=null&&!door.GetComponent<HiddenDoor>().hasAuthority)
+		if (door != null && !door.GetComponent<HiddenDoor>().hasAuthority)
 			door.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
 		if (wall != null && !wall.GetComponent<HiddenWall>().hasAuthority)
 			wall.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);

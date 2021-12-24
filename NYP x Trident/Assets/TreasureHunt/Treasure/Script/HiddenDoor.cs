@@ -5,10 +5,13 @@ using Mirror;
 
 public class HiddenDoor : NetworkBehaviour
 {
-    
-    const int COUNT = 150;
+    const int COUNT = 130;
     public bool upFlag;
     int count;
+    GameObject player;
+    PlayerCon playerScript;
+    public GameObject camera;
+
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,8 @@ public class HiddenDoor : NetworkBehaviour
             {
                 count = 0;
                 upFlag = false;
+                playerScript.camera.transform.position = playerScript.cameraPos.transform.position;
+                playerScript.camera.transform.rotation = playerScript.cameraPos.transform.rotation;
                 Destroy(gameObject);
             }
         }
@@ -38,18 +43,21 @@ public class HiddenDoor : NetworkBehaviour
         {
             if (Input.GetKey(KeyCode.Space))
             {
+                player = other.gameObject;
+                playerScript = player.GetComponent<PlayerCon>();
+                playerScript.camera.transform.position = camera.transform.position;
+                playerScript.camera.transform.rotation = camera.transform.rotation;
                 upFlag = true;
             }
-
         }
     }
 
-    [Command(requiresAuthority =false)]
+    [Command(requiresAuthority = false)]
     void CmdMove()
     {
-        //ç¿ïWÇèëÇ´ä∑Ç¶ÇÈ
+        //Â∫ßÊ®ô„ÇíÊõ∏„ÅçÊèõ„Åà„Çã
         transform.position += new Vector3(0, -3, 0) * Time.deltaTime;
-        
+
     }
 }
 
