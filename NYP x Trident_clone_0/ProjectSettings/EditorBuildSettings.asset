@@ -5,19 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/WaterGunTag/Scenes/WaterGunTagTitleScene.unity
-    guid: 4715e539856a5364680f1845132e2877
-  - enabled: 0
-    path: Assets/WaterGunTag/Scenes/WaterGunTagPlayScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Main Menu/Scenes/Gamemode Selection (Offline).unity
+    guid: cb8d7ca083196294ca1f49a1e2d1ba8f
+  - enabled: 1
+    path: Assets/Main Menu/Scenes/Lobby (Online).unity
+    guid: b4506e1e218c77c4c8b7786b427324d5
   - enabled: 1
     path: Assets/KingOfTheHill/Scenes/KingOfTheHillGameScene.unity
     guid: ff4215419a6239b44add7ae99ca0f47e
-  - enabled: 0
-    path: Assets/TreasureHunt/Scenes/Main.unity
+  - enabled: 1
+    path: Assets/TreasureHunt/Scenes/THGameScene.unity
     guid: 4d4cea891e101a1478d861a935080b1c
+  - enabled: 1
+    path: Assets/WaterGunTag/Scenes/WaterGunTagPlayScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}
