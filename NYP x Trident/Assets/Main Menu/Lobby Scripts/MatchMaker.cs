@@ -136,10 +136,13 @@ public class MatchMaker : NetworkBehaviour
             newGameManager.GetComponent<NetworkMatch>().matchId = match.matchID.ToGuid();
             KOTHNetworkGamestateManager KOTHManager = newGameManager.GetComponent<KOTHNetworkGamestateManager>();
 
+            KOTHPlayerData.playerCount = match.players.Count;
+
             foreach (var player in match.players)
             {
                 LobbyPlayer _player = player.GetComponent<LobbyPlayer>();
-                KOTHManager.AddPlayer(_player);
+                KOTHManager.AddPlayer(_player, match.matchID.ToGuid());
+                //KOTHPlayerData.players.Add(_player);
                 _player.StartGame(match.matchType);
             }
         }

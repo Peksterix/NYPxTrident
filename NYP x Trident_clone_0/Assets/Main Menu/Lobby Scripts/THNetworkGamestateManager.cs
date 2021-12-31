@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class THNetworkGamestateManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    List<LobbyPlayer> players = new List<LobbyPlayer>();
 
-    // Update is called once per frame
-    void Update()
+    public void AddPlayer(LobbyPlayer _player)
     {
-        
+        players.Add(_player);
     }
 }

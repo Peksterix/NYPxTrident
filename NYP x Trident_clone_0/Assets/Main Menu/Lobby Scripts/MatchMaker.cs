@@ -29,11 +29,6 @@ public class Match
     }
 
     public Match() { }
-
-    public MatchType GetMatchType()
-    {
-        return matchType;
-    }
 }
 
 public class MatchMaker : NetworkBehaviour
@@ -45,6 +40,10 @@ public class MatchMaker : NetworkBehaviour
 
     [SerializeField]
     GameObject KOTHManagerPrefab;
+    [SerializeField]
+    GameObject WGTManagerPrefab;
+    [SerializeField]
+    GameObject THManagerPrefab;
 
     private void Awake()
     {
@@ -103,24 +102,81 @@ public class MatchMaker : NetworkBehaviour
 
     public void BeginGame(string _matchID)
     {
-        GameObject newGameManager = Instantiate(KOTHManagerPrefab);
-        NetworkServer.Spawn(newGameManager);
-        newGameManager.GetComponent<NetworkMatch>().matchId = _matchID.ToGuid();
-        KOTHNetworkGamestateManager KOTHManager = newGameManager.GetComponent<KOTHNetworkGamestateManager>();
-
         for(int i = 0; i < matches.Count; i++)
         {
             if(matches[i].matchID == _matchID)
             {
-                foreach(var player in matches[i].players)
-                {
-                    LobbyPlayer _player = player.GetComponent<LobbyPlayer>();
-                    KOTHManager.AddPlayer(_player);
-                    _player.StartGame();
-                }
+                //if(matches[i].matchType == Match.MatchType.KOTH)
+                //{
+                //    GameObject newGameManager = Instantiate(KOTHManagerPrefab);
+                //    NetworkServer.Spawn(newGameManager);
+                //    newGameManager.GetComponent<NetworkMatch>().matchId = _matchID.ToGuid();
+                //    KOTHNetworkGamestateManager KOTHManager = newGameManager.GetComponent<KOTHNetworkGamestateManager>();
+                //}
+
+                //foreach (LobbyPlayer player in matches[i].players)
+                //{
+                //    LobbyPlayer _player = player.GetComponent<LobbyPlayer>();
+                //    KOTHManager.AddPlayer(_player);
+                //    _player.StartGame(matches[i].matchType);
+                //}
+
+                LoadNewMatch(matches[i]);
                 break;
             }
         }
+    }
+
+    void LoadNewMatch(Match match)
+    {
+        if(match.matchType == Match.MatchType.KOTH)
+        {
+            GameObject newGameManager = Instantiate(KOTHManagerPrefab);
+            NetworkServer.Spawn(newGameManager);
+            newGameManager.GetComponent<NetworkMatch>().matchId = match.matchID.ToGuid();
+            KOTHNetworkGamestateManager KOTHManager = newGameManager.GetComponent<KOTHNetworkGamestateManager>();
+
+            KOTHPlayerData.playerCount = match.players.Count;
+
+            foreach (var player in match.players)
+            {
+                LobbyPlayer _player = player.GetComponent<LobbyPlayer>();
+                KOTHManager.AddPlayer(_player, match.matchID.ToGuid());
+                //KOTHPlayerData.players.Add(_player);
+                _player.StartGame(match.matchType);
+            }
+        }
+
+        if(match.matchType == Match.MatchType.WGT)
+        {
+            GameObject newGameManager = Instantiate(WGTManagerPrefab);
+            NetworkServer.Spawn(newGameManager);
+            newGameManager.GetComponent<NetworkMatch>().matchId = match.matchID.ToGuid();
+            WGTNetworkGamestateManager WGTManager = newGameManager.GetComponent<WGTNetworkGamestateManager>();
+
+            foreach (var player in match.players)
+            {
+                LobbyPlayer _player = player.GetComponent<LobbyPlayer>();
+                WGTManager.AddPlayer(_player);
+                _player.StartGame(match.matchType);
+            }
+        }
+
+        if(match.matchType == Match.MatchType.TH)
+        {
+            GameObject newGameManager = Instantiate(THManagerPrefab);
+            NetworkServer.Spawn(newGameManager);
+            newGameManager.GetComponent<NetworkMatch>().matchId = match.matchID.ToGuid();
+            THNetworkGamestateManager THManager = newGameManager.GetComponent<THNetworkGamestateManager>();
+
+            foreach (var player in match.players)
+            {
+                LobbyPlayer _player = player.GetComponent<LobbyPlayer>();
+                THManager.AddPlayer(_player);
+                _player.StartGame(match.matchType);
+            }
+        }
+
     }
 
     public static string GetRandomMatchID()

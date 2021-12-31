@@ -8,6 +8,13 @@ public class UILobby : MonoBehaviour
 {
     public static UILobby instance;
 
+    [SerializeField]
+    Canvas MainCanvas;
+    [SerializeField]
+    GameObject LobbyCamera;
+    [SerializeField]
+    GameObject LobbyEventSystem;
+
     [Header("Gamemode Select")]
     [SerializeField]
     GameObject gamemodeSelectCanvas;
@@ -148,6 +155,20 @@ public class UILobby : MonoBehaviour
     public void BeginGame()
     {
         LobbyPlayer.localPlayer.BeginGame();
+    }
+
+    public void UnloadLobbyObjects()
+    {
+        MainCanvas.enabled = false;
+        LobbyEventSystem.SetActive(false);
+        LobbyCamera.SetActive(false);
+    }
+    
+    public void LoadLobbyObjects()
+    {
+        MainCanvas.enabled = false;
+        LobbyEventSystem.SetActive(false);
+        LobbyCamera.SetActive(false);
     }
 
     public void SetSelectedMatchTypeKOTH()

@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class KingOfTheHillNetworkManager : NetworkManager
+public class KingOfTheHillNetworkManager : NetworkBehaviour
 {
     [Header("King Of The Hill Variables")]
+    [SerializeField]
+    GameObject KOTHPlayerPrefab;
+    [SerializeField]
+    GameObject playerParent;
 
     [Header("Player Start Positions")]
-    public GameObject PlayerSpawnPoints;
+    public List<Transform> PlayerSpawnPoints = new List<Transform>();
 
     [Header("Managers")]
     [SerializeField]
@@ -16,14 +20,35 @@ public class KingOfTheHillNetworkManager : NetworkManager
     [SerializeField]
     private GameObject gameManager;
 
-    public override void OnStartServer()
+    private void Awake()
     {
-        for (int i = 0; i < PlayerSpawnPoints.transform.childCount; ++i)
-        {
-            RegisterStartPosition(PlayerSpawnPoints.transform.GetChild(i));
-        }
-
-        platformManager.SetActive(true);
-        gameManager.SetActive(true);
+        if (!isServer)
+            return;
     }
+
+    private void Start()
+    {
+        SpawnPlayers();
+    }
+
+    [Server]
+    void SpawnPlayers()
+    {
+        for(int i = 0; i < KOTHPlayerData.playerCount; i++)
+        {
+            GameObject newPlayer = Instantiate(KOTHPlayerPrefab, PlayerSpawnPoints[Random.Range(0, PlayerSpawnPoints.Count)].position, Quaternion.identity, playerParent.transform);
+            NetworkServer.Spawn(newPlayer);
+        }
+    }
+
+    //public override void OnStartServer()
+    //{
+    //    for (int i = 0; i < PlayerSpawnPoints.transform.childCount; ++i)
+    //    {
+    //        RegisterStartPosition(PlayerSpawnPoints.transform.GetChild(i));
+    //    }
+
+    //    platformManager.SetActive(true);
+    //    gameManager.SetActive(true);
+    //}
 }

@@ -141,15 +141,30 @@ public class LobbyPlayer : NetworkBehaviour
         
     }
 
-    public void StartGame()
+    public void StartGame(Match.MatchType _matchType)
     {
-        TargetBeginGame();
+        TargetBeginGame(_matchType);
     }
 
     [TargetRpc]
-    void TargetBeginGame()
+    void TargetBeginGame(Match.MatchType _matchType)
     {
         Debug.Log($"MatchID: {matchID}");
-        SceneManager.LoadScene("KingOfTheHillGameScene", LoadSceneMode.Additive);
+        UILobby.instance.UnloadLobbyObjects();
+
+        switch (_matchType)
+        {
+            case Match.MatchType.KOTH:
+                SceneManager.LoadScene("KingOfTheHillGameScene", LoadSceneMode.Additive);
+                break;
+            case Match.MatchType.WGT:
+                SceneManager.LoadScene("WaterGunTagPlayScene", LoadSceneMode.Additive);
+                break;
+            case Match.MatchType.TH:
+                SceneManager.LoadScene("THGameScene", LoadSceneMode.Additive);
+                break;
+            default:
+                break;
+        }
     }
 }
