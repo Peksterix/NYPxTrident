@@ -54,6 +54,45 @@ public class UILobby : MonoBehaviour
         this.gameObject.SetActive(true);
     }
 
+    private void Start()
+    {
+        MasterServerCommunicator.Instance.OnServerRegistered.AddListener(OnHostMatch);
+        MasterServerCommunicator.Instance.OnClientGetNetworkAddress.AddListener(OnJoinMatch);
+        MasterServerCommunicator.Instance.OnClientGetNetworkAddressFail.AddListener(OnFail);
+        MasterServerCommunicator.Instance.OnServerRegisteredFail.AddListener(OnFail);
+    }
+
+    void OnDestroy()
+    {
+        MasterServerCommunicator.Instance.OnServerRegistered.AddListener(OnHostMatch);
+        MasterServerCommunicator.Instance.OnClientGetNetworkAddress.AddListener(OnJoinMatch);
+        MasterServerCommunicator.Instance.OnClientGetNetworkAddressFail.AddListener(OnFail);
+        MasterServerCommunicator.Instance.OnServerRegisteredFail.AddListener(OnFail);
+    }
+
+
+    void OnHostMatch(string code)
+    {
+        //ServerNetworkAddressText.text = MasterServerCommunicator.Instance.ServerIP;
+        matchIDText.text = code;
+
+        joinMatchInput.interactable = false;
+        joinButton.interactable = false;
+        hostButton.interactable = false;
+
+        LobbyPlayer.localPlayer.HostGame(usernameInput.text, selectedMatchType);
+    }
+
+    void OnJoinMatch(string networkAddress)
+    {
+        //ClientReturnedNetworkAddress.text = networkAddress;
+    }
+
+    void OnFail(string error, string code)
+    {
+        Debug.LogError(string.Format("Error: {0}, Message: {1}", error, code));
+    }
+
     public void Host()
     {
         joinMatchInput.interactable = false;
@@ -74,7 +113,7 @@ public class UILobby : MonoBehaviour
                 Destroy(localPlayerLobbyUI);
             localPlayerLobbyUI = SpawnPlayerUIPrefab(LobbyPlayer.localPlayer);
 
-            matchIDText.text = matchID;
+            //matchIDText.text = matchID;
             StartGameButton.SetActive(true);
 
             switch(MatchGamemode)

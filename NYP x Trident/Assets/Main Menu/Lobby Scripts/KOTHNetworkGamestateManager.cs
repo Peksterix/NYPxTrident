@@ -10,7 +10,6 @@ public class KOTHNetworkGamestateManager : NetworkBehaviour
 
     private void Start()
     {
-
     }
 
     public void AddPlayer (LobbyPlayer _player, Guid matchID)
