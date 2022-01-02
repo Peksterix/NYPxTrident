@@ -80,13 +80,13 @@ public class MainMenuManager : MonoBehaviour
     public void OnHostSuccess(string matchID)
     {
         NetworkRoomManagerExt.Instance.MatchID = matchID;
-        Mirror.NetworkManager.singleton.StartHost();
+        NetworkRoomManagerExt.Instance.StartHost();
     }
 
     public void OnJoinSuccess(string networkAdddress)
     {
         NetworkRoomManagerExt.Instance.networkAddress = networkAdddress;
-        Mirror.NetworkManager.singleton.StartHost();
+        NetworkRoomManagerExt.Instance.StartHost();
     }
 
     void Fail(string error, string code)

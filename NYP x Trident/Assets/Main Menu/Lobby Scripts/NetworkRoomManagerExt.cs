@@ -12,7 +12,7 @@ public class NetworkRoomManagerExt : NetworkRoomManager
         TH
     }
 
-    public static NetworkRoomManagerExt Instance => singleton as NetworkRoomManagerExt;
+    public static NetworkRoomManagerExt Instance => NetworkRoomManager.singleton as NetworkRoomManagerExt;
 
     [Header("Game Scenes")]
     [Scene]
@@ -41,5 +41,10 @@ public class NetworkRoomManagerExt : NetworkRoomManager
     void Update()
     {
         
+    }
+
+    public override void OnRoomServerPlayersReady()
+    {
+        base.OnRoomServerPlayersReady();
     }
 }

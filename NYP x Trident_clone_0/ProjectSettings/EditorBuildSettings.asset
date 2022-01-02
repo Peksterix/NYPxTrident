@@ -6,8 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Main Menu/Scenes/Gamemode Selection (Offline).unity
-    guid: cb8d7ca083196294ca1f49a1e2d1ba8f
+    path: Assets/SplashScreen/SplashScreen.unity
+    guid: 1181933e4f22173419d8af2f802d0803
+  - enabled: 1
+    path: Assets/Main Menu/Scenes/Main Menu.unity
+    guid: 195e8042fd7f13b4ab79674fc23d6ae2
   - enabled: 1
     path: Assets/Main Menu/Scenes/Lobby (Online).unity
     guid: b4506e1e218c77c4c8b7786b427324d5

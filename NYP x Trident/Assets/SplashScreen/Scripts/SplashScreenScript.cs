@@ -7,7 +7,6 @@ public class SplashScreenScript : MonoBehaviour
 {
     void Start()
     {
-        // Do all your loading in here
-        
+        SceneManager.LoadScene("Main Menu");
     }
 }
