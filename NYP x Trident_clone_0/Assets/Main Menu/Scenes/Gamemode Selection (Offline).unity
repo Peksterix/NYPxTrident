@@ -466,9 +466,9 @@ Transform:
   m_LocalPosition: {x: 567.89813, y: 262.25247, z: -67.919495}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 728560181}
+  - {fileID: 919341121}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &557690843
 GameObject:
@@ -603,7 +603,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 557690843}
   m_CullTransparentMesh: 1
---- !u!1 &728560180
+--- !u!1 &919341120
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -611,23 +611,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 728560181}
-  - component: {fileID: 728560183}
-  - component: {fileID: 728560182}
+  - component: {fileID: 919341121}
+  - component: {fileID: 919341122}
+  - component: {fileID: 919341123}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &728560181
+  m_IsActive: 0
+--- !u!4 &919341121
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728560180}
+  m_GameObject: {fileID: 919341120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -635,13 +635,13 @@ Transform:
   m_Father: {fileID: 497392085}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &728560182
+--- !u!114 &919341122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728560180}
+  m_GameObject: {fileID: 919341120}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
@@ -657,19 +657,19 @@ MonoBehaviour:
   SendWindowSize: 4096
   ReceiveWindowSize: 4096
   NonAlloc: 1
-  debugLog: 1
+  debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
---- !u!114 &728560183
+--- !u!114 &919341123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728560180}
+  m_GameObject: {fileID: 919341120}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aab4c8111b7c411b9b92cf3dbc5bd4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 766856d64288a9941ba0b80f7d18694b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
@@ -677,18 +677,28 @@ MonoBehaviour:
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 30
-  offlineScene: Assets/Main Menu/Scenes/Gamemode Selection (Offline).unity
-  onlineScene: Assets/Main Menu/Scenes/Lobby (Online).unity
-  transport: {fileID: 728560182}
+  offlineScene: 
+  onlineScene: 
+  transport: {fileID: 919341122}
   networkAddress: localhost
   maxConnections: 100
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 1215108784514902659, guid: e7a0b2cf92a916a42903e8b707724d62, type: 3}
+  playerPrefab: {fileID: 0}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs:
-  - {fileID: 353736314293045812, guid: b14b2a8b6f40a8a45b255f851f5c73ba, type: 3}
-  - {fileID: 7727181453162446005, guid: e13959223840c4a42ac0f036e07eb396, type: 3}
+  spawnPrefabs: []
+  showRoomGUI: 1
+  minPlayers: 1
+  roomPlayerPrefab: {fileID: 0}
+  RoomScene: 
+  GameplayScene: 
+  _allPlayersReady: 0
+  roomSlots: []
+  clientIndex: 0
+  KOTHGameScene: 
+  WGTGameScene: 
+  THGameScene: 
+  placeholder: {fileID: 0}
 --- !u!1 &955980913
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,7 +782,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 728560183}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Mirror.NetworkManager, Mirror
         m_MethodName: StartHost
         m_Mode: 1
@@ -838,7 +848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &983112225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -851,7 +861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48fa97eaa2b136847884c8d4e6d2d4bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  networkManager: {fileID: 728560183}
+  networkManager: {fileID: 0}
 --- !u!4 &983112226
 Transform:
   m_ObjectHideFlags: 0
@@ -957,7 +967,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1147047940
 GameObject:

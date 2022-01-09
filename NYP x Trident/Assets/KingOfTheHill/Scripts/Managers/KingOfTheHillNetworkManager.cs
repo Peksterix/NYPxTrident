@@ -28,18 +28,8 @@ public class KingOfTheHillNetworkManager : NetworkBehaviour
 
     private void Start()
     {
-        SpawnPlayers();
     }
 
-    [Server]
-    void SpawnPlayers()
-    {
-        for(int i = 0; i < KOTHPlayerData.playerCount; i++)
-        {
-            GameObject newPlayer = Instantiate(KOTHPlayerPrefab, PlayerSpawnPoints[Random.Range(0, PlayerSpawnPoints.Count)].position, Quaternion.identity, playerParent.transform);
-            NetworkServer.Spawn(newPlayer);
-        }
-    }
 
     //public override void OnStartServer()
     //{

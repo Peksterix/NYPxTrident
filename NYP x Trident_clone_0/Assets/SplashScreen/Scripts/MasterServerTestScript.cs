@@ -7,12 +7,14 @@ using TMPro;
 public class MasterServerTestScript : MonoBehaviour
 {
     [Header("Server Stuff")]
+    [SerializeField] TMP_InputField ServerGameModeInput;
     [SerializeField] TMP_Text ServerNetworkAddressText;
     [SerializeField] TMP_Text ServerReturnedCode;
     [SerializeField] Button RegisterServerButton;
 
     [Header("Client Stuff")]
     [SerializeField] TMP_InputField ClientCodeInput;
+    [SerializeField] TMP_InputField ClientGameModeInput;
     [SerializeField] TMP_Text ClientReturnedNetworkAddress;
     [SerializeField] Button SendCodeButton;
 
@@ -23,8 +25,8 @@ public class MasterServerTestScript : MonoBehaviour
         MasterServerCommunicator.Instance.OnClientGetNetworkAddressFail.AddListener(Fail);
         MasterServerCommunicator.Instance.OnServerRegisteredFail.AddListener(Fail);
 
-        RegisterServerButton.onClick.AddListener(MasterServerCommunicator.Instance.RegisterServer);
-        SendCodeButton.onClick.AddListener(()=>MasterServerCommunicator.Instance.CodeToServer(ClientCodeInput.text));
+        RegisterServerButton.onClick.AddListener(()=>MasterServerCommunicator.Instance.RegisterServer(int.Parse(ServerGameModeInput.text)));
+        SendCodeButton.onClick.AddListener(()=>MasterServerCommunicator.Instance.CodeToServer(ClientCodeInput.text, int.Parse(ClientGameModeInput.text)));
     }
 
     void OnDestroy()

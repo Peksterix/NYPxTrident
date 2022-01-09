@@ -66,11 +66,12 @@ public class MasterServerCommunicator : Singleton<MasterServerCommunicator>
     /// <summary>
     /// Call this to start registering your server
     /// </summary>
-    public void RegisterServer()
+    public void RegisterServer(int gameMode)
     {
         string ip = isServerIPLocal ? "localhost" : IPGetter.GetIP();
         JObject req = new JObject();
         req.Add("NetworkAddress", ip);
+        req.Add("GameMode", gameMode);
         ServerIP = ip;
         var raw = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(req));
 
@@ -92,15 +93,15 @@ public class MasterServerCommunicator : Singleton<MasterServerCommunicator>
                         string code = res["Code"].Value<string>();
                         OnServerRegistered?.Invoke(code);
                     }
-                    else if (registerServerRequest.result != UnityWebRequest.Result.Success)
+                    else if (registerServerRequest.result == UnityWebRequest.Result.ConnectionError)
                     {
                         Debug.Log("Failed to connect to the master server");
-                        throw new Exception("ConnectionFailed", new Exception(registerServerRequest.responseCode.ToString()));
+                        throw new Exception("ConnectionFailed", new Exception(registerServerRequest.result.ToString()));
                     }
                     else
                     {
-                        Debug.Log("Request failed" + registerServerRequest.result.ToString());
-                        throw new Exception("ConnectionFailed", new Exception(registerServerRequest.result.ToString()));
+                        Debug.Log("Request failed: " + registerServerRequest.downloadHandler.text);
+                        throw new Exception("RequestFailed", new Exception(registerServerRequest.downloadHandler.text));
                     }
                 }
                 catch (Exception e)
@@ -118,10 +119,11 @@ public class MasterServerCommunicator : Singleton<MasterServerCommunicator>
     /// Call this to pass in a code to retrieve a network address/error
     /// </summary>
     /// <param name="code"></param>
-    public void CodeToServer(string code)
+    public void CodeToServer(string code, int gameMode)
     {
         JObject req = new JObject();
         req.Add("Code", code);
+        req.Add("GameMode", gameMode);
         var raw = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(req));
         StartCoroutine(_CodeToServer());
 
@@ -143,15 +145,15 @@ public class MasterServerCommunicator : Singleton<MasterServerCommunicator>
                         string code = res["NetworkAddress"].Value<string>();
                         OnClientGetNetworkAddress?.Invoke(code);
                     }
-                    else if (codeToServerRequest.result != UnityWebRequest.Result.Success)
+                    else if (codeToServerRequest.result == UnityWebRequest.Result.ConnectionError)
                     {
                         Debug.Log("Failed to connect to the master server");
-                        throw new Exception("ConnectionFailed", new Exception(codeToServerRequest.responseCode.ToString()));
+                        throw new Exception("ConnectionFailed", new Exception(codeToServerRequest.result.ToString()));
                     }
                     else
                     {
-                        Debug.Log("Request failed" + codeToServerRequest.result.ToString());
-                        throw new Exception("ConnectionFailed", new Exception(codeToServerRequest.result.ToString()));
+                        Debug.Log("Request failed: " + codeToServerRequest.downloadHandler.text);
+                        throw new Exception("RequestFailed", new Exception(codeToServerRequest.downloadHandler.text));
                     }
                 }
                 catch (Exception e)

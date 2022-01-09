@@ -71,7 +71,7 @@ function (req, res)
     {
         var code = req.body.Code;
         var gameMode = req.body.GameMode;
-        if (code && gameMode && typeof code === "string" && typeof gameMode === "number")
+        if (code !== undefined && gameMode !== undefined && typeof code === "string" && typeof gameMode === "number")
         {
             var serverData = codeToNetworkAddress.getValue(code);
             if (serverData && serverData.GameMode === gameMode) res.status(200).send({ NetworkAddress : serverData.NetworkAddress });
