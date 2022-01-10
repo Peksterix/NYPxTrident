@@ -2,28 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Mirror;
 
-public class WaterGunTagPlayScene : MonoBehaviour
+public class WaterGunTagPlayScene : NetworkBehaviour
 {
     [SerializeField] private GameObject m_drawWinner;
-    // Start is called before the first frame update
+    public List<GameObject> WGTSpawnPoints = new List<GameObject>();
+
     void Start()
     {
+        if (!isServer)
+            return;
 
+        RegisterSpawnPoints();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && m_drawWinner.GetComponent<DrawWinner>().GetIsReturnTitle())
-        {
-            ChangePlayScene();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space) && m_drawWinner.GetComponent<DrawWinner>().GetIsReturnTitle())
+        //{
+        //    ChangePlayScene();
+        //}
     }
 
+    // Not needed anymore after merging
 
-    void ChangePlayScene()
+    //void ChangePlayScene()
+    //{
+    //    SceneManager.LoadScene("WaterGunTagTitleScene");
+    //}
+
+    // Registers all spawn points in the server
+    void RegisterSpawnPoints()
     {
-        SceneManager.LoadScene("WaterGunTagTitleScene");
+        for (int i = 0; i < WGTSpawnPoints.Count; ++i)
+        {
+            NetworkManager.RegisterStartPosition(WGTSpawnPoints[i].transform);
+        }
     }
 }

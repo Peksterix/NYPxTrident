@@ -8,8 +8,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class PointUI : MonoBehaviour
+public class PointUI : NetworkBehaviour
 {
     //ポイントを表示するプレイヤー
     private GameObject m_player;
@@ -33,6 +34,9 @@ public class PointUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!isLocalPlayer)
+            return;
+
         
     }
 

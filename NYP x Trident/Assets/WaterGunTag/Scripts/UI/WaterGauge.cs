@@ -8,8 +8,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class WaterGauge : MonoBehaviour
+public class WaterGauge : NetworkBehaviour
 {
 
     //ƒvƒŒƒCƒ„[‚Ì…“S–C
@@ -19,7 +20,8 @@ public class WaterGauge : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (!isLocalPlayer)
+            return;
     }
 
     // Update is called once per frame

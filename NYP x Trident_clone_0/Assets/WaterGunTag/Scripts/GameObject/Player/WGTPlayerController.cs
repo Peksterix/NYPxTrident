@@ -40,6 +40,9 @@ public class WGTPlayerController : GameObjectBase
     // Start is called before the first frame update
     void Start()
     {
+        if (!isLocalPlayer)
+            return;
+
         SetSpeed(m_playerSpeed);
 
         m_isInoperable = false;
