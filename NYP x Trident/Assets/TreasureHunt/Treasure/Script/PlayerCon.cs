@@ -13,6 +13,10 @@ public class PlayerCon : NetworkBehaviour
 
 	//プレイヤー情報格納用
 	PlayerPos playerPosScript;
+	//カウントダウン情報格納用
+	CountDown countDownScript;
+	GameObject countDownText;
+
 	/// <summary>
 	/// //カメラ関係
 	public GameObject camera;
@@ -38,14 +42,18 @@ public class PlayerCon : NetworkBehaviour
 		//スクリプトのPlayerPosの登録
 		playerPosScript = GetComponent<PlayerPos>();
 
+		countDownText = GameObject.Find("CountDownObject");
+		countDownScript = countDownText.GetComponent<CountDown>();
 	}
 
 	void Update()
 	{
 		if (!isLocalPlayer) return;
 
+		countDownScript.SetCountDownFlag();
+
 		//カメラが回転中でなければ処理する
-		if (playerPosScript.coroutineBool == false)
+		if (playerPosScript.coroutineBool == false && countDownScript.countDownFlag)
 		{
 			//CmdPlayerMove();
 
