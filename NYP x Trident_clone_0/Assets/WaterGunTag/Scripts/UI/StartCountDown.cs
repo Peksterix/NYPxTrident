@@ -28,12 +28,14 @@ public class StartCountDown : NetworkBehaviour
     [SyncVar] private bool m_isFinish;
 
     //作り出すUIオブジェクト
-    [SerializeField] private List<GameObject> m_createUIObject = new List<GameObject>();
+    //[SerializeField] private List<GameObject> m_createUIObject = new List<GameObject>();
 
+    // Instead of making UI objects a spawnable object, its easier to leave UI objects that will only be used once in the canvas. 
+    // For networking, it won't be as heavy on the server as well.
     //作ったUIオブジェクト
     //private List<GameObject> m_createdUIObject = new List<GameObject>();
 
-    private GameObject m_CountdownUIObject;
+    [SerializeField] private GameObject m_CountdownUIObject;
 
     //ゲームマネージャー
     private GameObject m_wgtGameManager;
@@ -66,7 +68,7 @@ public class StartCountDown : NetworkBehaviour
             return;
         }
 
-        if(m_wgtGameManager == null)
+        if (m_wgtGameManager == null)
         {
             m_wgtGameManager = GameObject.Find("WGTGameManager");
         }
@@ -92,16 +94,14 @@ public class StartCountDown : NetworkBehaviour
         //textObject.transform.SetParent(m_canvas.transform, false);
         //m_createdUIObject.Add(textObject);
 
-        m_CountdownUIObject = Instantiate(m_createUIObject[0], m_canvas.transform);
-        NetworkServer.Spawn(m_CountdownUIObject);
+        //m_CountdownUIObject = Instantiate(m_createUIObject[0], m_canvas.transform);
+        //NetworkServer.Spawn(m_CountdownUIObject);
 
         m_countDownNum = m_startCountDownNum;
         m_isFinish = false;
 
         m_timeCount = 0;
         m_larpT = 0.0f;
-
-        RPCAssignUIObject(m_CountdownUIObject.GetComponent<NetworkIdentity>());
     }
 
     //-------------------------------------
@@ -116,27 +116,27 @@ public class StartCountDown : NetworkBehaviour
         if (m_CountdownUIObject == null)
             return;
 
-        if(m_timeCount<=0.5f)
+        if (m_timeCount <= 0.5f)
         {
             m_larpT = m_timeCount * 2;
-           // m_createdUIObject[0].GetComponent<RectTransform>().localScale = new Vector3(
-           //Mathf.Lerp(m_startSize, m_finishSize, m_larpT),
-           //Mathf.Lerp(m_startSize, m_finishSize, m_larpT),
-           //Mathf.Lerp(m_startSize, m_finishSize, m_larpT));
+            // m_createdUIObject[0].GetComponent<RectTransform>().localScale = new Vector3(
+            //Mathf.Lerp(m_startSize, m_finishSize, m_larpT),
+            //Mathf.Lerp(m_startSize, m_finishSize, m_larpT),
+            //Mathf.Lerp(m_startSize, m_finishSize, m_larpT));
 
             m_CountdownUIObject.GetComponent<RectTransform>().localScale = new Vector3(
            Mathf.Lerp(m_startSize, m_finishSize, m_larpT),
            Mathf.Lerp(m_startSize, m_finishSize, m_larpT),
            Mathf.Lerp(m_startSize, m_finishSize, m_larpT));
         }
-       
-        if (m_countDownNum >= 0  && m_timeCount >= 1)
+
+        if (m_countDownNum >= 0 && m_timeCount >= 1)
         {
             m_countDownNum--;
             m_timeCount = 0;
         }
 
-        if (m_countDownNum < 0&& !m_isFinish)
+        if (m_countDownNum < 0 && !m_isFinish)
         {
             //for (int i = 0; i < m_createdUIObject.Count; i++)
             //{
@@ -144,12 +144,12 @@ public class StartCountDown : NetworkBehaviour
 
             //}
             //m_createdUIObject.Clear();
-            NetworkServer.Destroy(m_CountdownUIObject);
+            m_CountdownUIObject.SetActive(false);
             m_wgtGameManager.GetComponent<WGTGameManager>().SetIsStopGame(false);
             m_isFinish = true;
         }
 
-        if(m_countDownNum==0)
+        if (m_countDownNum == 0)
         {
             m_wgtGameManager.GetComponent<WGTGameManager>().SetIsStopGame(false);
         }
@@ -176,15 +176,15 @@ public class StartCountDown : NetworkBehaviour
 
         //Text timeText = m_createdUIObject[0].GetComponent<Text>();
         Text timeText = m_CountdownUIObject.GetComponent<Text>();
-        if (m_countDownNum==4)
+        if (m_countDownNum == 4)
         {
-           
+
             timeText.text = "";
             return;
 
         }
-       
-        if(m_countDownNum==0)
+
+        if (m_countDownNum == 0)
         {
             timeText.text = "START!";
         }
@@ -192,12 +192,6 @@ public class StartCountDown : NetworkBehaviour
         {
             timeText.text = m_countDownNum.ToString();
         }
-    }
-
-    [ClientRpc]
-    void RPCAssignUIObject(NetworkIdentity netID)
-    {
-        m_CountdownUIObject = netID.gameObject;
     }
 
     //-------------------------------------

@@ -32,7 +32,7 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < m_playerList.Count; i++)
         {
             m_playerList[i].GetComponent<PlayerActions>().ChangeRunningAway();
-
+            m_playerList[i].GetComponent<WGTPlayerController>().m_playerNum = i + 1;
         }
         //’Ç‚¢‚©‚¯‚él‚ÌŒˆ’è
         //m_playerList[Random.Range(0, m_playerList.Count)].GetComponent<PlayerActions>().ChangeChase();

@@ -41,7 +41,7 @@ public class PlayerActions : MonoBehaviour
     private bool m_isChase;
 
     //ƒ|ƒCƒ“ƒg
-    public int m_point = 0;
+     public int m_point = 0;
     // Start is called before the first frame update
     void Start()
     {

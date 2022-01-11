@@ -41,7 +41,8 @@ public class WaterGun : MonoBehaviour
     {
 
         if (this.gameObject.transform.root.GetComponent<WGTPlayerController>().
-             m_time.GetComponent<GameTime>().GetIsFinish()|| 
+             m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame()||
+             this.gameObject.transform.root.GetComponent<WGTPlayerController>().m_isInoperable ||
              this.gameObject.transform.root.GetComponent<PlayerActions>().GetIsStunting())
         {
             GetPs().Stop();
