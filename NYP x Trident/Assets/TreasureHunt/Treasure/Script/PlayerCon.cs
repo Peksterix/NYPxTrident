@@ -50,8 +50,6 @@ public class PlayerCon : NetworkBehaviour
 	{
 		if (!isLocalPlayer) return;
 
-		countDownScript.SetCountDownFlag();
-
 		//ƒJƒƒ‰‚ª‰ñ“]’†‚Å‚È‚¯‚ê‚Îˆ—‚·‚é
 		if (playerPosScript.coroutineBool == false && countDownScript.countDownFlag)
 		{

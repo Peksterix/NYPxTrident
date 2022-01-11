@@ -30,19 +30,12 @@ public class CountDown : NetworkBehaviour
 		else if (totalTime <= -1)
 		{
 			timerText.enabled = false;
+			countDownFlag = true;
 		}
 		else if(totalTime <= 0)
 		{
 			timerText.text = "START!!";
 			totalTime -= Time.deltaTime;
-			countDownFlag = true;
-		}
-	}
-	[Command]
-	public void SetCountDownFlag()
-	{
-		if (totalTime <= 0)
-		{
 			countDownFlag = true;
 		}
 	}
