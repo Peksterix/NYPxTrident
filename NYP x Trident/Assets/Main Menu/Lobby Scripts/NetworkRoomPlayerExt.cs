@@ -7,10 +7,10 @@ using Mirror;
 
 public class NetworkRoomPlayerExt : NetworkRoomPlayer
 {
+    GameObject newPlayerUI;
+
     [SyncVar(hook = nameof(NameChange))]
     string username = "defaultName";
-
-    GameObject newPlayerUI;
 
     public override void OnStartClient()
     {

@@ -1594,7 +1594,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0122681a6d3aae4db84b3a2a1c1cf98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   m_wgtResult: {fileID: 0}
+  WGTSpawnPoints:
+  - {fileID: 1966494965}
+  - {fileID: 80428276}
+  - {fileID: 1170464176}
+  - {fileID: 1969892247}
+  - {fileID: 1704195348}
 --- !u!4 &727540062
 Transform:
   m_ObjectHideFlags: 0

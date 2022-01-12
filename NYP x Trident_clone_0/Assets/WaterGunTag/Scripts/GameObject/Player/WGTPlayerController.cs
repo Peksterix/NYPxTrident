@@ -8,6 +8,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Mirror;
+
 public class WGTPlayerController : GameObjectBase
 {
     //プレイヤーの速度 Player Speed
@@ -51,7 +53,6 @@ public class WGTPlayerController : GameObjectBase
 
         m_miniMapCamera = GameObject.Find("MiniMapCamera");
 
-
         m_mouseCursor = GameObject.Find("MouseCursor");
 
         m_pauseUI = GameObject.Find("PauseUI");
@@ -81,6 +82,9 @@ public class WGTPlayerController : GameObjectBase
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer)
+            return;
+
         if (m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame() ||
             this.GetComponent<PlayerActions>().GetIsStunting()
                   
