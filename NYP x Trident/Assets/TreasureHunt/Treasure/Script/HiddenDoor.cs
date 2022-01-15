@@ -1,63 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
+using UnityEngine.UI;
 
-public class HiddenDoor : NetworkBehaviour
+public class HiddenDoor : MonoBehaviour
 {
-    const int COUNT = 130;
-    public bool upFlag;
-    int count;
-    GameObject player;
-    PlayerCon playerScript;
-    public GameObject camera;
+    [SerializeField] GameObject parentObj;   //êeèÓïÒäiî[óp
+    public Image image;
 
+    bool upFlag;
+    Vector3 wallPos;
 
     // Start is called before the first frame update
     void Start()
     {
-        count = 0;
         upFlag = false;
+        wallPos = parentObj.transform.position;
     }
 
-    void FixedUpdate()
+    // Update is called once per frame
+    void Update()
     {
-        if (upFlag)
+
+        //parentObj.transform.position = wallPos;
+        //è„è∏íÜÇ≈ÇÕÇ»Ç¢èÍçáÇÕé¿çs 
+        if (upFlag == true)
         {
-            CmdMove();
-            count++;
-            if (count >= COUNT)
-            {
-                count = 0;
-                upFlag = false;
-                playerScript.camera.transform.position = playerScript.cameraPos.transform.position;
-                playerScript.camera.transform.rotation = playerScript.cameraPos.transform.rotation;
-                Destroy(gameObject);
-            }
+            StartCoroutine("UpWall");
         }
+    }
+
+    //ï«ÇÃâÒì]
+    IEnumerator UpWall()
+    {
+        for (int turn = 0; turn < 180; turn += 2)
+        {
+            parentObj.transform.position+=new Vector3(0, -0.03f, 0);
+            yield return new WaitForSeconds(0.01f);
+        }
+        upFlag = false;
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
+            image.enabled = true;
+
             if (Input.GetKey(KeyCode.Space))
             {
-                player = other.gameObject;
-                playerScript = player.GetComponent<PlayerCon>();
-                playerScript.camera.transform.position = camera.transform.position;
-                playerScript.camera.transform.rotation = camera.transform.rotation;
                 upFlag = true;
             }
+
         }
     }
 
-    [Command(requiresAuthority = false)]
-    void CmdMove()
+    private void OnTriggerExit(Collider other)
     {
-        //Â∫ßÊ®ô„ÇíÊõ∏„ÅçÊèõ„Åà„Çã
-        transform.position += new Vector3(0, -3, 0) * Time.deltaTime;
-
+        if (other.gameObject.tag == "Player")
+        {
+            image.enabled = false;
+        }
     }
 }
 

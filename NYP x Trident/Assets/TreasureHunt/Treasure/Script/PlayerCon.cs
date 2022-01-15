@@ -2,105 +2,140 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Mirror;
 
-public class PlayerCon : NetworkBehaviour
+public class PlayerCon : MonoBehaviour
 {
-	const float GRAVITY = 19.6f;
-	public float speed = 10.0f;
-	public bool cameraFlag = false;
-	public bool naviFlag = false;
-
 	//プレイヤー情報格納用
+	[SerializeField] GameObject playerPos;
 	PlayerPos playerPosScript;
-	//カウントダウン情報格納用
-	CountDown countDownScript;
-	GameObject countDownText;
 
-	/// <summary>
-	/// //カメラ関係
-	public GameObject camera;
-	public GameObject cameraPos;
-	/// </summary>
-
-
-	//移動量保存変数
-	Vector3 motion;
-
-	GameObject door;
-	GameObject wall;
+	//移動量
+	Vector3 movingDirecion;
+	//スピード調整用変数
+	public float speedMagnification;
+	//リジッドボディ
+	Rigidbody rb;
+	//移動処理用の変数
+	Vector3 movingVelocity;
+	//プレイヤーが向いている方向を感知する変数
+	bool playerDirFlag;
+	//隠し扉に接しているか判断する変数
+	public bool hallFlag;
+	//イメージのUIの情報格納用変数
+	public Image image;
 
 	void Start()
 	{
-		transform.Find("CameraPos").gameObject.SetActive(isLocalPlayer);
-		transform.Find("Camera").gameObject.SetActive(isLocalPlayer);
 
-		door = GameObject.FindGameObjectWithTag("Door");
-		wall = GameObject.FindGameObjectWithTag("Wall");
-		SetUpServer();
-
+		image.enabled = false;
 		//スクリプトのPlayerPosの登録
-		playerPosScript = GetComponent<PlayerPos>();
-
-		countDownText = GameObject.Find("CountDownObject");
-		countDownScript = countDownText.GetComponent<CountDown>();
+		playerPosScript = playerPos.GetComponent<PlayerPos>();
+		//リジッドボディの登録
+		rb = GetComponent<Rigidbody>();
+		//bool変数の初期化
+		playerDirFlag = false;
+		hallFlag = false;
 	}
 
 	void Update()
 	{
-		if (!isLocalPlayer) return;
-
-		countDownScript.SetCountDownFlag();
-
 		//カメラが回転中でなければ処理する
-		if (playerPosScript.coroutineBool == false && countDownScript.countDownFlag)
+		if (playerPosScript.coroutineBool == false)
 		{
-			//CmdPlayerMove();
 
 			float x = Input.GetAxisRaw("Horizontal");
 			float z = Input.GetAxisRaw("Vertical");
-			float num;
 			switch (playerPosScript.direction)
 			{
+				case 0:
+					//movingDirecion = new Vector3(x, 0, 0);
+					movingDirecion = new Vector3(x, 0, z);
+					break;
 				case 1:
-					num = x;
-					x = z;
-					z = -num;
+					//movingDirecion = new Vector3(0, 0, -x);
+					movingDirecion = new Vector3(z, 0, -x);
 					break;
 				case 2:
-					x = -x;
-					z = -z;
+					//movingDirecion = new Vector3(-x, 0, 0);
+					movingDirecion = new Vector3(-x, 0, -z);
 					break;
 				case 3:
-					num = x;
-					x = -z;
-					z = num;
+					//movingDirecion = new Vector3(0, 0, x);
+					movingDirecion = new Vector3(-z, 0, x);
 					break;
-			}
-			motion = new Vector3(x * speed * Time.deltaTime, -GRAVITY, z * speed * Time.deltaTime);
-			CmdMove(motion);
 
+			}
+			//斜めの距離が長くなるのを防ぐ
+			movingDirecion.Normalize();
+			//移動量を代入
+			movingVelocity = movingDirecion * speedMagnification;
 		}
 	}
 
-	[Command]
-	void CmdMove(Vector3 motion)
+	private void FixedUpdate()
 	{
-
-		transform.GetComponent<CharacterController>().Move(motion);
+		//移動処理
+		rb.velocity = new Vector3(movingVelocity.x, rb.velocity.y, movingVelocity.z);
 	}
 
-	void SetCameraFlag(bool flag)
+	public void SetPlayerDir()
 	{
-		cameraFlag = flag;
+		//プレイヤーの向いている方向フラグの反転
+		playerDirFlag = !playerDirFlag;
+	}
+	public void SetPlayerRot(int direction)
+	{
+		//向いている方向に合わせてカメラの位置を調整
+		if(direction==0||direction==2)
+			transform.rotation = Quaternion.Euler(0, 90, 0);
+		else
+			transform.rotation = Quaternion.Euler(0, 70, 0);
 	}
 
-	[ServerCallback]
-	void SetUpServer()
+	private void OnCollisionStay(Collision collision)
 	{
-		if (door != null && !door.GetComponent<HiddenDoor>().hasAuthority)
-			door.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
-		if (wall != null && !wall.GetComponent<HiddenWall>().hasAuthority)
-			wall.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+		//触れているオブジェクトに応じてフラグを変える
+		if (collision.gameObject.tag == "TrasureFloor")
+		{
+			hallFlag = true;
+		}
+	}
+
+	private void OnCollisionExit(Collision collision)
+	{
+		//触れているオブジェクトに応じてフラグを変える
+		if (collision.gameObject.tag == "TrasureFloor")
+		{
+			hallFlag = false;
+		}
+	}
+
+	private void OnTriggerExit(Collider other)
+	{
+		//触れているオブジェクトに応じてフラグを変える
+		if (other.gameObject.tag == "TrasureFloor")
+		{
+			hallFlag = false;
+		}
+		if(other.gameObject.tag=="Pit")
+		{
+			Physics.gravity = new Vector3(0, -19.6f, 0);
+			image.enabled = false;
+		}
+		if (other.gameObject.tag == "PitGravity")
+		{
+			image.enabled = true;
+			Physics.gravity = new Vector3(0, 0f, 0);
+		}
+	}
+
+	private void OnTriggerStay(Collider other)
+	{
+		//触れているオブジェクトに応じてフラグを変える
+		if (other.gameObject.tag == "Pit")
+		{
+			if (Input.GetKey(KeyCode.Space))
+				transform.Translate(0, 0.02f, 0);
+		}
 	}
 }

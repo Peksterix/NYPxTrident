@@ -12,6 +12,7 @@ public class ResultScore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        score = Point.GetScore();
         ScoreText.text = string.Format("Score:{0}", score);
     }
 

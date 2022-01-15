@@ -2,63 +2,80 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Mirror;
 
-public class HiddenWall : NetworkBehaviour
+public class HiddenWall : MonoBehaviour
 {
-    PlayerCon playerScript;
-    public GameObject camera;
+    [SerializeField] GameObject parentObj;   //eî•ñŠi”[—p
+    [SerializeField] GameObject player;   //ƒvƒŒƒCƒ„[î•ñŠi”[—p
+    private Vector3 RotateAxis = Vector3.up;
+    private float SpeedFactor = -1.5f;
+    public Image image;
 
-    public int count;
-
-    GameObject player; //ƒvƒŒƒCƒ„[î•ñŠi”[—p
+    bool rotFlag;
     //‰ñ“]’†‚©‚Ç‚¤‚©
-    public bool rotFlag;
+    [SerializeField] public bool coroutineBool;
+    Vector3 wallPos;
 
     // Start is called before the first frame update
     void Start()
     {
         rotFlag = false;
-        count = 0;
+        coroutineBool = false;
+        wallPos = parentObj.transform.position;
     }
 
-    private void FixedUpdate()
+    // Update is called once per frame
+    void Update()
     {
+
+        parentObj.transform.position = wallPos;
         //‰ñ“]’†‚Å‚Í‚È‚¢ê‡‚ÍŽÀs 
-        if (rotFlag)
+        if (rotFlag == true&& !coroutineBool)
         {
-            CmdMove();
-            count++;
-            if (count >= 90)
-            {
-                rotFlag = false;
-                count = 0;
-                playerScript.camera.transform.position = playerScript.cameraPos.transform.position;
-                playerScript.camera.transform.rotation = playerScript.cameraPos.transform.rotation;
-            }
+           
+            coroutineBool = true;
+            StartCoroutine("RotWall");
+            
         }
     }
 
-    [Command(requiresAuthority = false)]
-    void CmdMove()
+    //•Ç‚Ì‰ñ“]
+    IEnumerator RotWall()
     {
-        transform.Rotate(new Vector3(0, -2.0f, 0));
+        for (int turn = 0; turn < 180; turn += 2)
+        {
+            parentObj.transform.Rotate(0, -2, 0);
+            // Žw’èƒIƒuƒWƒFƒNƒg‚ð’†S‚É‰ñ“]‚·‚é
+            player.transform.RotateAround(
+                parentObj.transform.position,
+                RotateAxis,
+                360.0f / (1.0f / SpeedFactor) * Time.deltaTime
+                );
+            yield return new WaitForSeconds(0.01f);
+        }
+        coroutineBool = false;
+        rotFlag = false;
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if(other.gameObject.tag=="Player")
         {
-            player = other.gameObject;
+            image.enabled = true;
 
             if (Input.GetKey(KeyCode.Space))
             {
                 rotFlag = true;
-                playerScript = player.GetComponent<PlayerCon>();
-                playerScript.camera.transform.position = camera.transform.position;
-                playerScript.camera.transform.rotation = camera.transform.rotation;
             }
 
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            image.enabled = false;
         }
     }
 }
