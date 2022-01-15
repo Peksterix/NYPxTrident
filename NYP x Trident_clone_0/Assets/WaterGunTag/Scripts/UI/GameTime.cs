@@ -90,7 +90,8 @@ public class GameTime : MonoBehaviour
             m_larpT += Time.deltaTime * 10.0f;
         }
        
-        if (!m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame())
+        //if (!m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame())
+        if (WGTGameManager.GetCurrGameState() == WGTGameManager.GameState.Ongoing)
         {
             UpdeteTime();
         }
@@ -134,7 +135,8 @@ public class GameTime : MonoBehaviour
        
         if(m_time<=0&&!m_isFinish)
         {
-            m_wgtGameManager.GetComponent<WGTGameManager>().SetIsStopGame(true);
+            //m_wgtGameManager.GetComponent<WGTGameManager>().SetIsStopGame(true);
+            WGTGameManager.SetCurrGameState(WGTGameManager.GameState.Ended);
             m_isFinish = true;
         }
 

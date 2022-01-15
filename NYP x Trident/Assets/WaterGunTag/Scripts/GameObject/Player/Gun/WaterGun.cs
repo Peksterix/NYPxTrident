@@ -36,12 +36,14 @@ public class WaterGun : MonoBehaviour
 
     }
 
-
     void Update()
     {
 
-        if (this.gameObject.transform.root.GetComponent<WGTPlayerController>().
-             m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame()||
+        //if (this.gameObject.transform.root.GetComponent<WGTPlayerController>().
+        //     m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame()||
+        //     this.gameObject.transform.root.GetComponent<WGTPlayerController>().m_isInoperable ||
+        //     this.gameObject.transform.root.GetComponent<PlayerActions>().GetIsStunting())
+        if (WGTGameManager.GetCurrGameState() == WGTGameManager.GameState.Ended ||
              this.gameObject.transform.root.GetComponent<WGTPlayerController>().m_isInoperable ||
              this.gameObject.transform.root.GetComponent<PlayerActions>().GetIsStunting())
         {

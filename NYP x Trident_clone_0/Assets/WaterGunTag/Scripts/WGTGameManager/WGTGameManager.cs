@@ -7,32 +7,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
+using Bamboo.Utility;
 
-public class WGTGameManager : MonoBehaviour
+public static class WGTGameManager
 {
+    public enum GameState
+    {
+        Starting,
+        Ongoing,
+        Ended
+    }
+
     //ÉQÅ[ÉÄÉvÉåÉCÇÃí‚é~
-    private bool m_isStopGame = false;
+    //private bool m_isStopGame = false;
 
-    // Start is called before the first frame update
-    void Start()
+    static GameState currGameState;
+
+    public static GameState GetCurrGameState()
     {
-       
+        return currGameState;
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void SetCurrGameState(GameState gameState)
     {
-        
+        currGameState = gameState;
     }
 
 
-    public bool GetIsStopGame()
-    {
-        return m_isStopGame;
-    }
+    //public bool GetIsStopGame()
+    //{
+    //    return m_isStopGame;
+    //}
 
-    public void SetIsStopGame(bool isstopgame)
-    {
-        m_isStopGame = isstopgame;
-    }
+    //public void SetIsStopGame(bool isstopgame)
+    //{
+    //    m_isStopGame = isstopgame;
+    //}
 }

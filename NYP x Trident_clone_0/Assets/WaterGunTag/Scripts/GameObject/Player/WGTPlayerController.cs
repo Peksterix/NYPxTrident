@@ -45,6 +45,9 @@ public class WGTPlayerController : GameObjectBase
     // Start is called before the first frame update
     void Start()
     {
+        if (!isLocalPlayer)
+            return;
+
         SetSpeed(m_playerSpeed);
 
         m_isInoperable = false;
@@ -73,7 +76,8 @@ public class WGTPlayerController : GameObjectBase
         m_wgtGameManager = GameObject.Find("WGTGameManager");
 
         //カメラを追従させる
-        Camera.main.transform.position = new Vector3(transform.position.x, 0, transform.position.z) + new Vector3(0, Camera.main.transform.position.y, -3.6f);
+        //Camera.main.transform.position = new Vector3(transform.position.x, 0, transform.position.z) + new Vector3(0, Camera.main.transform.position.y, -3.6f);
+        CameraManager.Instance.AssignCameraTarget(transform, transform);
 
         //ミニマップをスクロールさせる
         m_miniMapCamera.GetComponent<Camera>().transform.position = new Vector3(transform.position.x, 0, transform.position.z) + new Vector3(0, m_miniMapCamera.transform.position.y, 0);
@@ -82,19 +86,17 @@ public class WGTPlayerController : GameObjectBase
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || m_isInoperable)
             return;
 
-        if (m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame() ||
+        //if (m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame() ||
+        //    this.GetComponent<PlayerActions>().GetIsStunting()
+        //    )
+        if (WGTGameManager.GetCurrGameState() == WGTGameManager.GameState.Ended ||
             this.GetComponent<PlayerActions>().GetIsStunting()
-                  
-                )
+            )
         {
             this.GetComponent<Rigidbody>().velocity = Vector2.zero;
-            return;
-        }
-        if (m_isInoperable)
-        {
             return;
         }
         KeyInput();
@@ -222,11 +224,10 @@ public class WGTPlayerController : GameObjectBase
 
 
         //カメラを追従させる
-        Camera.main.transform.position = new Vector3(transform.position.x,0, transform.position.z) + new Vector3(0, Camera.main.transform.position.y, -3.6f);
+        //Camera.main.transform.position = new Vector3(transform.position.x,0, transform.position.z) + new Vector3(0, Camera.main.transform.position.y, -3.6f);
 
         //ミニマップをスクロールさせる
         m_miniMapCamera.GetComponent<Camera>().transform.position = new Vector3(transform.position.x, 0, transform.position.z) + new Vector3(0, m_miniMapCamera.transform.position.y,0);
-
     }
 
     //-------------------------------------

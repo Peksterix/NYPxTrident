@@ -52,7 +52,8 @@ public class StartCountDown : NetworkBehaviour
     void Start()
     {
         m_wgtGameManager = GameObject.Find("WGTGameManager");
-        m_wgtGameManager.GetComponent<WGTGameManager>().SetIsStopGame(true);
+        //m_wgtGameManager.GetComponent<WGTGameManager>().SetIsStopGame(true);
+        WGTGameManager.SetCurrGameState(WGTGameManager.GameState.Ended);
 
         if (!isServer)
             return;
@@ -144,14 +145,17 @@ public class StartCountDown : NetworkBehaviour
 
             //}
             //m_createdUIObject.Clear();
+
             m_CountdownUIObject.SetActive(false);
-            m_wgtGameManager.GetComponent<WGTGameManager>().SetIsStopGame(false);
+            //m_wgtGameManager.GetComponent<WGTGameManager>().SetIsStopGame(false);
+            WGTGameManager.SetCurrGameState(WGTGameManager.GameState.Ongoing);
             m_isFinish = true;
         }
 
         if (m_countDownNum == 0)
         {
-            m_wgtGameManager.GetComponent<WGTGameManager>().SetIsStopGame(false);
+            //m_wgtGameManager.GetComponent<WGTGameManager>().SetIsStopGame(false);
+            WGTGameManager.SetCurrGameState(WGTGameManager.GameState.Ongoing);
         }
 
         m_timeCount += Time.deltaTime;

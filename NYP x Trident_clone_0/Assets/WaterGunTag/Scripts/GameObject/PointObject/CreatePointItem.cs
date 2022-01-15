@@ -8,6 +8,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Mirror;
+
 public class CreatePointItem : MonoBehaviour
 {
     //生成する物のリスト
@@ -49,12 +51,14 @@ public class CreatePointItem : MonoBehaviour
     void Update()
     {
         //制限時間が終わっていたら何もしない
-        if (m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame())
+        //if (m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame())
+        if (WGTGameManager.GetCurrGameState() == WGTGameManager.GameState.Ended)
         {
             return;
         }
-            //子がいるなら何もしないで終わる
-            if (0<this.gameObject.transform.childCount)
+
+        //子がいるなら何もしないで終わる
+        if (0<this.gameObject.transform.childCount)
         {
             m_createTime = m_createTime_Fast;
             return;

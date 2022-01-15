@@ -51,19 +51,6 @@ public class NetworkRoomManagerExt : NetworkRoomManager
 
     }
 
-    //public override GameObject OnRoomServerCreateRoomPlayer(NetworkConnection conn)
-    //{
-    //    GameObject newRoomGameObject = Instantiate(roomPlayerPrefab.gameObject, playerUIParent);
-
-    //    return newRoomGameObject;
-    //}
-
-    //public override void OnRoomClientEnter()
-    //{
-    //    Instantiate(roomPlayerPrefab.gameObject, playerUIParent);
-    //    base.OnRoomClientEnter();
-    //}
-
     public override void OnRoomServerPlayersReady()
     {
         base.OnRoomServerPlayersReady();
