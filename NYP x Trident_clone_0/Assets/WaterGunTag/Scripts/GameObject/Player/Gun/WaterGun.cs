@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public class WaterGun : MonoBehaviour
 {
@@ -15,10 +16,10 @@ public class WaterGun : MonoBehaviour
     //GameObject型で変数objを宣言します。
     [SerializeField] public GameObject m_obj;
     //水鉄砲を撃っているかのフラグ
-    private bool m_isShotWaterGun;
+    public bool m_isShotWaterGun;
 
     //水の最大保有量
-    [SerializeField] private int m_maxWaterGaugeNum = 2000;
+    [SerializeField] public int m_maxWaterGaugeNum = 2000;
 
     //水の保有量
     [SerializeField] private int m_waterGaugeNum;
@@ -45,7 +46,7 @@ public class WaterGun : MonoBehaviour
         //     this.gameObject.transform.root.GetComponent<PlayerActions>().GetIsStunting())
         if (WGTGameManager.GetCurrGameState() == WGTGameManager.GameState.Ended ||
              this.gameObject.transform.root.GetComponent<WGTPlayerController>().m_isInoperable ||
-             this.gameObject.transform.root.GetComponent<PlayerActions>().GetIsStunting())
+             this.gameObject.transform.root.GetComponent<PlayerActions>().isStunting)
         {
             GetPs().Stop();
             m_isShotWaterGun = false;
@@ -84,6 +85,37 @@ public class WaterGun : MonoBehaviour
         {
             m_waterGaugeNum--;
         }
+    }
+
+    // Pls buy me a bowl of ramen or macha kit kat - Sherwyn
+    [Server]
+    public bool ShootWaterGun(bool isShooting)
+    {
+        m_isShotWaterGun = isShooting;
+        if (m_isShotWaterGun && m_waterGaugeNum >= 0)
+        {
+            GetPs().Play();
+            m_waterGaugeNum--;
+        }
+        else
+        {
+            m_isShotWaterGun = false;
+            GetPs().Stop();
+        }
+
+        return m_isShotWaterGun;
+    }
+
+    [Client]
+    public void FireWaterGunAnimation()
+    {
+        GetPs().Play();
+    }
+
+    [Client]
+    public void HoldWaterGunAnimation()
+    {
+        GetPs().Stop();
     }
 
     //水の回復

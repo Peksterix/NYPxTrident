@@ -41,7 +41,7 @@ public class PlayerManager : MonoBehaviour
         int count = 0;
         for (int i = 0; i < m_playerList.Count; i++)
         {
-            if (m_playerList[i].GetComponent<PlayerActions>().GetIsChase())
+            if (m_playerList[i].GetComponent<PlayerActions>().isChase)
             {
                 m_chasePlayer = count;
             }
@@ -70,7 +70,7 @@ public class PlayerManager : MonoBehaviour
         int count = 0;
         for (int i=0;i<m_playerList.Count;i++)
         {         
-            if (m_playerList[i].GetComponent<PlayerActions>().GetIsChase())
+            if (m_playerList[i].GetComponent<PlayerActions>().isChase)
             {
                 if (i!=m_chasePlayer)
                 {

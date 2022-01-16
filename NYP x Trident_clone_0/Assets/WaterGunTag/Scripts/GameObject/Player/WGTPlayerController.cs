@@ -93,7 +93,7 @@ public class WGTPlayerController : GameObjectBase
         //    this.GetComponent<PlayerActions>().GetIsStunting()
         //    )
         if (WGTGameManager.GetCurrGameState() == WGTGameManager.GameState.Ended ||
-            this.GetComponent<PlayerActions>().GetIsStunting()
+            this.GetComponent<PlayerActions>().isStunting
             )
         {
             this.GetComponent<Rigidbody>().velocity = Vector2.zero;
@@ -114,7 +114,11 @@ public class WGTPlayerController : GameObjectBase
         MoveKeyInput();
 
         //攻撃　Attack
-        AttackKeyInput();
+        //AttackKeyInput();
+
+        // poggers shokugeki
+        if (Input.GetMouseButtonUp(0)) CmdAttack(false);
+        else if (Input.GetMouseButton(0)) CmdAttack(true);
 
         //ポーズ
         PasueKeyInput();
@@ -205,7 +209,7 @@ public class WGTPlayerController : GameObjectBase
             this.GetComponent<Rigidbody>().velocity *= m_shotMoveSpeed;
         }else
         //追いかける人なら速度をあげる
-        if (this.GetComponent<PlayerActions>().GetIsChase())
+        if (this.GetComponent<PlayerActions>().isStunting)
         {
             this.GetComponent<Rigidbody>().velocity *= m_chaseSpeed;
         }
@@ -236,12 +240,11 @@ public class WGTPlayerController : GameObjectBase
     //引数     :なし　None
     //戻り値   :なし　None
     //-------------------------------------
-    private void AttackKeyInput()
-    {
-
-        //水鉄砲発射
-        this.GetComponentInChildren<WaterGun>().ShotWater();
-    }
+    //private void AttackKeyInput()
+    //{
+    //    //水鉄砲発射
+    //    this.GetComponentInChildren<WaterGun>().ShotWater();
+    //}
 
     //-------------------------------------
     //キー入力によるポーズ画面の表示
@@ -272,5 +275,40 @@ public class WGTPlayerController : GameObjectBase
     //戻り値   :なし　None
     //-------------------------------------
 
+    #region Network Commands
+    [Command] [ContextMenu("Seppuku")]
+    void CmdSeppuku()
+    {
+        GetComponent<PlayerActions>().ChangeChase();
+    }
 
+
+    [Command]
+    void CmdAttack(bool isAttacking)
+    {
+        WaterGun waterGun = GetComponentInChildren<WaterGun>();
+
+        bool prevState = waterGun.m_isShotWaterGun;
+        bool currState = waterGun.ShootWaterGun(isAttacking);
+
+        if (prevState != currState && isAttacking)
+            RpcAttack();
+        else if (prevState != currState && !isAttacking)
+            RpcStopAttack();
+    }
+
+    [ClientRpc]
+    void RpcAttack()
+    {
+        WaterGun waterGun = GetComponentInChildren<WaterGun>();
+        waterGun.FireWaterGunAnimation();
+    }
+
+    [ClientRpc]
+    void RpcStopAttack()
+    {
+        WaterGun waterGun = GetComponentInChildren<WaterGun>();
+        waterGun.HoldWaterGunAnimation();
+    }
+    #endregion
 }

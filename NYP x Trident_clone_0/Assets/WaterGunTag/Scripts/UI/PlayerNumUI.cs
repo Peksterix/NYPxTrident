@@ -23,7 +23,10 @@ public class PlayerNumUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Text>().text = m_player.GetComponent<WGTPlayerController>().m_playerNum.ToString() + "P";
+        // :(
+        var playerController = LocalPlayerHandle.Instance.GetComponent<WGTPlayerController>();
+        if (playerController != null)
+            GetComponent<Text>().text = playerController.m_playerNum.ToString() + "P";
     }
 
 

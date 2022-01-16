@@ -27,7 +27,7 @@ public class TestPlayerWaterGun : MonoBehaviour
     {
         if(this.gameObject.transform.root.GetComponent<TestPlayerController>().
             m_time.GetComponent<GameTime>().GetIsFinish()||
-            this.gameObject.transform.root.GetComponent<PlayerActions>().GetIsStunting())
+            this.gameObject.transform.root.GetComponent<PlayerActions>().isStunting)
         {
             m_ps.Stop();
             m_isShotWaterGun = false;
