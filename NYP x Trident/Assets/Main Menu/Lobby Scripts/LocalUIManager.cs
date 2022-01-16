@@ -7,7 +7,7 @@ using TMPro;
 public class LocalUIManager : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI MatchIDText;
+    private TMP_InputField MatchIDText;
     [SerializeField]
     private GameObject KOTHGamemodeHeader;
     [SerializeField]
