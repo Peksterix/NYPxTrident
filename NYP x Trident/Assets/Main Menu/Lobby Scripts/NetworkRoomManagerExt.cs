@@ -42,13 +42,7 @@ public class NetworkRoomManagerExt : NetworkRoomManager
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        base.Start();
     }
 
     public override void OnRoomServerPlayersReady()
@@ -58,17 +52,22 @@ public class NetworkRoomManagerExt : NetworkRoomManager
 
     public void OnStartButtonClick()
     {
+        if (mode != NetworkManagerMode.Host) return;
+
         switch (gameType)
         {
             case GameType.KOTH:
+                playerPrefab = KOTHPlayerPrefab;
                 lobbyUI.enabled = false;
                 ServerChangeScene(KOTHGameScene);
                 break;
             case GameType.WGT:
+                playerPrefab = WGTPlayerPrefab;
                 lobbyUI.enabled = false;
                 ServerChangeScene(WGTGameScene);
                 break;
             case GameType.TH:
+                playerPrefab = THPlayerPrefab;
                 lobbyUI.enabled = false;
                 ServerChangeScene(THGameScene);
                 break;

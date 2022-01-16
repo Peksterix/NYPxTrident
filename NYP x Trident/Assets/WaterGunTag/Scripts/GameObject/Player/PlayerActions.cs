@@ -7,13 +7,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class PlayerActions : MonoBehaviour
+public class PlayerActions : NetworkBehaviour
 {
     //最大体力
     [SerializeField] private int m_maxHp = 50;
 
     //体力
+    [SyncVar(hook = nameof(SyncOnHpChange))]
     private int m_hp;
 
     //ダメージを受けてから回復するまでの時間の最大値
@@ -30,6 +32,7 @@ public class PlayerActions : MonoBehaviour
 
     //気絶常態化の判定
     private bool m_isStunting;
+    public bool isStunting => m_isStunting;
 
     //最大気絶時間
     [SerializeField] private float m_maxStuntingTime = 3.0f;
@@ -38,14 +41,42 @@ public class PlayerActions : MonoBehaviour
     private float m_stuntingTime;
 
     //追いかける人かどうか
+    [SyncVar(hook = nameof(SyncOnIsChaserChange))]
     private bool m_isChase;
+    public bool isChase => m_isChase;
 
     //ポイント
-     public int m_point = 0;
+    public int m_point = 0;
     // Start is called before the first frame update
-    void Start()
+
+    #region SHERWYN FIX FOLLOW ME THANKS https://twitter.com/Bamboo0118
+    void SyncOnHpChange(int oldVal, int newVal)
     {
-       
+        m_hp = newVal;
+
+        if (!m_isChase)
+        {
+            this.GetComponent<MeshRenderer>().material.color = new Color(
+                1.0f - (1.0f * ((float)m_maxHp - (float)m_hp) / m_maxHp),
+                1.0f - (1.0f * ((float)m_maxHp - (float)m_hp) / m_maxHp),
+                1.0f,
+                1
+                );
+        }
+    }
+
+    void SyncOnIsChaserChange(bool oldVal, bool newVal)
+    {
+        m_isChase = newVal;
+        this.GetComponent<MeshRenderer>().material.color = newVal ? Color.red : new Color(
+                1.0f - (1.0f * ((float)m_maxHp - (float)m_hp) / m_maxHp),
+                1.0f - (1.0f * ((float)m_maxHp - (float)m_hp) / m_maxHp),
+                1.0f, 1);
+    }
+    #endregion
+
+    public override void OnStartServer()
+    {
         m_hp = m_maxHp;
         m_timeToRecovery = 0;
         m_stuntingTime = m_maxStuntingTime;
@@ -56,33 +87,13 @@ public class PlayerActions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {     
+        if (!isServer) return;
+
         //気絶時間の処理
         if(m_isStunting)
         {
             UpdateStuntingTime();
             return;
-        }
-
-        //HPが0以下なら鬼になる
-        if(m_hp<=0&&!m_isChase)
-        {
-            ChangeChase();
-            m_isStunting = true;
-        }
-
-        //鬼になったら色を変える
-        if(m_isChase)
-        {
-            this.GetComponent<MeshRenderer>().material.color = Color.red;
-        }
-        else
-        {
-            this.GetComponent<MeshRenderer>().material.color = new Color(
-                1.0f - (1.0f * ((float)m_maxHp - (float)m_hp) / m_maxHp),
-                1.0f - (1.0f * ((float)m_maxHp - (float)m_hp) / m_maxHp),
-                1.0f,
-                1
-                );
         }
 
         //自動回復する
@@ -96,7 +107,7 @@ public class PlayerActions : MonoBehaviour
         }
 
         //ダメージを受けてから回復するまでの時間を進める
-        if (m_timeToRecovery>0)
+        if (m_timeToRecovery > 0)
         {
             m_timeToRecovery--;
         }
@@ -108,11 +119,13 @@ public class PlayerActions : MonoBehaviour
     //引数     :ダメージ量  Damage
     //戻り値   :なし　None
     //-------------------------------------
-    public void HitWater(int damage)
+    [Server]
+    public bool HitWater(int damage)
     {
         m_hp -= damage;
-       
         m_timeToRecovery = m_maxTimeToRecovery;
+
+        return m_hp <= 0;
     }
 
     //-------------------------------------
@@ -121,6 +134,7 @@ public class PlayerActions : MonoBehaviour
     //引数     :なし　None
     //戻り値   :なし　None
     //-------------------------------------
+    [Server]
     public void ChangeRunningAway()
     {
         m_hp = m_maxHp;
@@ -135,16 +149,13 @@ public class PlayerActions : MonoBehaviour
     //引数     :なし　None
     //戻り値   :なし　None
     //-------------------------------------
+    [Server]
     public void ChangeChase()
     {
         m_hp = m_maxHp;
+        m_isStunting = false;
         m_isChase = true;
-        this.GetComponent<MeshRenderer>().material.color = new Color(
-              1.0f - (1.0f * ((float)m_maxHp - (float)m_hp) / m_maxHp),
-              1.0f - (1.0f * ((float)m_maxHp - (float)m_hp) / m_maxHp),
-              1.0f,
-              1
-              );
+        m_stuntingTime = m_maxStuntingTime;
     }
 
     //-------------------------------------
@@ -153,40 +164,18 @@ public class PlayerActions : MonoBehaviour
     //引数     :なし　None
     //戻り値   :なし　None
     //-------------------------------------
+    [Server]
     private void UpdateStuntingTime()
     {
-        m_stuntingTime-=Time.deltaTime;
+        m_stuntingTime -= Time.deltaTime;
 
 
         this.GetComponent<MeshRenderer>().material.color = new Color(0.0f, 1.0f, 0, 0.3f);
 
-        if (m_stuntingTime<=0)
+        if (m_stuntingTime <= 0)
         {
             m_isStunting = false;
             m_stuntingTime = m_maxStuntingTime;
         }
     }
-
-
-    public int GetHp()
-    {
-        return m_hp;
-    }
-    
-    public void SetIsChase(bool ischase)
-    {
-        m_isChase = ischase;
-    }
-
-    public bool GetIsChase()
-    {
-        return m_isChase;
-    }
-
-    public bool GetIsStunting()
-    {
-        return m_isStunting;
-    }
-
-
 }

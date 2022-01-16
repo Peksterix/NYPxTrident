@@ -172,6 +172,7 @@ public class StartCountDown : NetworkBehaviour
     {
         if (m_isFinish)
         {
+            Destroy(m_CountdownUIObject);
             return;
         }
 

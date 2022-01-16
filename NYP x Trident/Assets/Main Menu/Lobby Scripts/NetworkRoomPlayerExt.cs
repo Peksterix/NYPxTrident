@@ -28,8 +28,8 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
 
     void NameChange(string oldName, string newName)
     {
-        //if (newPlayerUI == null)
-        //    newPlayerUI = RoomUIManager.Instance.SpawnPlayerUIPrefab();
+        if (newPlayerUI == null)
+            newPlayerUI = RoomUIManager.Instance.SpawnPlayerUIPrefab();
 
         username = newName;
         newPlayerUI.GetComponentInChildren<TMP_Text>().text = newName;

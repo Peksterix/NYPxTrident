@@ -89,3 +89,5 @@ function (req, res)
 app.listen(1337, function () {
     console.log('Example app listening on port 1337.');
 });
+
+"D:\Work\source\NYPxTrident(Pek)\NYP x Trident_clone_1\Library\PackageCache\com.unity.ide.visualstudio@2.0.8\Editor\VSWhere"
