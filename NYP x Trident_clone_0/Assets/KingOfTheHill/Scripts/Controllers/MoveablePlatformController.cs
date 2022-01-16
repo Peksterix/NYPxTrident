@@ -12,15 +12,14 @@ public class MoveablePlatformController : NetworkBehaviour
     private Transform platform;
     private float platformRandY;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init(float height)
     {
         speed = 2f;
         platform = transform.GetChild(0).gameObject.transform;
-        platformRandY = GetRandomTargetPlatformHeight();
 
         Waterspout = transform.GetComponentInChildren<ParticleSystem>();
         Waterspout.Play();
+        platformRandY = height;
     }
 
     // Update is called once per frame

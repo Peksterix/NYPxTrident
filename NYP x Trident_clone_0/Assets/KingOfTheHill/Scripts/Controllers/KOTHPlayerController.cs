@@ -5,14 +5,16 @@ using Mirror;
 
 public class KOTHPlayerController : NetworkBehaviour
 {
-    private float playerSpeed = 2f;
-    private float jumpHeight = 1f;
+    private float playerSpeed = 6f;
+    private float jumpHeight = 8f;
     public CharacterController characterController;
     private float Horizontal;
     private bool groundedPlayer;
     private Vector3 playerVelocity;
-    private float gravity = -9.81f;
+    private float gravity = -4.9f;
     private bool beingSprayed;
+    private float zPosition;
+    private Vector3 movementOffSet;
 
     private void OnValidate()
     {
@@ -24,13 +26,10 @@ public class KOTHPlayerController : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
+        CameraManager.Instance.AssignCameraTarget(this.transform, this.transform);
         characterController.enabled = true;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
         beingSprayed = false;
+        zPosition = transform.position.z;
     }
 
     // Update is called once per frame
@@ -54,8 +53,7 @@ public class KOTHPlayerController : NetworkBehaviour
         else if (Input.GetButtonUp("Fire1"))
             CmdStopShoot();
 
-
-        playerVelocity.y += gravity * Time.deltaTime;
+        playerVelocity.y += gravity * Time.fixedDeltaTime;
     }
 
     private void FixedUpdate()
@@ -63,13 +61,20 @@ public class KOTHPlayerController : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
+        if (transform.position.z != zPosition)
+        {
+            movementOffSet.z = (zPosition - transform.position.z) * 0.05f;
+        }
+        characterController.Move(movementOffSet);
+
+
         Vector3 move = new Vector3(Horizontal, 0, 0);
-        characterController.Move(move * Time.deltaTime * playerSpeed);
+        characterController.Move(move * Time.fixedDeltaTime * playerSpeed);
 
         if (move != Vector3.zero)
             gameObject.transform.forward = move;
 
-        characterController.Move(playerVelocity * Time.deltaTime);
+        characterController.Move(playerVelocity * Time.fixedDeltaTime);
     }
 
     public void PushBack(float force, Vector3 dir)

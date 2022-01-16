@@ -18,12 +18,35 @@ public class KingOfTheHillGameManager : NetworkBehaviour
     private int Minute;
     private int Seconds;
 
+    [Header("Timer Variables")]
+    [SerializeField]
+    List<GameObject> SpawnPoints = new List<GameObject>();
+
+    private void Awake()
+    {
+        if (!isServer)
+            return;
+
+        RegisterSpawnPoints();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        if (!isServer)
+            return;
+
         gameOngoing = true;
         Minute = 0;
         Seconds = 0;
+    }
+
+    void RegisterSpawnPoints()
+    {
+        for (int i = 0; i < SpawnPoints.Count; ++i)
+        {
+            NetworkManager.RegisterStartPosition(SpawnPoints[i].transform);
+        }
     }
 
     // Update is called once per frame

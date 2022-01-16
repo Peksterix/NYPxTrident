@@ -4916,7 +4916,7 @@ GameObject:
   - component: {fileID: 4215599082822291233}
   - component: {fileID: 9098574789204935064}
   m_Layer: 0
-  m_Name: Player
+  m_Name: KOTHPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4930,7 +4930,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7727181453162446005}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.83, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0.83, y: 1, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 7727181452229784300}
@@ -5033,7 +5033,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 1
-  sendInterval: 0.05
+  sendInterval: 0
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
@@ -5043,7 +5043,7 @@ MonoBehaviour:
   bufferTimeMultiplier: 1
   bufferSizeLimit: 64
   catchupThreshold: 4
-  catchupMultiplier: 0.1
+  catchupMultiplier: 0
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}

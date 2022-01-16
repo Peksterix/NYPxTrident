@@ -15,7 +15,6 @@ public class Platform
     public GameObject platform;
     public float platformLifetime;
     public float specialPlatformLifetime;
-
 }
 
 public class MoveablePlatformManager : NetworkBehaviour
@@ -23,75 +22,106 @@ public class MoveablePlatformManager : NetworkBehaviour
     public GameObject platformParent;
     public float PlatformLowestX;
     public float PlatformHighestX;
-    private NetworkManager NMinstance;
-    private GameObject registeredPlatformPrefab;
     private float platformXOffset;
+    public float PlatformLowestY;
+    public float PlatformHighestY;
 
     private float timeElapsed;
     private bool attemptingToSpawnPlatform;
-
-    public override void OnStartServer()
-    {
-        NMinstance = NetworkManager.singleton;
-    }
+    public GameObject PlatformToSpawn;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (!isServer)
+            return;
+
         timeElapsed = 10f;
         attemptingToSpawnPlatform = false;
-        platformXOffset = platformParent.transform.GetChild(2).localScale.x / 2; // divide by 2 because (0, 0) is at the center of the object
-
-        foreach (GameObject platform in NMinstance.spawnPrefabs)
-        {
-            if (platform.name == "Moveable Platform")
-                registeredPlatformPrefab = platform;     
-        }
+        platformXOffset = PlatformToSpawn.transform.localScale.x / 2; // divide by 2 because (0, 0) is at the center of the object
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isServer)
+            return;
+
         if (timeElapsed >= 0f)
             timeElapsed -= Time.deltaTime * 1;
 
         else
         {
-            if (platformParent.transform.childCount <= 7 && !attemptingToSpawnPlatform)
+            if (platformParent.transform.childCount <= 15 && !attemptingToSpawnPlatform)
                 SpawnMoveablePlatforms();
         }
     }
 
     void SpawnMoveablePlatforms()
     {
-        attemptingToSpawnPlatform = true;
-        float randomTargetWidth = GetRandomTargetPlatformWidth();
-        int overlappingPlatformCounter = 0;
+        int safetyNet = 20;
 
-        // To compare X pos of the new platform to all current active platforms
-        // starting from 1 as the 0th index is the main platform
-        for (int i = 1; i < platformParent.transform.childCount; ++i)
+        while (safetyNet > 0)
         {
-            if (CheckOverlappingPlatform(platformParent.transform.GetChild(i), randomTargetWidth))
+            float posY = GetRandomTargetPlatformHeight();
+            float posX = GetRandomTargetPlatformWidth();
+            if (!HasOverlappingPlatform(posX, posY))
             {
-                overlappingPlatformCounter++;
+                GameObject plat =
+                Instantiate(PlatformToSpawn, new Vector3(posX, posY, 0),
+                Quaternion.identity,
+                platformParent.transform);
+
+                plat.GetComponent<MoveablePlatformController>().Init(posY);
+                NetworkServer.Spawn(plat);
+                attemptingToSpawnPlatform = false;
+                break;
             }
+
+            safetyNet--;
         }
 
-        if (overlappingPlatformCounter <= 0) // platform is able to spawn
-        {
-            GameObject plat =
-            Instantiate(registeredPlatformPrefab, new Vector3(randomTargetWidth, registeredPlatformPrefab.transform.position.y,
-            registeredPlatformPrefab.transform.position.z),
-            registeredPlatformPrefab.transform.rotation,
-            platformParent.transform);
-            NetworkServer.Spawn(plat);
-            timeElapsed = 10f;
-            attemptingToSpawnPlatform = false;
-        }
+        timeElapsed = 10f;
 
-        else
-            SpawnMoveablePlatforms(); // keep trying until one spanws
+        if (safetyNet <= 0)
+            Debug.Log("Could not find with no overlap");
+
+
+        //attemptingToSpawnPlatform = true;
+        //float randomTargetWidth = GetRandomTargetPlatformWidth();
+        //int overlappingPlatformCounter = 0;
+        //bool platformSpawned = false;
+
+        //while (!platformSpawned)
+        //{
+        //    float Height = 0.0f;
+
+        //    // To compare X pos of the new platform to all current active platforms
+        //    for (int i = 0; i < platformParent.transform.childCount; ++i)
+        //    {
+        //        if (platformParent.transform.childCount == 0)
+        //            break;
+
+        //        if (CheckOverlappingPlatform(platformParent.transform.GetChild(i), randomTargetWidth))
+        //        {
+        //            overlappingPlatformCounter++;
+        //        }
+        //    }
+
+        //    if (overlappingPlatformCounter == 0) // platform is able to spawn
+        //    {
+        //        GameObject plat =
+        //        Instantiate(PlatformToSpawn, new Vector3(randomTargetWidth, PlatformToSpawn.transform.position.y,
+        //        PlatformToSpawn.transform.position.z),
+        //        PlatformToSpawn.transform.rotation,
+        //        platformParent.transform);
+        //        plat.GetComponent<MoveablePlatformController>().Init(Height);
+        //        NetworkServer.Spawn(plat);
+        //        timeElapsed = 10f;
+        //        attemptingToSpawnPlatform = false;
+        //        platformSpawned = true;
+        //    }
+        //}
     }
 
     public float GetRandomTargetPlatformWidth()
@@ -100,17 +130,30 @@ public class MoveablePlatformManager : NetworkBehaviour
         return Random.Range(PlatformLowestX, PlatformHighestX);
     }
 
-    bool CheckOverlappingPlatform(Transform ExistingPlatform, float ToSpawnPlatformX)
+    bool HasOverlappingPlatform(float ToSpawnPlatformX, float targetHeight)
     {
+        RaycastHit hitRight;
+        RaycastHit hitLeft;
+        bool isHitLeft = false;
+        bool isHitRight = false;
+        isHitLeft = Physics.Raycast(new Vector3(ToSpawnPlatformX, targetHeight, 0), Vector3.left, out hitLeft, Mathf.Infinity, LayerMask.GetMask("PlatformRaycast"));
+        isHitRight = Physics.Raycast(new Vector3(ToSpawnPlatformX, targetHeight, 0), Vector3.right, out hitRight, Mathf.Infinity, LayerMask.GetMask("PlatformRaycast"));
+
+        return isHitLeft || isHitRight;
+
         // is overlapping an existing platform
-        if(ToSpawnPlatformX + platformXOffset >= ExistingPlatform.position.x - platformXOffset 
-            && ToSpawnPlatformX - platformXOffset <= ExistingPlatform.position.x + platformXOffset)
-        {
-            return true;
-        }
+        //if(ToSpawnPlatformX + platformXOffset >= ExistingPlatform.position.x - platformXOffset 
+        //    && ToSpawnPlatformX - platformXOffset <= ExistingPlatform.position.x + platformXOffset)
+        //{
+        //    return true;
+        //}
 
         // not overlapping an existing platform
-        else
-            return false;
+    }
+
+    public float GetRandomTargetPlatformHeight()
+    {
+        Random.InitState(System.DateTime.Now.Millisecond);
+        return Random.Range(PlatformLowestY, PlatformHighestY);
     }
 }
