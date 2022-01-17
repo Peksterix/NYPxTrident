@@ -11,6 +11,7 @@ TagManager:
   - Wall
   - Door
   - Platforms
+  - Powerups
   layers:
   - Default
   - TransparentFX

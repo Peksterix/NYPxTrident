@@ -68,7 +68,7 @@ public class MoveablePlatformManager : NetworkBehaviour
             if (!HasOverlappingPlatform(posX, posY))
             {
                 GameObject plat =
-                Instantiate(PlatformToSpawn, new Vector3(posX, posY, 0),
+                Instantiate(PlatformToSpawn, new Vector3(posX, PlatformToSpawn.transform.position.y, 0),
                 Quaternion.identity,
                 platformParent.transform);
 
@@ -140,15 +140,6 @@ public class MoveablePlatformManager : NetworkBehaviour
         isHitRight = Physics.Raycast(new Vector3(ToSpawnPlatformX, targetHeight, 0), Vector3.right, out hitRight, Mathf.Infinity, LayerMask.GetMask("PlatformRaycast"));
 
         return isHitLeft || isHitRight;
-
-        // is overlapping an existing platform
-        //if(ToSpawnPlatformX + platformXOffset >= ExistingPlatform.position.x - platformXOffset 
-        //    && ToSpawnPlatformX - platformXOffset <= ExistingPlatform.position.x + platformXOffset)
-        //{
-        //    return true;
-        //}
-
-        // not overlapping an existing platform
     }
 
     public float GetRandomTargetPlatformHeight()

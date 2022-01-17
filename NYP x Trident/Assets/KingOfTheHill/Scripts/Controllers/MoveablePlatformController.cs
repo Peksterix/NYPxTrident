@@ -33,10 +33,4 @@ public class MoveablePlatformController : NetworkBehaviour
         if (platform.position.y < platformRandY)
             platform.position += new Vector3(0f, speed * Time.deltaTime, 0f);
     }
-
-    public float GetRandomTargetPlatformHeight()
-    {
-        Random.InitState(System.DateTime.Now.Millisecond);
-        return Random.Range(PlatformLowestY, PlatformHighestY);
-    }
 }

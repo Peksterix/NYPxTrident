@@ -6,12 +6,12 @@ using Mirror;
 public class KOTHPlayerController : NetworkBehaviour
 {
     private float playerSpeed = 6f;
-    private float jumpHeight = 8f;
+    private float jumpHeight = 2f;
     public CharacterController characterController;
     private float Horizontal;
     private bool groundedPlayer;
     private Vector3 playerVelocity;
-    private float gravity = -4.9f;
+    private float gravity = -12f;
     private bool beingSprayed;
     private float zPosition;
     private Vector3 movementOffSet;
@@ -52,8 +52,6 @@ public class KOTHPlayerController : NetworkBehaviour
             CmdShoot();
         else if (Input.GetButtonUp("Fire1"))
             CmdStopShoot();
-
-        playerVelocity.y += gravity * Time.fixedDeltaTime;
     }
 
     private void FixedUpdate()
@@ -67,7 +65,6 @@ public class KOTHPlayerController : NetworkBehaviour
         }
         characterController.Move(movementOffSet);
 
-
         Vector3 move = new Vector3(Horizontal, 0, 0);
         characterController.Move(move * Time.fixedDeltaTime * playerSpeed);
 
@@ -75,12 +72,13 @@ public class KOTHPlayerController : NetworkBehaviour
             gameObject.transform.forward = move;
 
         characterController.Move(playerVelocity * Time.fixedDeltaTime);
+        playerVelocity.y += gravity * Time.fixedDeltaTime;
     }
 
     public void PushBack(float force, Vector3 dir)
     {
         //GetComponent<Rigidbody>().AddForce(dir * force, ForceMode.VelocityChange);
-        characterController.Move(dir * Time.deltaTime * force);
+        characterController.Move(dir * Time.fixedDeltaTime * force);
     }
 
     public void SetIsBeingSprayed(bool bs)

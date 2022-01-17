@@ -21,7 +21,7 @@ public class WaterGunParticleController : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        if(other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && other.gameObject.transform != GetComponentInParent<Transform>())
         {
             Vector3 dir = transform.position - other.transform.position;
 
