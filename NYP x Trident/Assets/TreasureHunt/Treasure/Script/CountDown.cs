@@ -6,7 +6,7 @@ using Mirror;
 
 public class CountDown : NetworkBehaviour
 {
-	public Text timerText;
+	public Text countText;
 	[SyncVar]  public float totalTime;
 	int seconds;
 	[SyncVar] public bool countDownFlag;
@@ -25,16 +25,16 @@ public class CountDown : NetworkBehaviour
 			if (GameObject.FindGameObjectWithTag("Player") == true)
 				totalTime -= Time.deltaTime;
 			seconds = (int)totalTime + 1;
-			timerText.text = seconds.ToString();
+			countText.text = seconds.ToString();
 		}
 		else if (totalTime <= -1)
 		{
-			timerText.enabled = false;
+			countText.enabled = false;
 			countDownFlag = true;
 		}
 		else if(totalTime <= 0)
 		{
-			timerText.text = "START!!";
+			countText.text = "START!!";
 			totalTime -= Time.deltaTime;
 			countDownFlag = true;
 		}
