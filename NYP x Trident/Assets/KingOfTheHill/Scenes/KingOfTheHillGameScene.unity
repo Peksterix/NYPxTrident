@@ -173,7 +173,7 @@ MonoBehaviour:
   PlatformLowestX: -13
   PlatformHighestX: 26
   PlatformLowestY: 1.6
-  PlatformHighestY: 2.76
+  PlatformHighestY: 8
   PlatformToSpawn: {fileID: 6331083471923869174, guid: 293d71c5146ecc542837bd3da5218944, type: 3}
 --- !u!114 &32734706
 MonoBehaviour:

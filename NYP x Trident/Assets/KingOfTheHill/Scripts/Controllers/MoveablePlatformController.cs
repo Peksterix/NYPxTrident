@@ -7,8 +7,6 @@ public class MoveablePlatformController : NetworkBehaviour
 {
     private ParticleSystem Waterspout;
     private float speed;
-    public float PlatformLowestY;
-    public float PlatformHighestY;
     private Transform platform;
     private float platformRandY;
 
