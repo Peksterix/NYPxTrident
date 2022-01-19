@@ -1,0 +1,13 @@
+using UnityEngine;
+using UnityEditor;
+
+public class EditorWindowExpansion : EditorWindow
+{
+    
+    [MenuItem("Editor/Sample")]
+    private static void Create()
+    {
+        // ê∂ê¨
+        GetWindow<EditorWindowExpansion>("ÉTÉìÉvÉã");
+    }
+}
