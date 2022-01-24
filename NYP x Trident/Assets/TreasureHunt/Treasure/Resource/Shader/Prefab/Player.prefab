@@ -377,6 +377,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879b0dd0aa887f444aea65bc2aaa331d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   score: 0
   scoreText: {fileID: 4228475897039691123}
 --- !u!65 &6483439476701854763
@@ -485,7 +487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6000599571665277373, guid: 5a7f7fcab004285478ded1f44b1f0d2e, type: 3}
       propertyPath: m_Name
-      value: Text
+      value: PointText
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a7f7fcab004285478ded1f44b1f0d2e, type: 3}
