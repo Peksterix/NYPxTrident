@@ -22,7 +22,7 @@ public class PowerupManager : NetworkBehaviour
         if (!isServer)
             return;
 
-        TimeToSpawn = 5f;
+        TimeToSpawn = 20f;
     }
 
     // Update is called once per frame
@@ -40,7 +40,6 @@ public class PowerupManager : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
     void SpawnPowerup()
     {
         GameObject newPowerup = Instantiate(WaterBombPrefab, new Vector3(getRandomXPos(), PowerupParent.position.y, 0), Quaternion.identity, PowerupParent);

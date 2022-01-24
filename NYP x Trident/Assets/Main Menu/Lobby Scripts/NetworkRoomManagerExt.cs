@@ -45,6 +45,12 @@ public class NetworkRoomManagerExt : NetworkRoomManager
         base.Start();
     }
 
+    public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
+    {
+        gamePlayer.GetComponent<PlayerScore>().playerName = roomPlayer.GetComponent<NetworkRoomPlayerExt>().username;
+        return base.OnRoomServerSceneLoadedForPlayer(conn, roomPlayer, gamePlayer);
+    }
+
     public override void OnRoomServerPlayersReady()
     {
         base.OnRoomServerPlayersReady();

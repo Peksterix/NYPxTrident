@@ -10,7 +10,7 @@ public class WaterGunParticleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        particleForce = 5f;
+        particleForce = 8f;
     }
 
     // Update is called once per frame

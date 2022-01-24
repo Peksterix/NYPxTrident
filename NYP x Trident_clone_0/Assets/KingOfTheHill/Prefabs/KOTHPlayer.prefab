@@ -5062,6 +5062,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   characterController: {fileID: 4215599082822291233}
+  powerupImage: {fileID: 0}
+  waterbombPrefab: {fileID: 6133846521629506025, guid: bed0693188d853246a2eb3042bcb63ea, type: 3}
 --- !u!143 &4215599082822291233
 CharacterController:
   m_ObjectHideFlags: 0

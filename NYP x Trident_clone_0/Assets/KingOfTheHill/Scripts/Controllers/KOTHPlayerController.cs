@@ -5,6 +5,8 @@ using Mirror;
 
 public class KOTHPlayerController : NetworkBehaviour
 {
+    // jamming everything in here cos i cant really be bothered anymore lmao
+
     private float playerSpeed = 6f;
     private float jumpHeight = 2f;
     public CharacterController characterController;
@@ -15,6 +17,11 @@ public class KOTHPlayerController : NetworkBehaviour
     private bool beingSprayed;
     private float zPosition;
     private Vector3 movementOffSet;
+    [SyncVar]
+    private bool hasWaterbomb;
+
+    public GameObject powerupImage;
+    public GameObject waterbombPrefab;
 
     private void OnValidate()
     {
@@ -26,10 +33,14 @@ public class KOTHPlayerController : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
+        powerupImage = GameObject.Find("Canvas/AdditionalUI/PowerupUI/PowerupImage");
         CameraManager.Instance.AssignCameraTarget(this.transform, this.transform);
         characterController.enabled = true;
         beingSprayed = false;
         zPosition = transform.position.z;
+        transform.rotation = Quaternion.Euler(0, 90, 0);
+        hasWaterbomb = false;
+        characterController.detectCollisions = false;
     }
 
     // Update is called once per frame
@@ -45,6 +56,12 @@ public class KOTHPlayerController : NetworkBehaviour
 
         Horizontal = Input.GetAxis("Horizontal");
 
+        if (Horizontal < 0)
+            gameObject.transform.localScale = new Vector3(-0.0001f, 1, 1);
+        else if (Horizontal > 0)
+            gameObject.transform.localScale = new Vector3(0.0001f, 1, 1);
+
+
         if (Input.GetButtonDown("Jump") && groundedPlayer)
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravity);
 
@@ -52,6 +69,23 @@ public class KOTHPlayerController : NetworkBehaviour
             CmdShoot();
         else if (Input.GetButtonUp("Fire1"))
             CmdStopShoot();
+
+        // Remove later
+        if (Input.GetKeyDown(KeyCode.Q))
+            CmdToggleWaterBomb();
+
+        if (hasWaterbomb)
+        {
+            powerupImage.SetActive(true);
+
+            if (Input.GetButton("Fire2"))
+            {
+                CmdThrowWaterbomb();
+            }
+        }
+        else
+            powerupImage.SetActive(false);
+
     }
 
     private void FixedUpdate()
@@ -108,5 +142,70 @@ public class KOTHPlayerController : NetworkBehaviour
     public void RPCStopShoot()
     {
         this.GetComponentInChildren<ParticleSystem>().Stop();
+    }
+
+    public void ThrowWaterBomb()
+    {
+        Vector3 offset;
+
+        if (gameObject.transform.localScale.x < 0)
+            offset = new Vector3(-0.3f, 0, 0);
+        else
+            offset = new Vector3(0.3f, 0, 0);
+
+        GameObject newWaterbomb = Instantiate(waterbombPrefab, GetComponentInChildren<ParticleSystem>().gameObject.transform.position + offset, Quaternion.identity);
+        NetworkServer.Spawn(newWaterbomb);
+        newWaterbomb.GetComponent<Rigidbody>().AddForce(15 * transform.forward.normalized, ForceMode.VelocityChange);
+        hasWaterbomb = false;
+    }
+
+    //[ClientRpc]
+    //public void RpcThrowWaterBomb()
+    //{
+    //    ThrowWaterBomb();
+    //}
+
+    [Command]
+    public void CmdThrowWaterbomb()
+    {
+        if(hasWaterbomb)
+            ThrowWaterBomb();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Powerups") && isLocalPlayer && !hasWaterbomb)
+        {
+            CmdToggleWaterBomb();
+            NetworkServer.Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("OutOfBounds") && isLocalPlayer)
+            MoveToSpawnPoint();
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Platforms") && isLocalPlayer)
+        {
+            if (other.gameObject.GetComponentInParent<MoveablePlatformController>().isHighestPlatform)
+                GetComponent<PlayerScore>().playerScore++;
+        }
+    }
+
+    void MoveToSpawnPoint()
+    {
+        int rand = Random.Range(0, 4);
+
+        characterController.enabled = false;
+        transform.position = KOTHSpawnManager.Instance.SpawnPoints[rand].transform.position;
+        GetComponent<NetworkTransform>().CmdTeleport(KOTHSpawnManager.Instance.SpawnPoints[rand].transform.position);
+        characterController.enabled = true;
+    }
+
+    [Command]
+    void CmdToggleWaterBomb()
+    {
+        hasWaterbomb = true;
     }
 }

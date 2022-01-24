@@ -18,17 +18,9 @@ public class KingOfTheHillGameManager : NetworkBehaviour
     private int Minute;
     private int Seconds;
 
-    [Header("Timer Variables")]
+    [Header("Player Spawning")]
     [SerializeField]
     List<GameObject> SpawnPoints = new List<GameObject>();
-
-    private void Awake()
-    {
-        if (!isServer)
-            return;
-
-        RegisterSpawnPoints();
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +31,13 @@ public class KingOfTheHillGameManager : NetworkBehaviour
         gameOngoing = true;
         Minute = 0;
         Seconds = 0;
+
+        //RegisterSpawnPoints();
+    }
+
+    public override void OnStartServer()
+    {
+        RegisterSpawnPoints();
     }
 
     void RegisterSpawnPoints()
@@ -58,7 +57,6 @@ public class KingOfTheHillGameManager : NetworkBehaviour
         if (gameOngoing)
         {
             GameTime -= Time.deltaTime * 1;
-
             ConvertToMinutes(GameTime);
         }
     }

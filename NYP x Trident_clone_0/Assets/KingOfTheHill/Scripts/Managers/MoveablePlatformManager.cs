@@ -29,6 +29,7 @@ public class MoveablePlatformManager : NetworkBehaviour
     private float timeElapsed;
     private bool attemptingToSpawnPlatform;
     public GameObject PlatformToSpawn;
+    private GameObject CurrentHighestPlatform;
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +37,10 @@ public class MoveablePlatformManager : NetworkBehaviour
         if (!isServer)
             return;
 
-        timeElapsed = 10f;
+        timeElapsed = 15f;
         attemptingToSpawnPlatform = false;
         platformXOffset = PlatformToSpawn.transform.localScale.x / 2; // divide by 2 because (0, 0) is at the center of the object
+        CurrentHighestPlatform = platformParent.transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
@@ -52,9 +54,13 @@ public class MoveablePlatformManager : NetworkBehaviour
 
         else
         {
-            if (platformParent.transform.childCount <= 15 && !attemptingToSpawnPlatform)
+            if (platformParent.transform.childCount <= 10 && !attemptingToSpawnPlatform)
+            {
                 SpawnMoveablePlatforms();
+            }
         }
+
+        SetNewHighestPlatform();
     }
 
     void SpawnMoveablePlatforms()
@@ -85,43 +91,29 @@ public class MoveablePlatformManager : NetworkBehaviour
 
         if (safetyNet <= 0)
             Debug.Log("Could not find with no overlap");
+    }
 
+    void SetNewHighestPlatform()
+    {
+        GameObject platform;
 
-        //attemptingToSpawnPlatform = true;
-        //float randomTargetWidth = GetRandomTargetPlatformWidth();
-        //int overlappingPlatformCounter = 0;
-        //bool platformSpawned = false;
+        for (int i = 2; i < platformParent.transform.childCount; ++i)
+        {
+            platform = platformParent.transform.GetChild(i).GetChild(0).gameObject;
+            if (platform.transform.position.y > CurrentHighestPlatform.transform.GetChild(0).position.y)
+            {
+                CurrentHighestPlatform = platform;
+            }
+            else
+            {
+                platform.GetComponentInParent<MoveablePlatformController>().isHighestPlatform = false;
+            }
+        }
 
-        //while (!platformSpawned)
-        //{
-        //    float Height = 0.0f;
-
-        //    // To compare X pos of the new platform to all current active platforms
-        //    for (int i = 0; i < platformParent.transform.childCount; ++i)
-        //    {
-        //        if (platformParent.transform.childCount == 0)
-        //            break;
-
-        //        if (CheckOverlappingPlatform(platformParent.transform.GetChild(i), randomTargetWidth))
-        //        {
-        //            overlappingPlatformCounter++;
-        //        }
-        //    }
-
-        //    if (overlappingPlatformCounter == 0) // platform is able to spawn
-        //    {
-        //        GameObject plat =
-        //        Instantiate(PlatformToSpawn, new Vector3(randomTargetWidth, PlatformToSpawn.transform.position.y,
-        //        PlatformToSpawn.transform.position.z),
-        //        PlatformToSpawn.transform.rotation,
-        //        platformParent.transform);
-        //        plat.GetComponent<MoveablePlatformController>().Init(Height);
-        //        NetworkServer.Spawn(plat);
-        //        timeElapsed = 10f;
-        //        attemptingToSpawnPlatform = false;
-        //        platformSpawned = true;
-        //    }
-        //}
+        if (CurrentHighestPlatform.CompareTag("Platforms"))
+            CurrentHighestPlatform.GetComponentInParent<MoveablePlatformController>().isHighestPlatform = true;
+        else
+            return;
     }
 
     public float GetRandomTargetPlatformWidth()
@@ -134,8 +126,8 @@ public class MoveablePlatformManager : NetworkBehaviour
     {
         RaycastHit hitRight;
         RaycastHit hitLeft;
-        bool isHitLeft = false;
-        bool isHitRight = false;
+        bool isHitLeft;
+        bool isHitRight;
         isHitLeft = Physics.Raycast(new Vector3(ToSpawnPlatformX, targetHeight, 0), Vector3.left, out hitLeft, Mathf.Infinity, LayerMask.GetMask("PlatformRaycast"));
         isHitRight = Physics.Raycast(new Vector3(ToSpawnPlatformX, targetHeight, 0), Vector3.right, out hitRight, Mathf.Infinity, LayerMask.GetMask("PlatformRaycast"));
 
@@ -146,5 +138,10 @@ public class MoveablePlatformManager : NetworkBehaviour
     {
         Random.InitState(System.DateTime.Now.Millisecond);
         return Random.Range(PlatformLowestY, PlatformHighestY);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
     }
 }

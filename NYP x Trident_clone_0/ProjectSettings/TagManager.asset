@@ -12,6 +12,8 @@ TagManager:
   - Door
   - Platforms
   - Powerups
+  - DeafultPlatforms
+  - OutOfBounds
   layers:
   - Default
   - TransparentFX

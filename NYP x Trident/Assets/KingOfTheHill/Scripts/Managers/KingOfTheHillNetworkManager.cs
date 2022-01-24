@@ -30,7 +30,6 @@ public class KingOfTheHillNetworkManager : NetworkBehaviour
     {
     }
 
-
     //public override void OnStartServer()
     //{
     //    for (int i = 0; i < PlayerSpawnPoints.transform.childCount; ++i)

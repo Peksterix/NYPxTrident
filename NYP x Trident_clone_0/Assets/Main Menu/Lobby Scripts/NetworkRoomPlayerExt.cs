@@ -10,7 +10,7 @@ public class NetworkRoomPlayerExt : NetworkRoomPlayer
     GameObject newPlayerUI;
 
     [SyncVar(hook = nameof(NameChange))]
-    string username = "defaultName";
+    public string username = "defaultName";
 
     public override void OnStartClient()
     {
