@@ -36,7 +36,7 @@ public class PlayerCon : NetworkBehaviour
 		transform.Find("Camera").gameObject.SetActive(isLocalPlayer);
 		transform.Find("PointText").gameObject.SetActive(isLocalPlayer);
 
-		transform.Find("PointManager").GetComponent<PointManager>().PlayerList.Add(this.gameObject);
+		GameObject.Find("PointManager").GetComponent<PointManager>().PlayerList.Add(this.gameObject);
 
 		door = GameObject.FindGameObjectWithTag("Door");
 		wall = GameObject.FindGameObjectWithTag("Wall");
