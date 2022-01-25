@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public class WaterGun : MonoBehaviour
 {
@@ -15,7 +16,13 @@ public class WaterGun : MonoBehaviour
     //GameObjectŒ^‚Å•Ï”obj‚ğéŒ¾‚µ‚Ü‚·B
     [SerializeField] public GameObject m_obj;
     //…“S–C‚ğŒ‚‚Á‚Ä‚¢‚é‚©‚Ìƒtƒ‰ƒO
-    private bool m_isShotWaterGun;
+    public bool m_isShotWaterGun;
+
+    //…‚ÌÅ‘å•Û—L—Ê
+    [SerializeField] public int m_maxWaterGaugeNum = 2000;
+
+    //…‚Ì•Û—L—Ê
+    [SerializeField] private int m_waterGaugeNum;
 
 
     void Start()
@@ -26,16 +33,20 @@ public class WaterGun : MonoBehaviour
 
         GetPs().Stop();
         m_isShotWaterGun = false;
+        m_waterGaugeNum = m_maxWaterGaugeNum;
 
     }
-
 
     void Update()
     {
 
-        if (this.gameObject.transform.root.GetComponent<WGTPlayerController>().
-             m_time.GetComponent<GameTime>().GetIsFinish()|| 
-             this.gameObject.transform.root.GetComponent<PlayerActions>().GetIsStunting())
+        //if (this.gameObject.transform.root.GetComponent<WGTPlayerController>().
+        //     m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame()||
+        //     this.gameObject.transform.root.GetComponent<WGTPlayerController>().m_isInoperable ||
+        //     this.gameObject.transform.root.GetComponent<PlayerActions>().GetIsStunting())
+        if (WGTGameManager.GetCurrGameState() == WGTGameManager.GameState.Ended ||
+             this.gameObject.transform.root.GetComponent<WGTPlayerController>().m_isInoperable ||
+             this.gameObject.transform.root.GetComponent<PlayerActions>().isStunting)
         {
             GetPs().Stop();
             m_isShotWaterGun = false;
@@ -50,20 +61,77 @@ public class WaterGun : MonoBehaviour
     //-------------------------------------
     public virtual void ShotWater()
     {
-        
-        if (Input.GetKeyDown(KeyCode.Return))
+        //…‚ª‚È‚¯‚ê‚Î…‚ğ‘Å‚Ä‚È‚¢‚æ‚¤‚É‚·‚é
+        if (m_waterGaugeNum <= 0)
+        {
+            GetPs().Stop();
+            m_isShotWaterGun = false;
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0))
         {
             GetPs().Play();
             m_isShotWaterGun = true;
         }
-        if (Input.GetKeyUp(KeyCode.Return))
+        if (Input.GetMouseButtonUp(0))
         {
             GetPs().Stop();
             m_isShotWaterGun = false;
         }
+
+        //…“S–C‚ğŒ‚‚Á‚Ä‚¢‚éŠÔ‚Í…‚ªŒ¸‚é
+        if (m_isShotWaterGun)
+        {
+            m_waterGaugeNum--;
+        }
     }
 
-   public bool GetIsShotWaterGun()
+    // Pls buy me a bowl of ramen or macha kit kat - Sherwyn
+    [Server]
+    public bool ShootWaterGun(bool isShooting)
+    {
+        m_isShotWaterGun = isShooting;
+        if (m_isShotWaterGun && m_waterGaugeNum >= 0)
+        {
+            GetPs().Play();
+            m_waterGaugeNum--;
+        }
+        else
+        {
+            m_isShotWaterGun = false;
+            GetPs().Stop();
+        }
+
+        return m_isShotWaterGun;
+    }
+
+    [Client]
+    public void FireWaterGunAnimation()
+    {
+        GetPs().Play();
+    }
+
+    [Client]
+    public void HoldWaterGunAnimation()
+    {
+        GetPs().Stop();
+    }
+
+    //…‚Ì‰ñ•œ
+    public void ChargeWaterGauge(int waterchargenum)
+    {
+        if (m_waterGaugeNum < m_maxWaterGaugeNum)
+        {
+            m_waterGaugeNum += waterchargenum;
+        }
+        if (m_waterGaugeNum > m_maxWaterGaugeNum)
+        {
+            m_waterGaugeNum = m_maxWaterGaugeNum;
+        }
+    }
+
+    public bool GetIsShotWaterGun()
     {
         return m_isShotWaterGun;
     }
@@ -72,5 +140,15 @@ public class WaterGun : MonoBehaviour
     public ParticleSystem GetPs()
     {
         return m_ps;
+    }
+
+    public int GetMaxWaterGaugeNum()
+    {
+        return m_maxWaterGaugeNum;
+    }
+
+    public int GetWaterGaugeNum()
+    {
+        return m_waterGaugeNum;
     }
 }

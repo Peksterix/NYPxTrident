@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Time
+  - Point
+  - MouseCursor
+  - Treasure
+  - Wall
+  - Door
+  - Platforms
+  - Powerups
+  - DeafultPlatforms
+  - OutOfBounds
   layers:
   - Default
   - TransparentFX
@@ -11,11 +21,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - MiniMap
+  - Player
+  - PointItem
+  - WaterGunParticle
+  - PlatformRaycast
   - 
   - 
   - 

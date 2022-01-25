@@ -28,7 +28,7 @@ public class TestPlayerController : GameObjectBase
     void Update()
     {
         if(m_time.GetComponent<GameTime>().GetIsFinish() ||
-            this.GetComponent<PlayerActions>().GetIsStunting())
+            this.GetComponent<PlayerActions>().isStunting)
         {
             this.GetComponent<Rigidbody>().velocity = Vector2.zero;
             return;
@@ -107,7 +107,7 @@ public class TestPlayerController : GameObjectBase
         }
         else
         //í«Ç¢Ç©ÇØÇÈêlÇ»ÇÁë¨ìxÇÇ†Ç∞ÇÈ
-        if (this.GetComponent<PlayerActions>().GetIsChase())
+        if (this.GetComponent<PlayerActions>().isChase)
         {
             this.GetComponent<Rigidbody>().velocity*=m_chaseSpeed;
         }

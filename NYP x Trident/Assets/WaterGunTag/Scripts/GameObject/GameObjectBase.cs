@@ -8,7 +8,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameObjectBase : MonoBehaviour
+using Mirror;
+
+public class GameObjectBase : NetworkBehaviour
 {
     //‘¬“x Speed
     private float m_speed = 0;

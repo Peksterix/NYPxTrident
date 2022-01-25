@@ -7,37 +7,44 @@ public class MoveablePlatformController : NetworkBehaviour
 {
     private ParticleSystem Waterspout;
     private float speed;
-    public float PlatformLowestY;
-    public float PlatformHighestY;
     private Transform platform;
-    private float platformRandY;
+    private float platformTargetHeight;
+    [SyncVar]
+    public bool isHighestPlatform;
+    [SyncVar]
+    public float platformLifetime;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init(float height)
     {
         speed = 2f;
         platform = transform.GetChild(0).gameObject.transform;
-        platformRandY = GetRandomTargetPlatformHeight();
 
+        platformLifetime = 30;
         Waterspout = transform.GetComponentInChildren<ParticleSystem>();
         Waterspout.Play();
+        platformTargetHeight = height;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (isHighestPlatform)
+            transform.GetChild(0).GetComponentInChildren<ParticleSystem>().Play();
+        else
+            transform.GetChild(0).GetComponentInChildren<ParticleSystem>().Stop();
     }
 
     private void FixedUpdate()
     {
-        if (platform.position.y < platformRandY)
+        if (!isServer)
+            return;
+
+        if (platform.position.y < platformTargetHeight)
             platform.position += new Vector3(0f, speed * Time.deltaTime, 0f);
     }
 
-    public float GetRandomTargetPlatformHeight()
+    private void OnCollisionEnter(Collision collision)
     {
-        Random.InitState(System.DateTime.Now.Millisecond);
-        return Random.Range(PlatformLowestY, PlatformHighestY);
+        
     }
 }

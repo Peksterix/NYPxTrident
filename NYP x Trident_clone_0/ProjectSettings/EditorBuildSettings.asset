@@ -6,6 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/KingOfTheHill/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/SplashScreen/SplashScreen.unity
+    guid: 1181933e4f22173419d8af2f802d0803
+  - enabled: 1
+    path: Assets/Main Menu/Scenes/Main Menu.unity
+    guid: 195e8042fd7f13b4ab79674fc23d6ae2
+  - enabled: 1
+    path: Assets/Main Menu/Scenes/Lobby (Online).unity
+    guid: b4506e1e218c77c4c8b7786b427324d5
+  - enabled: 1
+    path: Assets/KingOfTheHill/Scenes/KingOfTheHillGameScene.unity
+    guid: ff4215419a6239b44add7ae99ca0f47e
+  - enabled: 1
+    path: Assets/TreasureHunt/Scenes/THGameScene.unity
+    guid: 4d4cea891e101a1478d861a935080b1c
+  - enabled: 1
+    path: Assets/WaterGunTag/Scenes/WaterGunTagPlayScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}
