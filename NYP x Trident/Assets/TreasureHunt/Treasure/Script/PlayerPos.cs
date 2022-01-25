@@ -30,7 +30,7 @@ public class PlayerPos : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetMouseButtonDown(0))
         {
             //‰ñ“]’†‚Å‚Í‚È‚¢ê‡‚ÍÀs 
             if (!coroutineBool)
@@ -40,7 +40,7 @@ public class PlayerPos : NetworkBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetMouseButtonDown(1))
         {
             //‰ñ“]’†‚Å‚Í‚È‚¢ê‡‚ÍÀs 
             if (!coroutineBool)

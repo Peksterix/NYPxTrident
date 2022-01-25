@@ -6,8 +6,9 @@ using Mirror;
 public class Lance : NetworkBehaviour
 {
     const int COUNT = 180;
-    const int DIFFERENCE = 30;
-    const float OPERATION_SPEED = 0.5f;
+    const int DIFFERENCE = 15;
+    
+    const float OPERATION_SPEED = -0.5f;
     const float BACK_SPEED = OPERATION_SPEED/ DIFFERENCE;
     const int WAIT_TIME = 30;
 
