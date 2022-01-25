@@ -8,7 +8,7 @@ public class THGameTime : NetworkBehaviour
 {
     // Start is called before the first frame update
     //§ŒÀŠÔ‚ÌÅ‘åŠÔ
-    [SerializeField] private int m_maxTime = 60;
+    [SerializeField] private int m_maxTime = 180;
 
     //Œ»İ‚Ì§ŒÀŠÔ
     private int m_time;

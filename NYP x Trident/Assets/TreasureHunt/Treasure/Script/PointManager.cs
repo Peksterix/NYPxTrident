@@ -7,15 +7,4 @@ public class PointManager : MonoBehaviour
 
     public List<GameObject> PlayerList =new List<GameObject>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
