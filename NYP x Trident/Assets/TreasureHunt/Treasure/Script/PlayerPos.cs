@@ -19,8 +19,7 @@ public class PlayerPos : NetworkBehaviour
     //Ç«ÇøÇÁÇå¸Ç¢ÇƒÇ¢ÇÈÇ©
     [SerializeField] public int direction;//(0=ëO,1=âE,2=å„ÇÎ,3=ç∂,)
 
-    // Start is called before the first frame update
-    void Start()
+    public override void OnStartLocalPlayer()
     {
         direction = 0;
         count = 0;
@@ -28,8 +27,20 @@ public class PlayerPos : NetworkBehaviour
         rightFlag = false;
     }
 
+    // Start is called before the first frame update
+    //void Start()
+    //{
+    //    direction = 0;
+    //    count = 0;
+    //    leftFlag = false;
+    //    rightFlag = false;
+    //}
+
     private void Update()
     {
+        if (!isLocalPlayer)
+            return;
+
         if (Input.GetMouseButtonDown(0))
         {
             //âÒì]íÜÇ≈ÇÕÇ»Ç¢èÍçáÇÕé¿çs 
@@ -53,7 +64,8 @@ public class PlayerPos : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer) 
+            return;
 
         if(coroutineBool)
         {
@@ -82,12 +94,11 @@ public class PlayerPos : NetworkBehaviour
         }
     }
 
-    [Command(requiresAuthority = false)]
     void CmdRotationRight()
     {
         transform.Rotate(new Vector3(0, ROT, 0));
     }
-    [Command(requiresAuthority = false)]
+
     void CmdRotationLeft()
     {
         transform.Rotate(new Vector3(0, -ROT, 0));

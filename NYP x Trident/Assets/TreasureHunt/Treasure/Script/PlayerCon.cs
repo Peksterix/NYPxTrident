@@ -31,8 +31,28 @@ public class PlayerCon : NetworkBehaviour
 	GameObject door;
 	GameObject wall;
 
-	void Start()
-	{
+	public bool isPressingSpace;
+
+	//void Start()
+	//{
+	//	transform.Find("CameraPos").gameObject.SetActive(isLocalPlayer);
+	//	transform.Find("Camera").gameObject.SetActive(isLocalPlayer);
+	//	transform.Find("PointText").gameObject.SetActive(isLocalPlayer);
+
+	//	TimerText = GameObject.Find("GameTimer");
+	//	door = GameObject.FindGameObjectWithTag("Door");
+	//	wall = GameObject.FindGameObjectWithTag("Wall");
+	//	//SetUpServer();
+
+	//	//ƒXƒNƒŠƒvƒg‚ÌPlayerPos‚Ì“o˜^
+	//	playerPosScript = GetComponent<PlayerPos>();
+
+	//	countDownText = GameObject.Find("CountDownObject");
+	//	countDownScript = countDownText.GetComponent<CountDown>();
+	//}
+
+    public override void OnStartLocalPlayer()
+    {
 		transform.Find("CameraPos").gameObject.SetActive(isLocalPlayer);
 		transform.Find("Camera").gameObject.SetActive(isLocalPlayer);
 		transform.Find("PointText").gameObject.SetActive(isLocalPlayer);
@@ -40,7 +60,7 @@ public class PlayerCon : NetworkBehaviour
 		TimerText = GameObject.Find("GameTimer");
 		door = GameObject.FindGameObjectWithTag("Door");
 		wall = GameObject.FindGameObjectWithTag("Wall");
-		SetUpServer();
+		//SetUpServer();
 
 		//ƒXƒNƒŠƒvƒg‚ÌPlayerPos‚Ì“o˜^
 		playerPosScript = GetComponent<PlayerPos>();
@@ -49,7 +69,7 @@ public class PlayerCon : NetworkBehaviour
 		countDownScript = countDownText.GetComponent<CountDown>();
 	}
 
-	void Update()
+    void Update()
 	{
 		if (!isLocalPlayer) return;
 		if (TimerText.GetComponent<THGameTime>().GetIsFinish()) return;
@@ -80,28 +100,36 @@ public class PlayerCon : NetworkBehaviour
 					break;
 			}
 			motion = new Vector3(x * speed * Time.deltaTime, -GRAVITY, z * speed * Time.deltaTime);
-			CmdMove(motion);
-
+			transform.GetComponent<CharacterController>().Move(motion);
+			//CmdMove(motion);
 		}
+
+		CmdUpdateIsSpacePressed(Input.GetKeyDown(KeyCode.Space));
 	}
 
-	[Command]
-	void CmdMove(Vector3 motion)
-	{
-		transform.GetComponent<CharacterController>().Move(motion);
-	}
+	//[Command]
+	//void CmdMove(Vector3 motion)
+	//{
+	//	transform.GetComponent<CharacterController>().Move(motion);
+	//}
 
 	void SetCameraFlag(bool flag)
 	{
 		cameraFlag = flag;
 	}
 
-	[ServerCallback]
-	void SetUpServer()
-	{
-		if (door != null && !door.GetComponent<HiddenDoor>().hasAuthority)
-			door.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
-		if (wall != null && !wall.GetComponent<HiddenWall>().hasAuthority)
-			wall.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+	[Command]
+	void CmdUpdateIsSpacePressed(bool isPressed)
+    {
+		isPressingSpace = isPressed;
 	}
+
+	//[ServerCallback]
+	//void SetUpServer()
+	//{
+	//	if (door != null && !door.GetComponent<HiddenDoor>().hasAuthority)
+	//		door.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+	//	if (wall != null && !wall.GetComponent<HiddenWall>().hasAuthority)
+	//		wall.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+	//}
 }

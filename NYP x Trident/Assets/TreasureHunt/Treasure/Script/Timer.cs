@@ -13,7 +13,6 @@ public class Timer : NetworkBehaviour
     CountDown countDownScript;
     GameObject countDownText;
 
-
     // Start is called before the first frame update
     void Start()
     {

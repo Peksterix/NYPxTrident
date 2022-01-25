@@ -320,6 +320,11 @@ MonoBehaviour:
   - {fileID: 3048696742706544734, guid: 3674999f217cfba4ca2e2b46d8353c22, type: 3}
   - {fileID: 6133846521629506025, guid: bed0693188d853246a2eb3042bcb63ea, type: 3}
   - {fileID: 1098070637987304033, guid: bc7dcce612968524e84fb5e9c6e8bb41, type: 3}
+  - {fileID: 7116224888234532402, guid: 1713bafb896fd5c40859adb3e60e393a, type: 3}
+  - {fileID: 1260556418578804025, guid: 5f533b1dc15c7dd42bcf6217b62f3e59, type: 3}
+  - {fileID: 3557309100585178812, guid: 7ecdb343c309dc24e848b2627f0f4475, type: 3}
+  - {fileID: 8455617235991250582, guid: 1d62ed3c90052c04989c18e68b4a5b73, type: 3}
+  - {fileID: 3263573668065125132, guid: 3645ad4d438a0964db444f0e296bdadf, type: 3}
   showRoomGUI: 0
   minPlayers: 5
   roomPlayerPrefab: {fileID: 141602488279037789, guid: 11a00b6163a050e48ad4fadbaf6b3691, type: 3}
@@ -337,7 +342,7 @@ MonoBehaviour:
   lobbyUI: {fileID: 268704810}
   KOTHPlayerPrefab: {fileID: 1763720240163621348, guid: 53c7da0a61b047641a539a3335185c11, type: 3}
   WGTPlayerPrefab: {fileID: 3327144092093454912, guid: a4b02a779d1cf4d4ab6768ef97c0981b, type: 3}
-  THPlayerPrefab: {fileID: 0}
+  THPlayerPrefab: {fileID: 7116224888234532402, guid: 1713bafb896fd5c40859adb3e60e393a, type: 3}
 --- !u!114 &175378867
 MonoBehaviour:
   m_ObjectHideFlags: 0

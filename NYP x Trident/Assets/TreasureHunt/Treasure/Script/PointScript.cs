@@ -63,7 +63,8 @@ public class PointScript : NetworkBehaviour
         if (other.gameObject.tag == "Treasure")
         {
             AddScore();
-            Destroy(other.gameObject);
+
+            NetworkServer.Destroy(other.gameObject);
         }
     }
 }

@@ -19,8 +19,7 @@ public class PlayerPos : NetworkBehaviour
     //どちらを向いているか
     [SerializeField] public int direction;//(0=前,1=右,2=後ろ,3=左,)
 
-    // Start is called before the first frame update
-    void Start()
+    public override void OnStartLocalPlayer()
     {
         direction = 0;
         count = 0;
@@ -28,9 +27,21 @@ public class PlayerPos : NetworkBehaviour
         rightFlag = false;
     }
 
+    // Start is called before the first frame update
+    //void Start()
+    //{
+    //    direction = 0;
+    //    count = 0;
+    //    leftFlag = false;
+    //    rightFlag = false;
+    //}
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (!isLocalPlayer)
+            return;
+
+        if (Input.GetMouseButtonDown(0))
         {
             //回転中ではない場合は実行 
             if (!coroutineBool)
@@ -40,7 +51,7 @@ public class PlayerPos : NetworkBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetMouseButtonDown(1))
         {
             //回転中ではない場合は実行 
             if (!coroutineBool)
@@ -53,7 +64,8 @@ public class PlayerPos : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer) 
+            return;
 
         if(coroutineBool)
         {
@@ -82,12 +94,11 @@ public class PlayerPos : NetworkBehaviour
         }
     }
 
-    [Command(requiresAuthority = false)]
     void CmdRotationRight()
     {
         transform.Rotate(new Vector3(0, ROT, 0));
     }
-    [Command(requiresAuthority = false)]
+
     void CmdRotationLeft()
     {
         transform.Rotate(new Vector3(0, -ROT, 0));
