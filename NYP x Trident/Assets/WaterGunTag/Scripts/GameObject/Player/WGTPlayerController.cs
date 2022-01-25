@@ -116,7 +116,6 @@ public class WGTPlayerController : GameObjectBase
         //çUåÇÅ@Attack
         //AttackKeyInput();
 
-        // poggers shokugeki
         if (Input.GetMouseButtonUp(0)) CmdAttack(false);
         else if (Input.GetMouseButton(0)) CmdAttack(true);
 
@@ -277,7 +276,7 @@ public class WGTPlayerController : GameObjectBase
 
     #region Network Commands
     [Command] [ContextMenu("Seppuku")]
-    void CmdSeppuku()
+    public void CmdSeppuku()
     {
         GetComponent<PlayerActions>().ChangeChase();
     }

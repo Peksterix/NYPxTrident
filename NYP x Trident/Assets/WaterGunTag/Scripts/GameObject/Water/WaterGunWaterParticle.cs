@@ -31,6 +31,7 @@ public class WaterGunWaterParticle : MonoBehaviour
                     if (isDead)
                     {
                         other.GetComponent<PlayerActions>().ChangeChase();
+                        other.GetComponent<WGTPlayerController>().CmdSeppuku();
                         owner.GetComponent<PlayerActions>().ChangeRunningAway();
                     }
                 }
