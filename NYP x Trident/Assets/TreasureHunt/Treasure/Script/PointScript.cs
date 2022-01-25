@@ -28,7 +28,7 @@ public class PointScript : NetworkBehaviour
 
         GameObject.Find("PointManager").GetComponent<PointManager>().PlayerList.Add
             (new Player(ID: playerNum = GameObject.Find("PointManager").GetComponent<PointManager>().PlayerList.Count + 1,
-            Name: LocalPlayerHandle.Instance.playerName,//©‚±‚±‚É–¼‘O“ü‚ê‚éƒˆ`
+            Name: "test",//©‚±‚±‚É–¼‘O“ü‚ê‚éƒˆ`
             Score: 0));
 
     }
