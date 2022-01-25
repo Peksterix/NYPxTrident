@@ -20,7 +20,7 @@ public class THTimeGauge : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_time = GameObject.Find("Time");
+        m_time = GameObject.Find("GameTimer");
     }
 
     // Update is called once per frame

@@ -11,7 +11,7 @@ public class THGameTime : NetworkBehaviour
     [SerializeField] private int m_maxTime = 180;
 
     //Œ»İ‚Ì§ŒÀŠÔ
-    private int m_time;
+    [SyncVar] private int m_time;
 
     //1•b‚ğ‚Æ‚é‚½‚ß‚ÌŠÔ
     private float m_timeCount = 0;
@@ -91,7 +91,6 @@ public class THGameTime : NetworkBehaviour
             m_larpT += Time.deltaTime * 10.0f;
         }
 
-        //if (!m_wgtGameManager.GetComponent<WGTGameManager>().GetIsStopGame())
         //‰º‚Ìif•¶‚ÅŠÔ‚ği‚ß‚Ä‚¢‚¢‚©”»’f‚·‚é
         if (countDownScript.countDownFlag)
         {

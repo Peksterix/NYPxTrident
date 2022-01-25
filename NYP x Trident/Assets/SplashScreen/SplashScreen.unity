@@ -337,7 +337,7 @@ MonoBehaviour:
   lobbyUI: {fileID: 268704810}
   KOTHPlayerPrefab: {fileID: 1763720240163621348, guid: 53c7da0a61b047641a539a3335185c11, type: 3}
   WGTPlayerPrefab: {fileID: 3327144092093454912, guid: a4b02a779d1cf4d4ab6768ef97c0981b, type: 3}
-  THPlayerPrefab: {fileID: 0}
+  THPlayerPrefab: {fileID: 7116224888234532402, guid: 1713bafb896fd5c40859adb3e60e393a, type: 3}
 --- !u!114 &175378867
 MonoBehaviour:
   m_ObjectHideFlags: 0

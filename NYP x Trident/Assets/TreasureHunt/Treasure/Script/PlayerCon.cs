@@ -16,6 +16,7 @@ public class PlayerCon : NetworkBehaviour
 	//カウントダウン情報格納用
 	CountDown countDownScript;
 	GameObject countDownText;
+	private GameObject TimerText;
 
 	/// <summary>
 	/// //カメラ関係
@@ -36,9 +37,7 @@ public class PlayerCon : NetworkBehaviour
 		transform.Find("Camera").gameObject.SetActive(isLocalPlayer);
 		transform.Find("PointText").gameObject.SetActive(isLocalPlayer);
 
-		GameObject.Find("PointManager").GetComponent<PointManager>().PlayerList.Add(this.gameObject);
-		
-
+		TimerText = GameObject.Find("GameTimer");
 		door = GameObject.FindGameObjectWithTag("Door");
 		wall = GameObject.FindGameObjectWithTag("Wall");
 		SetUpServer();
@@ -53,6 +52,7 @@ public class PlayerCon : NetworkBehaviour
 	void Update()
 	{
 		if (!isLocalPlayer) return;
+		if (TimerText.GetComponent<THGameTime>().GetIsFinish()) return;
 
 		//カメラが回転中でなければ処理する
 		if (playerPosScript.coroutineBool == false && countDownScript.countDownFlag)

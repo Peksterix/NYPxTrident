@@ -5,19 +5,22 @@ using UnityEngine.UI;
 
 public class ResultScore : MonoBehaviour
 {
+    [SerializeField] GameObject pointMana;
+    [SerializeField] GameObject timer;
 
-    public Text ScoreText;
-    int score;
 
     // Start is called before the first frame update
     void Start()
     {
-        ScoreText.text = string.Format("Score:{0}", score);
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(timer.GetComponent<THGameTime>().GetIsFinish())
+        {
+            //pointMana.GetComponent<PointManager>().PlayerList
+        }
     }
 }
