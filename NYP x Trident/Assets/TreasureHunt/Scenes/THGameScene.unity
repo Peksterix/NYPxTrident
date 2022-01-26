@@ -5030,7 +5030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  m_maxTime: 30
+  m_maxTime: 180
   m_startSize: 1
   m_finishSize: 0.1
 --- !u!114 &1136137989
@@ -7206,6 +7206,7 @@ MonoBehaviour:
   timer: {fileID: 1136137983}
   slider: {fileID: 8722182262843048360, guid: a5c13a58101767b40bb4d3733331eb1e, type: 3}
   canvas: {fileID: 1533670298}
+  score: 0000000000000000000000000000000000000000
   resultCanvas: {fileID: 1533670300}
 --- !u!4 &1614090506
 Transform:
