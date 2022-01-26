@@ -31,16 +31,30 @@ public class ChargeWater : MonoBehaviour
         {
             if (!other.gameObject.GetComponent<WGTPlayerController>().m_isInoperable)
             {
-                if (Input.GetMouseButton(1))
+                if (!other.gameObject.GetComponentInChildren<WaterGun>().GetIsShotWaterGun())
                 {
-                    if (!other.gameObject.GetComponentInChildren<WaterGun>().GetIsShotWaterGun())
+
+                    if (Input.GetMouseButtonUp(1))
                     {
+                        GetComponent<AudioSource>().Stop();
+                    }
+                    //for Audio
+                    else if (Input.GetMouseButtonDown(1))
+                    {
+                        GetComponent<AudioSource>().Play();
                         other.gameObject.GetComponentInChildren<WaterGun>().ChargeWaterGauge(m_waterChargeNum);
                     }
+                    else if (Input.GetMouseButton(1))
+                    {
+
+                        other.gameObject.GetComponentInChildren<WaterGun>().ChargeWaterGauge(m_waterChargeNum);
+                    }
+                   
+
+
+
                 }
 
-               
-                   
             }
 
         }

@@ -24,6 +24,9 @@ public class WaterGun : MonoBehaviour
     //…‚Ì•Û—L—Ê
     [SerializeField] private int m_waterGaugeNum;
 
+    //…‚Ì•Û—L—Ê
+    [SerializeField] private int m_ShootWaterGaugeNum = 5;
+
 
     void Start()
     {
@@ -71,11 +74,13 @@ public class WaterGun : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            
             GetPs().Play();
             m_isShotWaterGun = true;
         }
         if (Input.GetMouseButtonUp(0))
         {
+           
             GetPs().Stop();
             m_isShotWaterGun = false;
         }
@@ -93,11 +98,13 @@ public class WaterGun : MonoBehaviour
         m_isShotWaterGun = isShooting;
         if (m_isShotWaterGun && m_waterGaugeNum >= 0)
         {
+           
             GetPs().Play();
-            m_waterGaugeNum--;
+            m_waterGaugeNum-= m_ShootWaterGaugeNum;
         }
         else
         {
+            
             m_isShotWaterGun = false;
             GetPs().Stop();
         }

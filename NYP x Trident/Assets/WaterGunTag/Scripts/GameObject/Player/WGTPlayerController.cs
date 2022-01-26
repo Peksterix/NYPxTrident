@@ -116,8 +116,27 @@ public class WGTPlayerController : GameObjectBase
         //攻撃　Attack
         //AttackKeyInput();
 
-        if (Input.GetMouseButtonUp(0)) CmdAttack(false);
-        else if (Input.GetMouseButton(0)) CmdAttack(true);
+        if (Input.GetMouseButtonUp(0))
+        {
+            GetComponent<AudioSource>().Stop();
+            CmdAttack(false);
+        }
+        //for Audio
+        else if (Input.GetMouseButtonDown(0))
+        {
+            GetComponent<AudioSource>().Play();
+            CmdAttack(true);
+        }
+        else if (Input.GetMouseButton(0))
+        {
+
+            CmdAttack(true);
+        }
+
+        if(!this.transform.Find("WaterGun3D").GetComponent<WaterGun>().m_isShotWaterGun)
+        {
+            GetComponent<AudioSource>().Stop();
+        }
 
         //ポーズ
         PasueKeyInput();

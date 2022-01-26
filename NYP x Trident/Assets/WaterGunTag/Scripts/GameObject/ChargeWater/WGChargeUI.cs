@@ -53,11 +53,13 @@ public class WGChargeUI : MonoBehaviour
 
         Vector3 p = Camera.main.transform.position;
 
-        transform.LookAt(p);
+      
 
-       
+       transform.LookAt(p);
 
-       
+
+
+        transform.eulerAngles = new Vector3(0.0f, -transform.rotation.y, 0.0f);
 
     }
 

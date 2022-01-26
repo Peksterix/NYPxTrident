@@ -37,10 +37,11 @@ public class PointObject : GameObjectBase
               1.0f - (1.0f * ((float)m_maxHp - (float)m_hp) / m_maxHp),
               1.0f,
               1
-              )*Color.yellow;
+              );
 
         if(m_isDestroy)
         {
+           
             Destroy(this.gameObject);
            
         }
@@ -60,7 +61,7 @@ public class PointObject : GameObjectBase
         if (m_hp <= 0)
         {
             m_isDestroy = true;
-
+           
         }
     }
 
