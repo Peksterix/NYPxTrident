@@ -109,8 +109,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.03944717, y: 0.030986417, z: 0.043425713}
-  m_Center: {x: -0.0002266629, y: 0.0030597583, z: -0.0004641221}
+  m_Size: {x: 0.04875762, y: 0.030986417, z: 0.05552129}
+  m_Center: {x: -0.00003849486, y: 0.0030597583, z: -0.0017352834}
 --- !u!114 &6821532457657827883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,8 +123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61404a487a9af874d95e9c121a5b3ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   treasure: {fileID: 3263573668065125132, guid: 3645ad4d438a0964db444f0e296bdadf, type: 3}
-  probability: 5
+  probability: 2
   num: 30
 --- !u!114 &-2345455854704529982
 MonoBehaviour:

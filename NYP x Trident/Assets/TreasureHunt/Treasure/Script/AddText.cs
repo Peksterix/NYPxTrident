@@ -8,7 +8,7 @@ public class AddText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        canvas = GameObject.Find("Canvas");
+        canvas = GameObject.Find("PointCanvas");
         this.gameObject.transform.SetParent(canvas.gameObject.transform, false);
     }
 

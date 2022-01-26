@@ -20,7 +20,7 @@ public class PointScript : NetworkBehaviour
         playerNum = GameObject.Find("PointManager").GetComponent<PointManager>().PlayerList.Count;
         score = 0;
         //ScoreText�̕�����Score:Score�̒l�ɂ���
-        scoreText.text = playerNum.ToString()+"P�~" + score.ToString();
+        scoreText.text = playerNum.ToString()+"P:" + score.ToString();
     }
 
     void PlayerSettings()
@@ -29,7 +29,8 @@ public class PointScript : NetworkBehaviour
         GameObject.Find("PointManager").GetComponent<PointManager>().PlayerList.Add
             (new Player(ID: playerNum = GameObject.Find("PointManager").GetComponent<PointManager>().PlayerList.Count + 1,
             Name: LocalPlayerHandle.Instance.playerName,//�������ɖ��O����郈�`
-            Score: 0));
+            Score: 0,
+            Result:"LOSE"));
 
     }
 
@@ -46,11 +47,24 @@ public class PointScript : NetworkBehaviour
     void Update()
     {
         //ScoreText�̕�����Score:Score�̒l�ɂ���
-        scoreText.text = playerNum.ToString() + "P�~" + score.ToString();
+        scoreText.text = playerNum.ToString() + "P:" + score.ToString();
 
         if(TimerText.GetComponent<THGameTime>().GetIsFinish())
         {
             PointSettings();
+
+            if(GameObject.Find("ResultObject").GetComponent<ResultScore>().score[0]==score)
+            {
+                scoreText.text = playerNum.ToString() + "P:WIN";
+                scoreText.fontSize = 50;
+
+            }
+            else
+            {
+                scoreText.text = playerNum.ToString() + "P:LOSE";
+                scoreText.fontSize = 50;
+
+            }
         }
     }
     public void AddScore()

@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8722182261883725462
 CanvasRenderer:
@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 4982844119452279114}
   m_Layer: 5
   m_Name: ResultSlider
-  m_TagString: Untagged
+  m_TagString: Slider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -366,6 +366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 8722182262843048362}
+  playerName: {fileID: 8722182263465515963}
 --- !u!1 &8722182262925366110
 GameObject:
   m_ObjectHideFlags: 0
