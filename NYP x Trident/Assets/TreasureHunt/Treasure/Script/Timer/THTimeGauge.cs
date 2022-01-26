@@ -4,10 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 
+//Gameplay countdown background
+
 public class THTimeGauge : NetworkBehaviour
 {
     //��������
     private GameObject m_time;
+
+    [SyncVar]
+    float currTime;
+
+    [SyncVar]
+    int maxTime;
 
     //���F�ɂȂ鎞��
     [SerializeField] private float m_yellowGaugeTime = 30.0f;
@@ -15,35 +23,54 @@ public class THTimeGauge : NetworkBehaviour
     //�ԐF�ɂȂ鎞��
     [SerializeField] private float m_redGaugeTime = 10.0f;
 
-
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        if (!isServer)
+            return;
+
         m_time = GameObject.Find("GameTimer");
+
+        //�����̐�������
+        maxTime = m_time.GetComponent<THGameTime>().GetMaxTime();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //�����̐�������
-        int maxTime = m_time.GetComponent<THGameTime>().GetMaxTime();
+        if (!isServer)
+            return;
+
         //���݂̐�������
-        float nowTime = m_time.GetComponent<THGameTime>().GetFloatTime();
+        currTime = m_time.GetComponent<THGameTime>().GetFloatTime();
 
-        GetComponent<Image>().fillAmount = (float)nowTime / maxTime;
+        UpdateGauge();
 
-        GetComponent<Image>().color = new Color(0,255,0);
+        ChangeTimeGaugeColor();
 
-        if (nowTime <= m_yellowGaugeTime)
+    }
+
+    [ClientRpc]
+    void UpdateGauge()
+    {
+        GetComponent<Image>().fillAmount = (float)currTime / maxTime;
+    }
+
+    [ClientRpc]
+    void ChangeTimeGaugeColor()
+    {
+        GetComponent<Image>().color = new Color(0, 255, 0);
+
+        if (currTime <= m_yellowGaugeTime)
         {
             GetComponent<Image>().color = Color.yellow;
         }
 
-        if (nowTime <= m_redGaugeTime)
+        if (currTime <= m_redGaugeTime)
         {
             GetComponent<Image>().color = Color.red;
         }
-
     }
 }

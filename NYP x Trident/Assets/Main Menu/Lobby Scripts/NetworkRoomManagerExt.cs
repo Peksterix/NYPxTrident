@@ -11,7 +11,8 @@ public class NetworkRoomManagerExt : NetworkRoomManager
     {
         KOTH = 0,
         WGT= 1,
-        TH = 2
+        TH = 2,
+        NONE = 3
     }
 
     public static NetworkRoomManagerExt Instance => NetworkRoomManager.singleton as NetworkRoomManagerExt;
