@@ -5030,7 +5030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  m_maxTime: 180
+  m_maxTime: 30
   m_startSize: 1
   m_finishSize: 0.1
 --- !u!114 &1136137989

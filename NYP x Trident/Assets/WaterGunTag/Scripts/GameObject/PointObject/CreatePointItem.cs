@@ -47,6 +47,7 @@ public class CreatePointItem : NetworkBehaviour
     {
         if (!isServer)
             return;
+
         //シード値生成
         Random.InitState(System.DateTime.Now.Millisecond);
         m_createTime = m_createTime_Fast;

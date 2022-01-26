@@ -30,8 +30,7 @@ public class PointScript : NetworkBehaviour
             (new Player(ID: playerNum = GameObject.Find("PointManager").GetComponent<PointManager>().PlayerList.Count + 1,
             Name: LocalPlayerHandle.Instance.playerName,//�������ɖ��O����郈�`
             Score: 0,
-            Result:"LOSE"));
-
+            Result: "LOSE"));
     }
 
     void PointSettings()

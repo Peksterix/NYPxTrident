@@ -19,7 +19,7 @@ public class THGameTime : NetworkBehaviour
     private float m_timeCount = 0;
 
     //�I��������
-    private bool m_isFinish;
+    [SyncVar]private bool m_isFinish;
 
     //�^�C���Q�[�W�p�̎���
     private float m_floatTime;

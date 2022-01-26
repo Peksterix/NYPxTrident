@@ -55,9 +55,6 @@ public class ResultScore : MonoBehaviour
 
                 playerNum++;
             }
-
-
-
         }
     }
 }
