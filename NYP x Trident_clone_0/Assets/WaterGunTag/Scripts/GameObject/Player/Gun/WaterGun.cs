@@ -87,7 +87,6 @@ public class WaterGun : MonoBehaviour
         }
     }
 
-    // Pls buy me a bowl of ramen or macha kit kat - Sherwyn
     [Server]
     public bool ShootWaterGun(bool isShooting)
     {

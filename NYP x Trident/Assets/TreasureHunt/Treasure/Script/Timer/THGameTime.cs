@@ -7,52 +7,54 @@ using Mirror;
 public class THGameTime : NetworkBehaviour
 {
     // Start is called before the first frame update
-    //§ŒÀŠÔ‚ÌÅ‘åŠÔ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ÌÅ‘åï¿½ï¿½
     [SerializeField] private int m_maxTime = 180;
 
-    //Œ»İ‚Ì§ŒÀŠÔ
+    //ï¿½ï¿½ï¿½İ‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     [SyncVar] private int m_time;
 
-    //1•b‚ğ‚Æ‚é‚½‚ß‚ÌŠÔ
+    //1ï¿½bï¿½ï¿½ï¿½Æ‚é‚½ï¿½ß‚Ìï¿½ï¿½ï¿½
     private float m_timeCount = 0;
 
-    //I—¹‚µ‚½‚©
+    //ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private bool m_isFinish;
 
-    //ƒ^ƒCƒ€ƒQ[ƒW—p‚ÌŠÔ
+    //ï¿½^ï¿½Cï¿½ï¿½ï¿½Qï¿½[ï¿½Wï¿½pï¿½Ìï¿½ï¿½ï¿½
     private float m_floatTime;
 
-    //ƒQ[ƒ€ƒ}ƒl[ƒWƒƒ[
-    private GameObject m_wgtGameManager;
-
-    //Å‰‚Ì‘å‚«‚³
+    //ï¿½Åï¿½ï¿½Ì‘å‚«ï¿½ï¿½
     [SerializeField] private float m_startSize = 1.0f;
 
-    //ÅI“I‚È‘å‚«‚³
+    //ï¿½ÅIï¿½Iï¿½È‘å‚«ï¿½ï¿½
     [SerializeField] private float m_finishSize = 0.1f;
 
-    //larp‚Ì”š
+    //larpï¿½Ìï¿½ï¿½ï¿½
     private float m_larpT = 0.0f;
 
-    //‰‰o‚ğ‹N‚±‚·ƒtƒ‰ƒO
+    //ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
     private bool m_isAction = false;
 
-    //ƒJƒEƒ“ƒgƒ_ƒEƒ“î•ñŠi”[—p
+    //ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[ï¿½p
     CountDown countDownScript;
     GameObject countDownText;
 
     void Start()
     {
+        if (!isServer)
+            return;
+
         countDownText = GameObject.Find("CountDownObject");
         countDownScript = countDownText.GetComponent<CountDown>();
-        m_wgtGameManager = GameObject.Find("WGTGameManager");
         RestartTime();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //ƒ|ƒCƒ“ƒg‚ª‘‚¦‚½‚Æ‚«‚É‹N‚±‚·ƒAƒNƒVƒ‡ƒ“
+        if (!isServer)
+            return;
+
+        //ï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½É‹Nï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½
         if (m_isAction)
         {
             if (m_time % 10 == 0)
@@ -91,7 +93,7 @@ public class THGameTime : NetworkBehaviour
             m_larpT += Time.deltaTime * 10.0f;
         }
 
-        //‰º‚Ìif•¶‚ÅŠÔ‚ği‚ß‚Ä‚¢‚¢‚©”»’f‚·‚é
+        //ï¿½ï¿½ï¿½ï¿½ifï¿½ï¿½ï¿½Åï¿½ï¿½Ô‚ï¿½iï¿½ß‚Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
         if (countDownScript.countDownFlag)
         {
             UpdeteTime();
@@ -101,10 +103,10 @@ public class THGameTime : NetworkBehaviour
     }
 
     //-------------------------------------
-    //§ŒÀŠÔ‚ÌƒŠƒZƒbƒg
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚Ìƒï¿½ï¿½Zï¿½bï¿½g
     //
-    //ˆø”     :‚È‚µ@None
-    //–ß‚è’l   :‚È‚µ@None
+    //ï¿½ï¿½ï¿½ï¿½     :ï¿½È‚ï¿½ï¿½@None
+    //ï¿½ß‚ï¿½l   :ï¿½È‚ï¿½ï¿½@None
     //-------------------------------------
     public void RestartTime()
     {
@@ -116,10 +118,10 @@ public class THGameTime : NetworkBehaviour
     }
 
     //-------------------------------------
-    //§ŒÀŠÔ‚ği‚ß‚é
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½iï¿½ß‚ï¿½
     //
-    //ˆø”     :‚È‚µ@None
-    //–ß‚è’l   :‚È‚µ@None
+    //ï¿½ï¿½ï¿½ï¿½     :ï¿½È‚ï¿½ï¿½@None
+    //ï¿½ß‚ï¿½l   :ï¿½È‚ï¿½ï¿½@None
     //-------------------------------------
     private void UpdeteTime()
     {
@@ -137,8 +139,8 @@ public class THGameTime : NetworkBehaviour
         if (m_time <= 0 && !m_isFinish)
         {
            
-            //ŠÔØ‚ê‚Ìˆ—iƒQ[ƒ€‚ğ~‚ß‚éj
-            //‚±‚±‚É‹LÚ
+            //ï¿½ï¿½ï¿½ÔØ‚ï¿½Ìï¿½ï¿½ï¿½ï¿½iï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½ß‚ï¿½j
+            //ï¿½ï¿½ï¿½ï¿½ï¿½É‹Lï¿½ï¿½
             m_isFinish = true;
         }
 
@@ -149,10 +151,10 @@ public class THGameTime : NetworkBehaviour
     }
 
     //-------------------------------------
-    //ƒeƒLƒXƒg‚ÌXV
+    //ï¿½eï¿½Lï¿½Xï¿½gï¿½ÌXï¿½V
     //
-    //ˆø”     :‚È‚µ@None
-    //–ß‚è’l   :‚È‚µ@None
+    //ï¿½ï¿½ï¿½ï¿½     :ï¿½È‚ï¿½ï¿½@None
+    //ï¿½ß‚ï¿½l   :ï¿½È‚ï¿½ï¿½@None
     //-------------------------------------
     private void UpdateText()
     {
@@ -161,10 +163,10 @@ public class THGameTime : NetworkBehaviour
     }
 
     //-------------------------------------
-    //ƒQ[ƒ€‚ªI—¹‚µ‚½‚©‚Ìæ“¾
+    //ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìæ“¾
     //
-    //ˆø”     :‚È‚µ@None
-    //–ß‚è’l   :ƒQ[ƒ€‚ªI—¹‚µ‚½‚©‚Ì”»’è@
+    //ï¿½ï¿½ï¿½ï¿½     :ï¿½È‚ï¿½ï¿½@None
+    //ï¿½ß‚ï¿½l   :ï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì”ï¿½ï¿½ï¿½@
     //-------------------------------------
     public bool GetIsFinish()
     {

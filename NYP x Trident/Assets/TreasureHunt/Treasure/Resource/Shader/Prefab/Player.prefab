@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 0
+  clientAuthority: 1
   sendInterval: 0.05
   syncPosition: 1
   syncRotation: 1
@@ -381,6 +381,7 @@ MonoBehaviour:
   syncInterval: 0.1
   score: 0
   scoreText: {fileID: 4228475897039691123}
+  playerNum: 0
 --- !u!65 &6483439476701854763
 BoxCollider:
   m_ObjectHideFlags: 0

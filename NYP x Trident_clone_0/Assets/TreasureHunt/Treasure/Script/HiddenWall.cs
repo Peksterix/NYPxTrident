@@ -6,12 +6,12 @@ using Mirror;
 
 public class HiddenWall : NetworkBehaviour
 {
+    PlayerCon playerScript;
+    public GameObject camera;
 
     public int count;
 
     GameObject player; //プレイヤー情報格納用
-    private Vector3 RotateAxis = Vector3.up;
-    private float SpeedFactor = -1.5f;
     //回転中かどうか
     public bool rotFlag;
 
@@ -29,10 +29,12 @@ public class HiddenWall : NetworkBehaviour
         {
             CmdMove();
             count++;
-            if (count >= 30)
+            if (count >= 90)
             {
                 rotFlag = false;
                 count = 0;
+                playerScript.camera.transform.position = playerScript.cameraPos.transform.position;
+                playerScript.camera.transform.rotation = playerScript.cameraPos.transform.rotation;
             }
         }
     }
@@ -40,25 +42,23 @@ public class HiddenWall : NetworkBehaviour
     [Command(requiresAuthority = false)]
     void CmdMove()
     {
-        transform.Rotate(new Vector3 (0, -6.0f, 0));
-        // 指定オブジェクトを中心に回転する
-        //player.transform.RotateAround(transform.position,RotateAxis,360.0f / (1.0f / SpeedFactor) * Time.deltaTime);
-        
+        transform.Rotate(new Vector3(0, -2.0f, 0));
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.gameObject.tag=="Player")
+        if (other.gameObject.tag == "Player")
         {
             player = other.gameObject;
 
             if (Input.GetKey(KeyCode.Space))
             {
                 rotFlag = true;
+                playerScript = player.GetComponent<PlayerCon>();
+                playerScript.camera.transform.position = camera.transform.position;
+                playerScript.camera.transform.rotation = camera.transform.rotation;
             }
 
         }
     }
-
-   
 }

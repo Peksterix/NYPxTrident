@@ -8,7 +8,7 @@ public class AddComponent : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            // Žq—v‘f‚Ì–¼‘O‚ð—ñ‹“
+            // ï¿½qï¿½vï¿½fï¿½Ì–ï¿½ï¿½Oï¿½ï¿½ï¿½
             Debug.Log(child.name);
             GameObject obj = child.gameObject;
             obj.AddComponent<MeshCollider>();

@@ -3,28 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Mirror;
 
-public class Timer : MonoBehaviour
+public class Timer : NetworkBehaviour
 {
+    public Text TimerText;
+    [SyncVar] public float totalTime;
+    //カウントダウン情報格納用
+    CountDown countDownScript;
+    GameObject countDownText;
 
-    public Text timeTexts;
-    public float totalTime = 10;
-    public int retime;
     // Start is called before the first frame update
     void Start()
     {
-        
+        countDownText = GameObject.Find("CountDownObject");
+        countDownScript = countDownText.GetComponent<CountDown>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        totalTime -= Time.deltaTime;
-        retime = (int)totalTime;
-        timeTexts.text = retime.ToString();
-        if(retime<=0)
-        {
-            SceneManager.LoadScene("Result");
+		if (countDownScript.countDownFlag)
+		{
+            totalTime -= Time.deltaTime;
+            int time = (int)totalTime;
+            TimerText.text = time.ToString();      
         }
-    }
+	}
 }
+

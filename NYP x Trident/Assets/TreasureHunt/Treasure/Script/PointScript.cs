@@ -8,7 +8,7 @@ using Mirror;
 public class PointScript : NetworkBehaviour
 {
     [SyncVar] public int score;
-    public Text scoreText; //“¾“_‚Ì•¶š‚Ì•Ï”
+    public Text scoreText; //ï¿½ï¿½ï¿½_ï¿½Ì•ï¿½ï¿½ï¿½ï¿½Ì•Ïï¿½
     public int playerNum;
     private GameObject TimerText;
 
@@ -19,8 +19,8 @@ public class PointScript : NetworkBehaviour
         PlayerSettings();
         playerNum = GameObject.Find("PointManager").GetComponent<PointManager>().PlayerList.Count;
         score = 0;
-        //ScoreText‚Ì•¶š‚ğScore:Score‚Ì’l‚É‚·‚é
-        scoreText.text = playerNum.ToString()+"P~" + score.ToString();
+        //ScoreTextï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½Score:Scoreï¿½Ì’lï¿½É‚ï¿½ï¿½ï¿½
+        scoreText.text = playerNum.ToString()+"Pï¿½~" + score.ToString();
     }
 
     void PlayerSettings()
@@ -28,7 +28,7 @@ public class PointScript : NetworkBehaviour
 
         GameObject.Find("PointManager").GetComponent<PointManager>().PlayerList.Add
             (new Player(ID: playerNum = GameObject.Find("PointManager").GetComponent<PointManager>().PlayerList.Count + 1,
-            Name: "test",//©‚±‚±‚É–¼‘O“ü‚ê‚éƒˆ`
+            Name: LocalPlayerHandle.Instance.playerName,//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É–ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½éƒˆï¿½`
             Score: 0));
 
     }
@@ -45,8 +45,8 @@ public class PointScript : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        //ScoreText‚Ì•¶š‚ğScore:Score‚Ì’l‚É‚·‚é
-        scoreText.text = playerNum.ToString() + "P~" + score.ToString();
+        //ScoreTextï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½Score:Scoreï¿½Ì’lï¿½É‚ï¿½ï¿½ï¿½
+        scoreText.text = playerNum.ToString() + "Pï¿½~" + score.ToString();
 
         if(TimerText.GetComponent<THGameTime>().GetIsFinish())
         {
@@ -63,7 +63,8 @@ public class PointScript : NetworkBehaviour
         if (other.gameObject.tag == "Treasure")
         {
             AddScore();
-            Destroy(other.gameObject);
+
+            NetworkServer.Destroy(other.gameObject);
         }
     }
 }

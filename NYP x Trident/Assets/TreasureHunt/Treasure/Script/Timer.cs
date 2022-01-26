@@ -9,10 +9,9 @@ public class Timer : NetworkBehaviour
 {
     public Text TimerText;
     [SyncVar] public float totalTime;
-    //ƒJƒEƒ“ƒgƒ_ƒEƒ“î•ñŠi”[—p
+    //ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[ï¿½p
     CountDown countDownScript;
     GameObject countDownText;
-
 
     // Start is called before the first frame update
     void Start()

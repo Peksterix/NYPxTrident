@@ -47,8 +47,14 @@ public class NetworkRoomManagerExt : NetworkRoomManager
 
     public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
     {
-        gamePlayer.GetComponent<PlayerScore>().playerName = roomPlayer.GetComponent<NetworkRoomPlayerExt>().username;
-        return base.OnRoomServerSceneLoadedForPlayer(conn, roomPlayer, gamePlayer);
+        if (gameType == GameType.KOTH)
+        {
+            gamePlayer.GetComponent<PlayerScore>().playerName = roomPlayer.GetComponent<NetworkRoomPlayerExt>().username;
+            return base.OnRoomServerSceneLoadedForPlayer(conn, roomPlayer, gamePlayer);
+        }
+        
+        else
+            return base.OnRoomServerSceneLoadedForPlayer(conn, roomPlayer, gamePlayer);
     }
 
     public override void OnRoomServerPlayersReady()
