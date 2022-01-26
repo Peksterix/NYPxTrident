@@ -172,13 +172,24 @@ public class WGTPlayerController : GameObjectBase
 
         //Mouse==========================================
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit raycastHit;
-        Physics.Raycast(ray, out raycastHit);
 
-        vel = raycastHit.point;
-        vel.y = 0.0f;
+        foreach (RaycastHit raycastHit in Physics.RaycastAll(ray))
+        {
 
-        m_mouseCursor.transform.position = vel;
+            if (raycastHit.collider.CompareTag("RayCastPlane"))
+            {
+
+                Vector3 mouse = raycastHit.point;
+                mouse.y = 0.0f;
+
+                m_mouseCursor.transform.position = mouse;
+
+
+
+
+            }
+
+        }
 
         vel = m_mouseCursor.transform.position - transform.position;
 
