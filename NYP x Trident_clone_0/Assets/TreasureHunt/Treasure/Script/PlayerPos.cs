@@ -12,12 +12,12 @@ public class PlayerPos : NetworkBehaviour
 
     int count;
 
-    //‰ñ“]’†‚©‚Ç‚¤‚©
+    //ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½
     [SerializeField] public bool coroutineBool = false;
     bool rightFlag;
     bool leftFlag;
-    //‚Ç‚¿‚ç‚ğŒü‚¢‚Ä‚¢‚é‚©
-    [SerializeField] public int direction;//(0=‘O,1=‰E,2=Œã‚ë,3=¶,)
+    //ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©
+    [SerializeField] public int direction;//(0=ï¿½O,1=ï¿½E,2=ï¿½ï¿½ï¿½,3=ï¿½ï¿½,)
 
     public override void OnStartLocalPlayer()
     {
@@ -43,7 +43,7 @@ public class PlayerPos : NetworkBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            //‰ñ“]’†‚Å‚Í‚È‚¢ê‡‚ÍÀs 
+            //ï¿½ï¿½]ï¿½ï¿½ï¿½Å‚Í‚È‚ï¿½ï¿½ê‡ï¿½Íï¿½ï¿½s 
             if (!coroutineBool)
             {
                 coroutineBool = true;
@@ -53,7 +53,7 @@ public class PlayerPos : NetworkBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            //‰ñ“]’†‚Å‚Í‚È‚¢ê‡‚ÍÀs 
+            //ï¿½ï¿½]ï¿½ï¿½ï¿½Å‚Í‚È‚ï¿½ï¿½ê‡ï¿½Íï¿½ï¿½s 
             if (!coroutineBool)
             {
                 coroutineBool = true;

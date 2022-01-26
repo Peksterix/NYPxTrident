@@ -8,7 +8,7 @@ public class BgLight : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        RenderSettings.ambientIntensity = 0.3f; // ‹ó‚Ì–¾‚é‚³‚ğİ’è
+        RenderSettings.ambientIntensity = 0.3f; // ï¿½ï¿½Ì–ï¿½ï¿½é‚³ï¿½ï¿½İ’ï¿½
         RenderSettings.skybox = sky;
     }
 

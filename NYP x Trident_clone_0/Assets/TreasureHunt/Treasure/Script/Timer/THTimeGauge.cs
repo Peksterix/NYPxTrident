@@ -6,13 +6,13 @@ using Mirror;
 
 public class THTimeGauge : NetworkBehaviour
 {
-    //§ŒÀŠÔ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private GameObject m_time;
 
-    //‰©F‚É‚È‚éŠÔ
+    //ï¿½ï¿½ï¿½Fï¿½É‚È‚éï¿½ï¿½
     [SerializeField] private float m_yellowGaugeTime = 30.0f;
 
-    //ÔF‚É‚È‚éŠÔ
+    //ï¿½ÔFï¿½É‚È‚éï¿½ï¿½
     [SerializeField] private float m_redGaugeTime = 10.0f;
 
 
@@ -26,9 +26,9 @@ public class THTimeGauge : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        //‰Šú‚Ì§ŒÀŠÔ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         int maxTime = m_time.GetComponent<THGameTime>().GetMaxTime();
-        //Œ»İ‚Ì§ŒÀŠÔ
+        //ï¿½ï¿½ï¿½İ‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         float nowTime = m_time.GetComponent<THGameTime>().GetFloatTime();
 
         GetComponent<Image>().fillAmount = (float)nowTime / maxTime;
