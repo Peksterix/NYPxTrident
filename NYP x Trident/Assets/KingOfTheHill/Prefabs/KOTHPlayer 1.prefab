@@ -4960,7 +4960,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   clientAuthority: 0
-  animator: {fileID: 0}
+  animator: {fileID: 5310802855070382102}
 --- !u!114 &2386865176939091796
 MonoBehaviour:
   m_ObjectHideFlags: 0

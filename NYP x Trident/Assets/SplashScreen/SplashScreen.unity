@@ -336,7 +336,7 @@ MonoBehaviour:
   roomSlots: []
   clientIndex: 0
   KOTHGameScene: Assets/KingOfTheHill/Scenes/KingOfTheHillGameScene.unity
-  WGTGameScene: Assets/WaterGunTag/Bamboo/Scenes/WaterGunTagGameScene.unity
+  WGTGameScene: Assets/WaterGunTag/WGTRework/Scenes/WaterGunTagGameScene.unity
   THGameScene: Assets/TreasureHunt/Scenes/THGameScene.unity
   gameType: 0
   MatchID: 
@@ -345,6 +345,7 @@ MonoBehaviour:
   KOTHPlayerPrefab: {fileID: 2261087987044390298, guid: 052a7ade97ca82f40aaea49d0973e580, type: 3}
   WGTPlayerPrefab: {fileID: 303185652406623537, guid: 9de67d19d3ab57b4e81b8d3af1fb02a2, type: 3}
   THPlayerPrefab: {fileID: 7116224888234532402, guid: 1713bafb896fd5c40859adb3e60e393a, type: 3}
+  inGamePlayerList: []
 --- !u!114 &175378867
 MonoBehaviour:
   m_ObjectHideFlags: 0

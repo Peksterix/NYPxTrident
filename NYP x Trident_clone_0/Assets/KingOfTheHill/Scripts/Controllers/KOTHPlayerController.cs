@@ -23,6 +23,10 @@ public class KOTHPlayerController : NetworkBehaviour
     public GameObject powerupImage;
     public GameObject waterbombPrefab;
 
+    float playerScoreIFrame;
+
+    public Animator animator;
+
     private void OnValidate()
     {
         if (characterController == null)
@@ -41,6 +45,9 @@ public class KOTHPlayerController : NetworkBehaviour
         //transform.rotation = Quaternion.Euler(0, 90, 0);
         hasWaterbomb = false;
         //characterController.detectCollisions = false;
+        playerScoreIFrame = 2f;
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -69,6 +76,8 @@ public class KOTHPlayerController : NetworkBehaviour
         if (Input.GetButtonDown("Jump") && groundedPlayer)
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravity);
 
+        animator.SetBool("IsJumping", groundedPlayer);
+
         if (Input.GetButtonDown("Fire1"))
             CmdShoot();
         else if (Input.GetButtonUp("Fire1"))
@@ -90,6 +99,9 @@ public class KOTHPlayerController : NetworkBehaviour
         else
             powerupImage.SetActive(false);
 
+        playerScoreIFrame -= Time.deltaTime * 1;
+
+        animator.SetFloat("IsMoving", Mathf.Abs(Horizontal));
     }
 
     private void FixedUpdate()
@@ -190,10 +202,12 @@ public class KOTHPlayerController : NetworkBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Platforms") && isLocalPlayer)
+        if (other.gameObject.CompareTag("Platforms") && isLocalPlayer && playerScoreIFrame < 0)
         {
             if (other.gameObject.GetComponentInParent<MoveablePlatformController>().isHighestPlatform)
                 GetComponent<PlayerScore>().playerScore++;
+
+            playerScoreIFrame = 2f;
         }
     }
 
