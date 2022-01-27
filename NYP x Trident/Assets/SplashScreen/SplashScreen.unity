@@ -325,6 +325,8 @@ MonoBehaviour:
   - {fileID: 3557309100585178812, guid: 7ecdb343c309dc24e848b2627f0f4475, type: 3}
   - {fileID: 8455617235991250582, guid: 1d62ed3c90052c04989c18e68b4a5b73, type: 3}
   - {fileID: 3263573668065125132, guid: 3645ad4d438a0964db444f0e296bdadf, type: 3}
+  - {fileID: 303185652406623537, guid: 9de67d19d3ab57b4e81b8d3af1fb02a2, type: 3}
+  - {fileID: 434900654404876735, guid: 33c3743acf2bd494db020aca71b95070, type: 3}
   showRoomGUI: 0
   minPlayers: 5
   roomPlayerPrefab: {fileID: 141602488279037789, guid: 11a00b6163a050e48ad4fadbaf6b3691, type: 3}
@@ -334,15 +336,16 @@ MonoBehaviour:
   roomSlots: []
   clientIndex: 0
   KOTHGameScene: Assets/KingOfTheHill/Scenes/KingOfTheHillGameScene.unity
-  WGTGameScene: Assets/WaterGunTag/Scenes/WaterGunTagPlayScene.unity
+  WGTGameScene: Assets/WaterGunTag/Bamboo/Scenes/WaterGunTagGameScene.unity
   THGameScene: Assets/TreasureHunt/Scenes/THGameScene.unity
   gameType: 0
   MatchID: 
   Username: 
   lobbyUI: {fileID: 268704810}
   KOTHPlayerPrefab: {fileID: 1763720240163621348, guid: 53c7da0a61b047641a539a3335185c11, type: 3}
-  WGTPlayerPrefab: {fileID: 3327144092093454912, guid: a4b02a779d1cf4d4ab6768ef97c0981b, type: 3}
+  WGTPlayerPrefab: {fileID: 303185652406623537, guid: 9de67d19d3ab57b4e81b8d3af1fb02a2, type: 3}
   THPlayerPrefab: {fileID: 7116224888234532402, guid: 1713bafb896fd5c40859adb3e60e393a, type: 3}
+  inGamePlayerList: []
 --- !u!114 &175378867
 MonoBehaviour:
   m_ObjectHideFlags: 0
