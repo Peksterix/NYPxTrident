@@ -1,16 +1,41 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Bamboo.Utility;
+using TMPro;
 using Mirror;
+using DG.Tweening;
+using System.Security.Cryptography;
+using UnityEngine.Events;
+
 
 namespace Bamboo.WGT
 {
     // This exists on the server only
     // It can call commands and shit though
 
+    public static class ListExtension
+    {
+        public static void ShuffleMe<T>(this IList<T> list)
+        {
+            System.Random random = new System.Random();
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = random.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+    }
+
     public class WGTGameManager : Singleton<WGTGameManager>
     {
+        [SerializeField] Transform[] spawnPoints;
         [SerializeField] float gameTime = 120.0f;
         [SerializeField] float countdownTime = 3.0f;
 
@@ -25,21 +50,18 @@ namespace Bamboo.WGT
 
         void Start()
         {
-            if (!NetworkServer.active && !NetworkClient.active) Destroy(this);
+            if (!NetworkServer.active)
+            {
+                Destroy(this);
+                return;
+            }
+            StartCoroutine(RunGameLoop());
         }
 
         NetworkIdentity[] GetAllPlayers()
         {
-            var conns = NetworkServer.connections.Values;
-            List<NetworkIdentity> players = new List<NetworkIdentity>();
-
-            foreach (var conn in conns)
-            {
-                if (conn.identity != null)
-                    players.Add(conn.identity);
-            }
-
-            return players.ToArray();
+            var conns = NetworkRoomManagerExt.Instance.inGamePlayerList;
+            return conns.ToArray();
         }
 
         // This is ballsack bad
@@ -56,28 +78,58 @@ namespace Bamboo.WGT
             while (GetAllPlayers().Length != NetworkServer.connections.Count)
                 yield return null;
 
-            Debug.Log("All players are connected and have their players created");
+            // Give them random unique spawn points
+            Transform[] temp = spawnPoints;
+            temp.ShuffleMe();
+
+            var players = GetAllPlayers();
+            int index = 0;
+            foreach (var player in players)
+            {
+                player.transform.position = temp[index].position;
+                player.GetComponent<NetworkTransform>().RpcTeleport(temp[index].position);
+                index++;
+            }
+
+            // When all players are connected
+            Debug.Log("All players are connected and have their players created and spawned!");
             yield break;
         }
 
         IEnumerator BeginCountdown()
         {
+            // Begin the countdown on all clients
+            var players = GetAllPlayers();
+            foreach (var player in players)
+            {
+                player.GetComponent<NetworkTransform>().clientAuthority = false;
+                player.GetComponent<WGTPlayerController>().RpcInitPlayer(false);
+                player.GetComponent<WGTPlayerUIHandle>().BeginCountdown(countdownTime, (float)NetworkTime.time);
+            }
+
             while (countdownTime >= 0)
             {
                 countdownTime -= Time.deltaTime;
                 yield return null;
             }
 
-            // What should happen here is you grab all the players using GetAllPlayers, then proceed to get component to wtv is relevant
-            // Then you RPC to them to update their UI, but I lazy do it now
-            // I believe in u tho so ez clap
-            // !!!!
+            // Give all players back their ability to move
+            foreach (var player in players)
+            {
+                player.GetComponent<NetworkTransform>().clientAuthority = true;
+                player.GetComponent<WGTPlayerController>().RpcInitPlayer(true);
+                player.GetComponent<WGTPlayerUIHandle>().BeginGameTime(gameTime, (float)NetworkTime.time);
+            }
 
             yield break;
         }
 
         IEnumerator GameStarted()
         {
+            var players = GetAllPlayers();
+            players[UnityEngine.Random.Range(0, players.Length)].GetComponent<WGTPlayerController>().TurnPlayerIntoCatcher(true);
+            WGTPointManager.Instance.StartSpawningCoroutine();
+
             while (gameTime >= 0)
             {
                 gameTime -= Time.deltaTime;
@@ -89,7 +141,11 @@ namespace Bamboo.WGT
         IEnumerator GameEnded()
         {
             Debug.Log("Game Ended!");
-            // Do whatever you need here
+            var players = GetAllPlayers();
+            foreach (var player in players)
+            {
+                player.GetComponent<WGTPlayerUIHandle>().GameEnd();
+            }
             yield break;
         }
     }
