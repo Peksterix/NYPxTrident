@@ -96,6 +96,7 @@ public class WGTResult : MonoBehaviour
 
             m_createdUIObject.Add(finishText);
 
+            GetComponent<AudioSource>().Play();
         }
        
 

@@ -135,6 +135,10 @@ public class StartCountDown : NetworkBehaviour
         {
             m_countDownNum--;
             m_timeCount = 0;
+            if(m_countDownNum==3)
+            {
+                GetComponent<AudioSource>().Play();
+            }
         }
 
         if (m_countDownNum < 0 && !m_isFinish)

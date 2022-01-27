@@ -57,6 +57,7 @@ public class PointUI : MonoBehaviour
        
         if(m_playerBeforePoint!= m_player.GetComponent<PlayerActions>().m_point)
         {
+            GetComponent<AudioSource>().Play();
             m_isAction = true;
             m_larpT = 0.0f;
         }
