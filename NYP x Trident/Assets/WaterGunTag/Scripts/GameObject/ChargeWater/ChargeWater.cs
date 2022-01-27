@@ -31,6 +31,7 @@ public class ChargeWater : MonoBehaviour
         {
             if (!other.gameObject.GetComponent<WGTPlayerController>().m_isInoperable)
             {
+                
                 if (!other.gameObject.GetComponentInChildren<WaterGun>().GetIsShotWaterGun())
                 {
 
@@ -54,8 +55,46 @@ public class ChargeWater : MonoBehaviour
 
 
                 }
+                else
+                {
+                    GetComponent<AudioSource>().Stop();
+                }
 
             }
+
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        //プレイヤーに当たったら水の回復をできるようにする
+        if (other.transform.CompareTag("Player"))
+        {
+            GetComponent<AudioSource>().Stop();
+
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //プレイヤーに当たったら水の回復をできるようにする
+        if (other.transform.CompareTag("Player"))
+        {
+            if (!other.gameObject.GetComponent<WGTPlayerController>().m_isInoperable)
+            {
+                if (!other.gameObject.GetComponentInChildren<WaterGun>().GetIsShotWaterGun())
+                {
+                    if (Input.GetMouseButton(1))
+                    {
+
+                        GetComponent<AudioSource>().Play();
+                    }
+                }
+
+            }
+           
+
+            
 
         }
     }
