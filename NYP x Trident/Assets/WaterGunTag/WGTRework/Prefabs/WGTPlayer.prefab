@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 303185652013095238}
-  - component: {fileID: 303185652013095239}
   m_Layer: 7
   m_Name: GunPivot
   m_TagString: Untagged
@@ -32,18 +31,6 @@ Transform:
   m_Father: {fileID: 303185652406623549}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &303185652013095239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 303185652013095257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73dd46bfc09f7544680095f5fbacde64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &303185652126959128
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 303185652168910159}
   - component: {fileID: 303185652168910157}
-  - component: {fileID: 303185652168910156}
+  - component: {fileID: 7498804823967261580}
   m_Layer: 7
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -103,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 303185652168910158}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.15}
   m_Children: []
   m_Father: {fileID: 303185652406623549}
   m_RootOrder: 0
@@ -159,7 +146,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &303185652168910156
+--- !u!114 &7498804823967261580
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,7 +155,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 303185652168910158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73dd46bfc09f7544680095f5fbacde64, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a385be5e57486a4d9d26940ec05e5e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &303185652406623537
@@ -273,13 +260,13 @@ MonoBehaviour:
   playerGunTransform: {fileID: 303185652013095238}
   playerSpriteTransform: {fileID: 303185652168910159}
   playerSprite: {fileID: 303185652168910157}
-  gunDistance: 1.2
+  gunDistance: 1.4
   characterController: {fileID: 1470147041420946385}
   rotationSmoothTIme: 0.05
   rotationSpeed: 0
-  movementSpeed: 8.52
+  movementSpeed: 4
   minSpeedDistance: 0
-  maxSpeedDistance: 10
+  maxSpeedDistance: 5
   playerToMouseDistance: 0
   playerMaxHP: 15
   playerMaxAmmo: 20
@@ -370,6 +357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 303185653661019870}
   - component: {fileID: 303185653661019871}
+  - component: {fileID: 5085150062155912559}
   m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
@@ -384,13 +372,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 303185653661019857}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -7}
+  m_LocalScale: {x: 2, y: 2, z: 12}
   m_Children: []
   m_Father: {fileID: 303185652126959129}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &303185653661019871
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -442,6 +430,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5085150062155912559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303185653661019857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73dd46bfc09f7544680095f5fbacde64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2108960879773445754
 MonoBehaviour:
   m_ObjectHideFlags: 0

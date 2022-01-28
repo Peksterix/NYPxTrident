@@ -44,6 +44,8 @@ namespace WGTRework
         private bool canMove = false;
         private bool wasShooting = false;
 
+        private GameObject miniMapCamera;
+
         public bool IsPlayerCatcher => isPlayerCatcher;
 
         public override void OnStartServer()
@@ -58,12 +60,16 @@ namespace WGTRework
 
         void Start()
         {
-            name = "Player: " + netIdentity.netId.ToString();
+            miniMapCamera = GameObject.Find("MiniMapCamera");
+               name = "Player: " + netIdentity.netId.ToString();
+            if (!Camera.main) return;
         }
 
         public void Update()
         {
             if ((!isLocalPlayer || !canMove)) return;
+            //ミニマップをスクロールさせる
+            miniMapCamera.GetComponent<Camera>().transform.position = new Vector3(transform.position.x, 0, transform.position.z) + new Vector3(0, miniMapCamera.transform.position.y, 0);
             if (!Camera.main) return;
 
             RotatePlayer();
@@ -101,7 +107,7 @@ namespace WGTRework
         {
             playerGunTransform.transform.position = transform.position + (transform.forward * gunDistance);
 
-            Vector3 direction = playerGunTransform.transform.position - transform.position;
+            Vector3 direction = playerGunTransform.transform.position + transform.position;
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
 
             playerGunTransform.transform.GetChild(0).localRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
@@ -210,10 +216,12 @@ namespace WGTRework
         public void RpcInitPlayer(bool isInitialising)
         {
             if (isInitialising && isLocalPlayer) CameraManager.Instance.AssignCameraTarget(transform, transform);
-            else if (!isInitialising && isLocalPlayer) CameraManager.Instance.AssignCameraTarget(null, null);
+            else if (!isInitialising && isLocalPlayer) CameraManager.Instance.AssignCameraTarget(transform, transform);
 
-            playerGunTransform.gameObject.SetActive(isInitialising);
-            playerSpriteTransform.gameObject.SetActive(isInitialising);
+            //ミニマップをスクロールさせる
+            miniMapCamera.GetComponent<Camera>().transform.position = new Vector3(transform.position.x, 0, transform.position.z) + new Vector3(0, miniMapCamera.transform.position.y, 0);
+            playerGunTransform.gameObject.SetActive(true);
+            playerSpriteTransform.gameObject.SetActive(true);
             GetComponent<NetworkTransform>().clientAuthority = isInitialising;
             canMove = isInitialising;
         }
