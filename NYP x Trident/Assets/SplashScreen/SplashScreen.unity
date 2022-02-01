@@ -955,9 +955,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _persistent: 1
-  MasterServerUrl: 
+  MasterServerUrl: http://202.166.62.253:1337
   ServerIP: 
-  isServerIPLocal: 1
+  isServerIPLocal: 0
 --- !u!4 &624040448
 Transform:
   m_ObjectHideFlags: 0
