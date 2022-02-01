@@ -381,7 +381,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   score: 0
-  scoreText: {fileID: 8122685609467054290, guid: 5a7f7fcab004285478ded1f44b1f0d2e, type: 3}
+  scoreText: {fileID: 4228475897039691123}
   playerNum: 0
 --- !u!65 &6483439476701854763
 BoxCollider:
@@ -498,3 +498,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 44446263604671695, guid: 5a7f7fcab004285478ded1f44b1f0d2e, type: 3}
   m_PrefabInstance: {fileID: 5338740188676625825}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4228475897039691123 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8122685609467054290, guid: 5a7f7fcab004285478ded1f44b1f0d2e, type: 3}
+  m_PrefabInstance: {fileID: 5338740188676625825}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
