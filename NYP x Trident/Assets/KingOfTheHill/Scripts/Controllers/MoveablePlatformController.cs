@@ -32,6 +32,11 @@ public class MoveablePlatformController : NetworkBehaviour
             transform.GetChild(0).GetComponentInChildren<ParticleSystem>().Play();
         else
             transform.GetChild(0).GetComponentInChildren<ParticleSystem>().Stop();
+
+        //platformLifetime -= Time.deltaTime * 1;
+
+        //if (platformLifetime <= 0)
+        //    NetworkServer.Destroy(this.gameObject);
     }
 
     private void FixedUpdate()
@@ -42,6 +47,8 @@ public class MoveablePlatformController : NetworkBehaviour
         if (platform.position.y < platformTargetHeight)
             platform.position += new Vector3(0f, speed * Time.deltaTime, 0f);
     }
+
+
 
     private void OnCollisionEnter(Collision collision)
     {

@@ -11,5 +11,4 @@ public class AddText : MonoBehaviour
         canvas = GameObject.Find("PointCanvas");
         this.gameObject.transform.SetParent(canvas.gameObject.transform, false);
     }
-
 }

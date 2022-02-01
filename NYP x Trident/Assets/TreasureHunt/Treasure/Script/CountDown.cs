@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 
+// Initial countdown
+
 public class CountDown : NetworkBehaviour
 {
 	public Text countText;
@@ -14,6 +16,9 @@ public class CountDown : NetworkBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		if (!isServer)
+			return;
+
 		countDownFlag = false;
 	}
 

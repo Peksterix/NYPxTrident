@@ -11,21 +11,21 @@ public class PlayerCon : NetworkBehaviour
 	public bool cameraFlag = false;
 	public bool naviFlag = false;
 
-	//ƒvƒŒƒCƒ„[î•ñŠi”[—p
+	//ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½iï¿½[ï¿½p
 	PlayerPos playerPosScript;
-	//ƒJƒEƒ“ƒgƒ_ƒEƒ“î•ñŠi”[—p
+	//ï¿½Jï¿½Eï¿½ï¿½ï¿½gï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½iï¿½[ï¿½p
 	CountDown countDownScript;
 	GameObject countDownText;
 	private GameObject TimerText;
 
 	/// <summary>
-	/// //ƒJƒƒ‰ŠÖŒW
+	/// //ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÖŒW
 	public GameObject camera;
 	public GameObject cameraPos;
 	/// </summary>
 
 
-	//ˆÚ“®—Ê•Û‘¶•Ï”
+	//ï¿½Ú“ï¿½ï¿½Ê•Û‘ï¿½ï¿½Ïï¿½
 	Vector3 motion;
 
 	GameObject door;
@@ -44,7 +44,7 @@ public class PlayerCon : NetworkBehaviour
 	//	wall = GameObject.FindGameObjectWithTag("Wall");
 	//	//SetUpServer();
 
-	//	//ƒXƒNƒŠƒvƒg‚ÌPlayerPos‚Ì“o˜^
+	//	//ï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½ï¿½PlayerPosï¿½Ì“oï¿½^
 	//	playerPosScript = GetComponent<PlayerPos>();
 
 	//	countDownText = GameObject.Find("CountDownObject");
@@ -62,11 +62,12 @@ public class PlayerCon : NetworkBehaviour
 		wall = GameObject.FindGameObjectWithTag("Wall");
 		//SetUpServer();
 
-		//ƒXƒNƒŠƒvƒg‚ÌPlayerPos‚Ì“o˜^
+		//ï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½gï¿½ï¿½PlayerPosï¿½Ì“oï¿½^
 		playerPosScript = GetComponent<PlayerPos>();
 
 		countDownText = GameObject.Find("CountDownObject");
 		countDownScript = countDownText.GetComponent<CountDown>();
+		Cursor.lockState  = CursorLockMode.Locked;
 	}
 
     void Update()
@@ -74,7 +75,7 @@ public class PlayerCon : NetworkBehaviour
 		if (!isLocalPlayer) return;
 		if (TimerText.GetComponent<THGameTime>().GetIsFinish()) return;
 
-		//ƒJƒƒ‰‚ª‰ñ“]’†‚Å‚È‚¯‚ê‚Îˆ—‚·‚é
+		//ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½Å‚È‚ï¿½ï¿½ï¿½Îï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (playerPosScript.coroutineBool == false && countDownScript.countDownFlag)
 		{
 			//CmdPlayerMove();

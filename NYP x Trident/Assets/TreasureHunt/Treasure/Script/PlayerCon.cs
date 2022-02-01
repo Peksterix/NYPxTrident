@@ -67,6 +67,7 @@ public class PlayerCon : NetworkBehaviour
 
 		countDownText = GameObject.Find("CountDownObject");
 		countDownScript = countDownText.GetComponent<CountDown>();
+		Cursor.lockState  = CursorLockMode.Locked;
 	}
 
     void Update()

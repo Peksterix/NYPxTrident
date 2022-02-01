@@ -38,6 +38,9 @@ public class ChargeWater : MonoBehaviour
                         other.gameObject.GetComponentInChildren<WaterGun>().ChargeWaterGauge(m_waterChargeNum);
                     }
                 }
+
+               
+                   
             }
 
         }

@@ -100,17 +100,23 @@ public class MoveablePlatformManager : NetworkBehaviour
         for (int i = 2; i < platformParent.transform.childCount; ++i)
         {
             platform = platformParent.transform.GetChild(i).GetChild(0).gameObject;
-            if (platform.transform.position.y > CurrentHighestPlatform.transform.GetChild(0).position.y)
+            if (platform.transform.position.y > CurrentHighestPlatform.transform.GetChild(0).position.y && platform != null)
             {
+                if (platform == null)
+                    return;
+
                 CurrentHighestPlatform = platform;
             }
             else
             {
+                if (platform == null)
+                    return;
+
                 platform.GetComponentInParent<MoveablePlatformController>().isHighestPlatform = false;
             }
         }
 
-        if (CurrentHighestPlatform.CompareTag("Platforms"))
+        if (CurrentHighestPlatform.CompareTag("Platforms") && CurrentHighestPlatform != null)
             CurrentHighestPlatform.GetComponentInParent<MoveablePlatformController>().isHighestPlatform = true;
         else
             return;

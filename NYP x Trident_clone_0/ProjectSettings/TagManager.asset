@@ -14,6 +14,10 @@ TagManager:
   - Powerups
   - DeafultPlatforms
   - OutOfBounds
+  - Pit
+  - PitGravity
+  - Slider
+  - RayCastPlane
   layers:
   - Default
   - TransparentFX
@@ -26,7 +30,7 @@ TagManager:
   - PointItem
   - WaterGunParticle
   - PlatformRaycast
-  - 
+  - WGTRaycast
   - 
   - 
   - 

@@ -4,46 +4,73 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 
+//Gameplay countdown background
+
 public class THTimeGauge : NetworkBehaviour
 {
-    //§ŒÀŠÔ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private GameObject m_time;
 
-    //‰©F‚É‚È‚éŠÔ
+    [SyncVar]
+    float currTime;
+
+    [SyncVar]
+    int maxTime;
+
+    //ï¿½ï¿½ï¿½Fï¿½É‚È‚éï¿½ï¿½
     [SerializeField] private float m_yellowGaugeTime = 30.0f;
 
-    //ÔF‚É‚È‚éŠÔ
+    //ï¿½ÔFï¿½É‚È‚éï¿½ï¿½
     [SerializeField] private float m_redGaugeTime = 10.0f;
 
-
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        if (!isServer)
+            return;
+
         m_time = GameObject.Find("GameTimer");
+
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        maxTime = m_time.GetComponent<THGameTime>().GetMaxTime();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //‰Šú‚Ì§ŒÀŠÔ
-        int maxTime = m_time.GetComponent<THGameTime>().GetMaxTime();
-        //Œ»İ‚Ì§ŒÀŠÔ
-        float nowTime = m_time.GetComponent<THGameTime>().GetFloatTime();
+        if (!isServer)
+            return;
 
-        GetComponent<Image>().fillAmount = (float)nowTime / maxTime;
+        //ï¿½ï¿½ï¿½İ‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        currTime = m_time.GetComponent<THGameTime>().GetFloatTime();
 
-        GetComponent<Image>().color = new Color(0,255,0);
+        UpdateGauge();
 
-        if (nowTime <= m_yellowGaugeTime)
+        ChangeTimeGaugeColor();
+
+    }
+
+    [ClientRpc]
+    void UpdateGauge()
+    {
+        GetComponent<Image>().fillAmount = (float)currTime / maxTime;
+    }
+
+    [ClientRpc]
+    void ChangeTimeGaugeColor()
+    {
+        GetComponent<Image>().color = new Color(0, 255, 0);
+
+        if (currTime <= m_yellowGaugeTime)
         {
             GetComponent<Image>().color = Color.yellow;
         }
 
-        if (nowTime <= m_redGaugeTime)
+        if (currTime <= m_redGaugeTime)
         {
             GetComponent<Image>().color = Color.red;
         }
-
     }
 }

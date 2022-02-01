@@ -23,6 +23,10 @@ public class KOTHPlayerController : NetworkBehaviour
     public GameObject powerupImage;
     public GameObject waterbombPrefab;
 
+    float playerScoreIFrame;
+
+    public Animator animator;
+
     private void OnValidate()
     {
         if (characterController == null)
@@ -38,9 +42,12 @@ public class KOTHPlayerController : NetworkBehaviour
         characterController.enabled = true;
         beingSprayed = false;
         zPosition = transform.position.z;
-        transform.rotation = Quaternion.Euler(0, 90, 0);
+        //transform.rotation = Quaternion.Euler(0, 90, 0);
         hasWaterbomb = false;
-        characterController.detectCollisions = false;
+        //characterController.detectCollisions = false;
+        playerScoreIFrame = 2f;
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -56,14 +63,20 @@ public class KOTHPlayerController : NetworkBehaviour
 
         Horizontal = Input.GetAxis("Horizontal");
 
+        //if (Horizontal < 0)
+        //    gameObject.transform.localScale = new Vector3(0.17f, 0.17f, 1);
+        //else if (Horizontal > 0)
+        //    gameObject.transform.localScale = new Vector3(-0.17f, 0.17f, 1);
         if (Horizontal < 0)
-            gameObject.transform.localScale = new Vector3(-0.0001f, 1, 1);
+            gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         else if (Horizontal > 0)
-            gameObject.transform.localScale = new Vector3(0.0001f, 1, 1);
+            gameObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
 
 
         if (Input.GetButtonDown("Jump") && groundedPlayer)
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravity);
+
+        animator.SetBool("IsJumping", groundedPlayer);
 
         if (Input.GetButtonDown("Fire1"))
             CmdShoot();
@@ -86,6 +99,9 @@ public class KOTHPlayerController : NetworkBehaviour
         else
             powerupImage.SetActive(false);
 
+        playerScoreIFrame -= Time.deltaTime * 1;
+
+        animator.SetFloat("IsMoving", Mathf.Abs(Horizontal));
     }
 
     private void FixedUpdate()
@@ -103,7 +119,7 @@ public class KOTHPlayerController : NetworkBehaviour
         characterController.Move(move * Time.fixedDeltaTime * playerSpeed);
 
         if (move != Vector3.zero)
-            gameObject.transform.forward = move;
+            gameObject.transform.right = move;
 
         characterController.Move(playerVelocity * Time.fixedDeltaTime);
         playerVelocity.y += gravity * Time.fixedDeltaTime;
@@ -148,14 +164,14 @@ public class KOTHPlayerController : NetworkBehaviour
     {
         Vector3 offset;
 
-        if (gameObject.transform.localScale.x < 0)
+        if (gameObject.transform.rotation.y <= 0)
             offset = new Vector3(-0.3f, 0, 0);
         else
             offset = new Vector3(0.3f, 0, 0);
 
         GameObject newWaterbomb = Instantiate(waterbombPrefab, GetComponentInChildren<ParticleSystem>().gameObject.transform.position + offset, Quaternion.identity);
         NetworkServer.Spawn(newWaterbomb);
-        newWaterbomb.GetComponent<Rigidbody>().AddForce(15 * transform.forward.normalized, ForceMode.VelocityChange);
+        newWaterbomb.GetComponent<Rigidbody>().AddForce(15 * -transform.right.normalized, ForceMode.VelocityChange);
         hasWaterbomb = false;
     }
 
@@ -186,10 +202,12 @@ public class KOTHPlayerController : NetworkBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Platforms") && isLocalPlayer)
+        if (other.gameObject.CompareTag("Platforms") && isLocalPlayer && playerScoreIFrame < 0)
         {
             if (other.gameObject.GetComponentInParent<MoveablePlatformController>().isHighestPlatform)
                 GetComponent<PlayerScore>().playerScore++;
+
+            playerScoreIFrame = 2f;
         }
     }
 
@@ -207,5 +225,11 @@ public class KOTHPlayerController : NetworkBehaviour
     void CmdToggleWaterBomb()
     {
         hasWaterbomb = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        //Debug.DrawRay(transform.position, transform.forward, Color.red);
+        Debug.DrawRay(transform.position, transform.right, Color.red);
     }
 }

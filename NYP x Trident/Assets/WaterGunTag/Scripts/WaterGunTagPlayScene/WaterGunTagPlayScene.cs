@@ -12,13 +12,18 @@ public class WaterGunTagPlayScene : NetworkBehaviour
 
     public List<GameObject> WGTSpawnPoints = new List<GameObject>();
 
+    public override void OnStartServer()
+    {
+        RegisterSpawnPoints();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         if (!isServer)
             return;
 
-        RegisterSpawnPoints();
+        //RegisterSpawnPoints();
     }
 
     // Update is called once per frame

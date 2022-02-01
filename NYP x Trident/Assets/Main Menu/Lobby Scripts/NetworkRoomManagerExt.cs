@@ -11,7 +11,8 @@ public class NetworkRoomManagerExt : NetworkRoomManager
     {
         KOTH = 0,
         WGT= 1,
-        TH = 2
+        TH = 2,
+        NONE = 3
     }
 
     public static NetworkRoomManagerExt Instance => NetworkRoomManager.singleton as NetworkRoomManagerExt;
@@ -39,6 +40,8 @@ public class NetworkRoomManagerExt : NetworkRoomManager
     public GameObject WGTPlayerPrefab;
     public GameObject THPlayerPrefab;
 
+    public List<NetworkIdentity> inGamePlayerList = new List<NetworkIdentity>();
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -47,15 +50,23 @@ public class NetworkRoomManagerExt : NetworkRoomManager
 
     public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnection conn, GameObject roomPlayer, GameObject gamePlayer)
     {
+        inGamePlayerList.Add(gamePlayer.GetComponent<NetworkIdentity>());
+
         if (gameType == GameType.KOTH)
         {
             gamePlayer.GetComponent<PlayerScore>().playerName = roomPlayer.GetComponent<NetworkRoomPlayerExt>().username;
             return base.OnRoomServerSceneLoadedForPlayer(conn, roomPlayer, gamePlayer);
         }
-        
         else
             return base.OnRoomServerSceneLoadedForPlayer(conn, roomPlayer, gamePlayer);
     }
+
+    public override void OnStopServer()
+    {
+        base.OnStopServer();
+        inGamePlayerList.Clear();
+    }
+
 
     public override void OnRoomServerPlayersReady()
     {

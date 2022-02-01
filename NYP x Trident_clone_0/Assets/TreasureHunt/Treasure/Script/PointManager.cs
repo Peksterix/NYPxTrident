@@ -7,11 +7,13 @@ public class Player
     public int ID;
     public string Name;
     public int Score;
-    public Player(int ID, string Name, int Score)
+    public string Result;
+    public Player(int ID, string Name, int Score, string Result)
     {
         this.ID = ID;
         this.Name = Name;
         this.Score = Score;
+        this.Result = Result;
     }
 }
 public class PointManager : MonoBehaviour
@@ -24,7 +26,7 @@ public class PointManager : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                Debug.Log(chara.Name);
+                Debug.Log(chara.ID);
             }
         }
     }

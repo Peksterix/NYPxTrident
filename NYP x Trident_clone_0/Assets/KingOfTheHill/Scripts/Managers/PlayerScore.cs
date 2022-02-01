@@ -8,19 +8,15 @@ using Mirror;
 public class PlayerScore : NetworkBehaviour
 {
     [Header("Player Details")]
-    [SyncVar(hook = nameof(SyncScore))]
-    public int playerScore;
+    [SyncVar(hook = nameof(SyncScore))] public int playerScore;
     [SyncVar]
     public string playerName;
 
     [Header("UI References")]
-    [SerializeField]
-    GameObject playerScorePanel;
-    [SerializeField]
-    Transform playerScoreContainer;
+    [SerializeField] GameObject playerScorePanel;
+    [SerializeField] Transform playerScoreContainer;
 
     GameObject newPlayerScorePanel;
-
 
     private void Start()
     {

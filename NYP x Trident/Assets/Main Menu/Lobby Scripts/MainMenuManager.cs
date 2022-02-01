@@ -37,6 +37,11 @@ public class MainMenuManager : MonoBehaviour
         GamemodeSelectionCanvas.enabled = true;
     }
 
+    public void QuitButton()
+    {
+        Application.Quit();
+    }
+
     /*
      *  Gamemode Select Functions
     */
@@ -61,6 +66,13 @@ public class MainMenuManager : MonoBehaviour
         ConnectionCanvas.enabled = true;
     }
 
+    public void GamemodeSelectBackButton()
+    {
+        NetworkRoomManagerExt.Instance.gameType = NetworkRoomManagerExt.GameType.NONE;
+        GamemodeSelectionCanvas.enabled = false;
+        MainMenuCanvas.enabled = true;
+    }
+
     /*
      *  Connection Functions
     */
@@ -72,6 +84,14 @@ public class MainMenuManager : MonoBehaviour
     public void Join()
     {
         MasterServerCommunicator.Instance.CodeToServer(MatchIDInputField.text, (int)NetworkRoomManagerExt.Instance.gameType);
+    }
+
+    public void ConnectionBackButton()
+    {
+        UsernameInputField.text = "";
+        MatchIDInputField.text = "";
+        ConnectionCanvas.enabled = false;
+        GamemodeSelectionCanvas.enabled = true;
     }
 
     /*

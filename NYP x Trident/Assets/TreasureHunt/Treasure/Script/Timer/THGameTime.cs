@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 
+// Gameplay Countdown
+
 public class THGameTime : NetworkBehaviour
 {
     // Start is called before the first frame update
@@ -17,7 +19,7 @@ public class THGameTime : NetworkBehaviour
     private float m_timeCount = 0;
 
     //�I��������
-    private bool m_isFinish;
+    [SyncVar]private bool m_isFinish;
 
     //�^�C���Q�[�W�p�̎���
     private float m_floatTime;
@@ -29,10 +31,10 @@ public class THGameTime : NetworkBehaviour
     [SerializeField] private float m_finishSize = 0.1f;
 
     //larp�̐���
-    private float m_larpT = 0.0f;
+    private float m_lerpT = 0.0f;
 
     //���o���N�����t���O
-    private bool m_isAction = false;
+    [SyncVar]private bool m_isAction = false;
 
     //�J�E���g�_�E�����i�[�p
     CountDown countDownScript;
@@ -60,18 +62,18 @@ public class THGameTime : NetworkBehaviour
             if (m_time % 10 == 0)
             {
                 GetComponent<RectTransform>().localScale = new Vector3(
-              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_larpT)) * 2)),
-              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_larpT)) * 2)),
-              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_larpT)) * 2))
+              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_lerpT)) * 2)),
+              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_lerpT)) * 2)),
+              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_lerpT)) * 2))
               );
 
             }
             else if (m_time <= 10)
             {
                 GetComponent<RectTransform>().localScale = new Vector3(
-              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_larpT)) * 2)),
-              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_larpT)) * 2)),
-              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_larpT)) * 2))
+              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_lerpT)) * 2)),
+              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_lerpT)) * 2)),
+              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_lerpT)) * 2))
               );
 
             }
@@ -79,18 +81,18 @@ public class THGameTime : NetworkBehaviour
             else
             {
                 GetComponent<RectTransform>().localScale = new Vector3(
-              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_larpT)) * 0.5f)),
-              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_larpT)) * 0.5f)),
-              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_larpT)) * 0.5f))
+              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_lerpT)) * 0.5f)),
+              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_lerpT)) * 0.5f)),
+              m_startSize + (m_finishSize * ((1 + Mathf.Cos(m_lerpT)) * 0.5f))
               );
             }
 
 
-            if (m_larpT >= 2.0f)
+            if (m_lerpT >= 2.0f)
             {
                 m_isAction = false;
             }
-            m_larpT += Time.deltaTime * 10.0f;
+            m_lerpT += Time.deltaTime * 10.0f;
         }
 
         //����if���Ŏ��Ԃ�i�߂Ă��������f����
@@ -125,15 +127,12 @@ public class THGameTime : NetworkBehaviour
     //-------------------------------------
     private void UpdeteTime()
     {
-
-
-
         if (m_time > 0 && !m_isFinish && m_timeCount >= 1)
         {
             m_time--;
             m_timeCount = 0;
             m_isAction = true;
-            m_larpT = 0.0f;
+            m_lerpT = 0.0f;
         }
 
         if (m_time <= 0 && !m_isFinish)
@@ -156,6 +155,7 @@ public class THGameTime : NetworkBehaviour
     //����     :�Ȃ��@None
     //�߂�l   :�Ȃ��@None
     //-------------------------------------
+    [ClientRpc]
     private void UpdateText()
     {
         Text timeText = this.GetComponent<Text>();
