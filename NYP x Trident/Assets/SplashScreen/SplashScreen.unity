@@ -273,7 +273,7 @@ MonoBehaviour:
   DualMode: 1
   NoDelay: 1
   Interval: 10
-  Timeout: 10000
+  Timeout: 2147483647
   FastResend: 2
   CongestionWindow: 0
   SendWindowSize: 4096
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _persistent: 1
-  MasterServerUrl: http://202.166.62.253:1337
+  MasterServerUrl: http://202.166.59.186:1337
   ServerIP: 
   isServerIPLocal: 0
 --- !u!4 &624040448
