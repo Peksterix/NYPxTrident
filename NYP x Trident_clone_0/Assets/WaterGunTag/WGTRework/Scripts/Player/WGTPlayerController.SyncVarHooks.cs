@@ -56,15 +56,5 @@ namespace WGTRework
             if (!isLocalPlayer) return;
             WGTUIManager.Instance.OnLocalPlayerScored(playerPoints);
         }
-
-        //void OnPlayerIsChargingWater(bool oldVal, bool newVal)
-        //{
-        //    isCurrentlyChargingWater = newVal;
-        //}
-
-        //void OnPlayerIsAbleToChargeWater(bool oldVal, bool newVal)
-        //{
-        //    isAbleToChargeWater = newVal;
-        //}
     }
 }

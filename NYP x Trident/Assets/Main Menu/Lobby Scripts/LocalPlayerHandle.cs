@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-using Bamboo.Utility;
+using Utility;
 using UnityEngine.Events;
 
 public sealed class LocalPlayerHandle : Singleton<LocalPlayerHandle>

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Bamboo.Utility
+namespace Utility
 {
     public abstract class Singleton<T> : Singleton where T : MonoBehaviour
     {

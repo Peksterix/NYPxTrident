@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Bamboo.Utility;
+using Utility;
 
 public class KOTHSpawnManager : Singleton<KOTHSpawnManager>
 {

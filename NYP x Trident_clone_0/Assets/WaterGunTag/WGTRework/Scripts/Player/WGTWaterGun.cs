@@ -28,7 +28,6 @@ namespace WGTRework
         private void OnParticleCollision(GameObject other)
         {
             // Returns if not local player
-            // We are lazy, so instead of raycasting like a normal human being, we gonna let the clients handle the damage
             if (!NetworkServer.active) return;
 
             if (other.CompareTag("Player"))

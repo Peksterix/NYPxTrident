@@ -49,7 +49,7 @@ public class PlayerActions : NetworkBehaviour
     public int m_point = 0;
     // Start is called before the first frame update
 
-    #region SHERWYN FIX FOLLOW ME THANKS https://twitter.com/Bamboo0118
+    #region
     void SyncOnHpChange(int oldVal, int newVal)
     {
         m_hp = newVal;

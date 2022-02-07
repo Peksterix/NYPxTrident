@@ -6,17 +6,13 @@ using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField]
-    Canvas MainMenuCanvas;
-    [SerializeField]
-    Canvas GamemodeSelectionCanvas;
-    [SerializeField]
-    Canvas ConnectionCanvas;
-
-    [SerializeField]
-    TMP_InputField UsernameInputField;
-    [SerializeField]
-    TMP_InputField MatchIDInputField;
+    [Header("UI References")]
+    [SerializeField] Canvas MainMenuCanvas;
+    [SerializeField] Canvas GamemodeSelectionCanvas;
+    [SerializeField] Canvas ConnectionCanvas;
+    [SerializeField] TMP_InputField UsernameInputField;
+    [SerializeField] TMP_InputField MatchIDInputField;
+    [SerializeField] TextMeshProUGUI ConnectionResultText;
 
 
     private void Start()
@@ -84,6 +80,12 @@ public class MainMenuManager : MonoBehaviour
     public void Join()
     {
         MasterServerCommunicator.Instance.CodeToServer(MatchIDInputField.text, (int)NetworkRoomManagerExt.Instance.gameType);
+
+        if (MatchIDInputField.text == "")
+        {
+            ConnectionResultText.gameObject.SetActive(true);
+            ConnectionResultText.text = "Enter a match ID!";
+        }
     }
 
     public void ConnectionBackButton()
@@ -117,10 +119,22 @@ public class MainMenuManager : MonoBehaviour
     void Fail(string error, string code)
     {
         // TODO: make UI based on failed conditions, check Index in Master Server File
-        //if(code == "GameModeMismatch")
-        //{
+        if (code == "GameModeMismatch")
+        {
+            ConnectionResultText.gameObject.SetActive(true);
+            ConnectionResultText.text = "Gamemode does not match!";
+        }
+        if (code == "DoesNotExist")
+        {
+            ConnectionResultText.gameObject.SetActive(true);
+            ConnectionResultText.text = "Could not find match with inputted ID";
+        }
+        if(code == "InvalidPayload")
+        {
+            ConnectionResultText.gameObject.SetActive(true);
+            ConnectionResultText.text = "Could not connect to server";
+        }
 
-        //}
         Debug.LogError(string.Format("Error: {0}, Message: {1}", error, code));
     }
 }

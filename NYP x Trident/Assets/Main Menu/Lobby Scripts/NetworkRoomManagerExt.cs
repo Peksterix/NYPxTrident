@@ -31,6 +31,7 @@ public class NetworkRoomManagerExt : NetworkRoomManager
 
     [Header("Lobby UI")]
     public Canvas lobbyUI;
+    public GameObject startButton;
 
     /*
      * To include prefabs for all gamemodes.
@@ -67,6 +68,11 @@ public class NetworkRoomManagerExt : NetworkRoomManager
         inGamePlayerList.Clear();
     }
 
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        startButton.SetActive(true);
+    }
 
     public override void OnRoomServerPlayersReady()
     {

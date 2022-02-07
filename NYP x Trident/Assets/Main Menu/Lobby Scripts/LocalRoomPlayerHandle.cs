@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-using Bamboo.Utility;
+using Utility;
 using UnityEngine.Events;
 
 public class LocalRoomPlayerHandle : MonoBehaviour

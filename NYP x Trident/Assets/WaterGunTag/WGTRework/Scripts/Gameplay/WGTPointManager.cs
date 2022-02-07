@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Bamboo.Utility;
+using Utility;
 using TMPro;
 using Mirror;
 using DG.Tweening;
@@ -42,9 +42,9 @@ namespace WGTRework
 
         public void StartSpawningCoroutine()
         {
-            StartCoroutine(peepeepoopoo());
+            StartCoroutine(CheckSpawnPoint());
 
-            IEnumerator peepeepoopoo()
+            IEnumerator CheckSpawnPoint()
             {
                 while(true)
                 {

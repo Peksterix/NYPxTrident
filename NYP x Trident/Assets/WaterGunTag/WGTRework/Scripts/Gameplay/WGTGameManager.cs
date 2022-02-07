@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Bamboo.Utility;
+using Utility;
 using TMPro;
 using Mirror;
 using DG.Tweening;
@@ -14,7 +14,6 @@ using UnityEngine.Events;
 namespace WGTRework
 {
     // This exists on the server only
-    // It can call commands and shit though
 
     public static class ListExtension
     {

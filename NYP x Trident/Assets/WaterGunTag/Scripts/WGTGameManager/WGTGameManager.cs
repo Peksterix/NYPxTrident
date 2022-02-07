@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Bamboo.Utility;
+using Utility;
 
 public static class WGTGameManager
 {

@@ -342,6 +342,7 @@ MonoBehaviour:
   MatchID: 
   Username: 
   lobbyUI: {fileID: 268704810}
+  startButton: {fileID: 289199946}
   KOTHPlayerPrefab: {fileID: 2261087987044390298, guid: 052a7ade97ca82f40aaea49d0973e580, type: 3}
   WGTPlayerPrefab: {fileID: 303185652406623537, guid: 9de67d19d3ab57b4e81b8d3af1fb02a2, type: 3}
   THPlayerPrefab: {fileID: 7116224888234532402, guid: 1713bafb896fd5c40859adb3e60e393a, type: 3}
@@ -496,7 +497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &289199947
 RectTransform:
   m_ObjectHideFlags: 0
@@ -955,7 +956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _persistent: 1
-  MasterServerUrl: http://202.166.59.186:1337
+  MasterServerUrl: 
   ServerIP: 
   isServerIPLocal: 0
 --- !u!4 &624040448

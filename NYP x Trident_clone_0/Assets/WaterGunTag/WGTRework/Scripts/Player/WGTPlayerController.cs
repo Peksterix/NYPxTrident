@@ -125,18 +125,6 @@ namespace WGTRework
             }
         }
 
-        //private void IsChargingWater()
-        //{
-        //    if(Input.GetMouseButton(1))
-        //    {
-        //        CmdChargeWaterGun();
-        //    }
-        //    if (Input.GetMouseButtonUp(1))
-        //    {
-        //        CmdStopChargeWaterGun();
-        //    }
-        //}
-
         #region Server Only
         [ContextMenu("Uncatch")]
         public void UnCatch()
@@ -248,33 +236,6 @@ namespace WGTRework
             isCurrentlyShooting = false;
             waterGunParticleSystem.Stop();
         }
-
-        //[Command]
-        //public void CmdChargeWaterGun()
-        //{
-        //    isCurrentlyChargingWater = true;
-
-        //    if (isCurrentlyChargingWater && isAbleToChargeWater)
-        //        RefillAmmo(1);
-        //}
-
-        //[Command]
-        //public void CmdStopChargeWaterGun()
-        //{
-        //    isCurrentlyChargingWater = false;
-        //}
-
-        //[Command]
-        //public void CmdAbleToChargeWater()
-        //{
-        //    isAbleToChargeWater = true;
-        //}
-
-        //[Command]
-        //public void CmdUnableToChargeWater()
-        //{
-        //    isAbleToChargeWater = false;
-        //}
         #endregion
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 using UnityEngine.Events;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using Bamboo.Utility;
+using Utility;
 
 public class MasterServerCommunicator : Singleton<MasterServerCommunicator>
 {

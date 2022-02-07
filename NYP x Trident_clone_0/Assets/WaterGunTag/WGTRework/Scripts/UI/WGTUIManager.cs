@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
-using Bamboo.Utility;
+using Utility;
 using DG.Tweening;
 
 namespace WGTRework

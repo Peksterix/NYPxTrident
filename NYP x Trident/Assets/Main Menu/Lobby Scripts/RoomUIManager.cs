@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-using Bamboo.Utility;
+using Utility;
 
 public class RoomUIManager : Singleton<RoomUIManager>
 {
