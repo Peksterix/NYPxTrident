@@ -26,4 +26,9 @@ public class KingOfTheHillNetworkManager : NetworkManager
         platformManager.SetActive(true);
         gameManager.SetActive(true);
     }
+
+    private void Update()
+    {
+        
+    }
 }

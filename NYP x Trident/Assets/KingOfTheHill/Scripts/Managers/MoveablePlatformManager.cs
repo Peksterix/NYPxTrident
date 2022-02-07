@@ -28,7 +28,6 @@ public class MoveablePlatformManager : NetworkBehaviour
     private float platformXOffset;
 
     private float timeElapsed;
-    private bool attemptingToSpawnPlatform;
 
     public override void OnStartServer()
     {
@@ -38,9 +37,8 @@ public class MoveablePlatformManager : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeElapsed = 10f;
-        attemptingToSpawnPlatform = false;
-        platformXOffset = platformParent.transform.GetChild(2).localScale.x / 2; // divide by 2 because (0, 0) is at the center of the object
+        timeElapsed = 5f;
+        platformXOffset = platformParent.transform.GetChild(1).localScale.x / 2; // divide by 2 because (0, 0) is at the center of the object
 
         foreach (GameObject platform in NMinstance.spawnPrefabs)
         {
@@ -57,14 +55,14 @@ public class MoveablePlatformManager : NetworkBehaviour
 
         else
         {
-            if (platformParent.transform.childCount <= 7 && !attemptingToSpawnPlatform)
+            if (platformParent.transform.childCount <= 7)
                 SpawnMoveablePlatforms();
+            timeElapsed = 5f;
         }
     }
 
     void SpawnMoveablePlatforms()
     {
-        attemptingToSpawnPlatform = true;
         float randomTargetWidth = GetRandomTargetPlatformWidth();
         int overlappingPlatformCounter = 0;
 
@@ -78,7 +76,7 @@ public class MoveablePlatformManager : NetworkBehaviour
             }
         }
 
-        if (overlappingPlatformCounter <= 0) // platform is able to spawn
+        if (overlappingPlatformCounter <= 0)
         {
             GameObject plat =
             Instantiate(registeredPlatformPrefab, new Vector3(randomTargetWidth, registeredPlatformPrefab.transform.position.y,
@@ -86,12 +84,10 @@ public class MoveablePlatformManager : NetworkBehaviour
             registeredPlatformPrefab.transform.rotation,
             platformParent.transform);
             NetworkServer.Spawn(plat);
-            timeElapsed = 10f;
-            attemptingToSpawnPlatform = false;
         }
 
         else
-            SpawnMoveablePlatforms(); // keep trying until one spanws
+            return;
     }
 
     public float GetRandomTargetPlatformWidth()

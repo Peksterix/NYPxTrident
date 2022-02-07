@@ -8,16 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 0
+  - enabled: 1
     path: Assets/WaterGunTag/Scenes/WaterGunTagTitleScene.unity
     guid: 4715e539856a5364680f1845132e2877
-  - enabled: 0
+  - enabled: 1
     path: Assets/WaterGunTag/Scenes/WaterGunTagPlayScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/KingOfTheHill/Scenes/KingOfTheHillGameScene.unity
-    guid: ff4215419a6239b44add7ae99ca0f47e
-  - enabled: 0
-    path: Assets/TreasureHunt/Scenes/Main.unity
-    guid: 4d4cea891e101a1478d861a935080b1c
   m_configObjects: {}

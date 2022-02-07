@@ -7,10 +7,6 @@ TagManager:
   - Time
   - Point
   - MouseCursor
-  - Treasure
-  - Wall
-  - Door
-  - Platforms
   layers:
   - Default
   - TransparentFX
